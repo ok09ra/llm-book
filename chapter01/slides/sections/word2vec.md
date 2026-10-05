@@ -1,37 +1,3 @@
-# word2vec をもう一段くわしく
-
-分布仮説を「予測タスク」にして、単語ベクトルを学習する
-
-<div class="grid grid-cols-2 gap-6 mt-6">
-<div class="p-4 rounded border-2 border-amber-600">
-
-**CBOW**（Continuous Bag-of-Words）
-
-周辺語（文脈）→ **中央語** を予測
-
-「で ＿ を」→「みかん」
-
-</div>
-<div class="p-4 rounded border-2 border-blue-700">
-
-**skip-gram**（本書 図1.2）
-
-中央語 → **周辺語** を予測
-
-「みかん」→「で」「を」
-
-</div>
-</div>
-
-- どちらも部品は同じ：one-hot → $W_{\text{in}}$ → 中間表現 → $W_{\text{out}}$ → softmax
-- 違うのは **入力と出力の向き** だけ → 以下、同じ図式で並べて説明する
-
-<!--
-1.3 の skip-gram スライドの補足。式(1.1)〜(1.4)はそのまま使い、記号の対応は後半の一覧スライドにまとめる。
--->
-
----
-
 # 窓幅（window）とは
 
 <img src="/figs/w2v-window.svg" class="mx-auto h-60" />

@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-40 0 540 220" font-family="Noto Sans JP, sans-serif" font-size="16" fill="#222">
+  <style>.br{fill:none;stroke:#222;stroke-width:1.6}.n{font-family:Fira Code,monospace;font-size:15px;text-anchor:middle}</style>
+  <text x="70" y="115" text-anchor="end" font-size="20">みかん =</text>
+  <path class="br" d="M92 22 h-8 v176 h8 M172 22 h8 v176 h-8"/>
+  <g class="n"><text x="132" y="50">0.356</text><text x="132" y="82">0.246</text><text x="132" y="114">-0.224</text><text x="132" y="146">-0.105</text><text x="132" y="178">0.542</text></g>
+  <text x="330" y="115" text-anchor="end" font-size="20">マウス =</text>
+  <path class="br" d="M352 22 h-8 v176 h8 M432 22 h8 v176 h-8"/>
+  <g class="n"><text x="392" y="50">0.342</text><text x="392" y="82">-0.143</text><text x="392" y="114">0.425</text><text x="392" y="146">-0.382</text><text x="392" y="178">-0.152</text></g>
+</svg>

@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 620 230" font-family="Noto Sans JP, sans-serif" font-size="16" fill="#222">
+  <rect x="0" y="0" width="620" height="230" fill="#fff"/>
+  <defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#444"/></marker></defs>
+  <style>.b{fill:#fff;stroke:#333;stroke-width:1.5}.c{fill:#dbeafe;stroke:#1d4ed8;stroke-width:2}.o{fill:#fde68a;stroke:#b45309;stroke-width:1.5}.g{fill:#f3f4f6;stroke:#333;stroke-width:1.5}.cell{fill:#fff;stroke:#555;stroke-width:1}.on{fill:#1d4ed8;stroke:#555;stroke-width:1}.emb{fill:#bfdbfe;stroke:#555;stroke-width:1}.t{text-anchor:middle}.s{font-style:italic}.sm{font-size:13px}.cap{font-size:13px;fill:#555;text-anchor:middle}.ar{fill:none;stroke:#444;stroke-width:1.6;marker-end:url(#a)}.dash{fill:none;stroke:#666;stroke-width:1.2;stroke-dasharray:5 4}.n{font-family:Fira Code,monospace;font-size:12px;text-anchor:middle}</style>
+
+  <rect class="cell" x="20" y="110" width="22" height="22"/><rect class="cell" x="42" y="110" width="22" height="22"/><rect class="cell" x="64" y="110" width="22" height="22"/><rect class="on" x="86" y="110" width="22" height="22"/><rect class="cell" x="108" y="110" width="22" height="22"/><rect class="cell" x="130" y="110" width="22" height="22"/>
+  <text class="n" x="31.0" y="125" fill="#222">0</text>
+  <text class="n" x="53.0" y="125" fill="#222">0</text>
+  <text class="n" x="75.0" y="125" fill="#222">0</text>
+  <text class="n" x="97.0" y="125" fill="#fff">1</text>
+  <text class="n" x="119.0" y="125" fill="#222">0</text>
+  <text class="n" x="141.0" y="125" fill="#222">0</text>
+  <text x="86.0" y="76" text-anchor="middle" font-size="18"><tspan class="s" font-weight="bold">x</tspan><tspan dy="5" font-size="12">みかん</tspan></text>
+  <text class="cap" x="86.0" y="96">one-hot（1×<tspan font-style="italic">V</tspan>）</text>
+  <text class="cap" x="86.0" y="154">4 番目だけ 1</text>
+  <text class="cap" x="86.0" y="170">＝「語彙ID 3」（0 始まり）</text>
+  <text class="t" x="176" y="127" font-size="22">×</text>
+  <rect class="cell" x="262" y="40" width="30" height="22"/>
+  <rect class="cell" x="292" y="40" width="30" height="22"/>
+  <rect class="cell" x="322" y="40" width="30" height="22"/>
+  <text class="sm" x="256" y="56" text-anchor="end" fill="#555">今日</text>
+  <rect class="cell" x="262" y="62" width="30" height="22"/>
+  <rect class="cell" x="292" y="62" width="30" height="22"/>
+  <rect class="cell" x="322" y="62" width="30" height="22"/>
+  <text class="sm" x="256" y="78" text-anchor="end" fill="#555">こたつ</text>
+  <rect class="cell" x="262" y="84" width="30" height="22"/>
+  <rect class="cell" x="292" y="84" width="30" height="22"/>
+  <rect class="cell" x="322" y="84" width="30" height="22"/>
+  <text class="sm" x="256" y="100" text-anchor="end" fill="#555">で</text>
+  <rect class="emb" x="262" y="106" width="30" height="22"/>
+  <rect class="emb" x="292" y="106" width="30" height="22"/>
+  <rect class="emb" x="322" y="106" width="30" height="22"/>
+  <text class="sm" x="256" y="122" text-anchor="end" fill="#555">みかん</text>
+  <rect class="cell" x="262" y="128" width="30" height="22"/>
+  <rect class="cell" x="292" y="128" width="30" height="22"/>
+  <rect class="cell" x="322" y="128" width="30" height="22"/>
+  <text class="sm" x="256" y="144" text-anchor="end" fill="#555">を</text>
+  <rect class="cell" x="262" y="150" width="30" height="22"/>
+  <rect class="cell" x="292" y="150" width="30" height="22"/>
+  <rect class="cell" x="322" y="150" width="30" height="22"/>
+  <text class="sm" x="256" y="166" text-anchor="end" fill="#555">食べる</text>
+  <rect x="260" y="104" width="94" height="26" fill="none" stroke="#1d4ed8" stroke-width="2.5"/>
+  <text x="307" y="198" text-anchor="middle" font-size="18"><tspan class="s">W</tspan><tspan dy="5" font-size="12">in</tspan></text>
+  <text class="cap" x="307" y="218">（<tspan font-style="italic">V</tspan>×<tspan font-style="italic">d</tspan>）各行＝各単語の埋め込み</text>
+  <text class="cap" x="307" y="30">← <tspan font-style="italic">d</tspan> 次元 →</text>
+  <text class="t" x="382" y="127" font-size="22">=</text>
+  <rect class="emb" x="410" y="110" width="30" height="22"/><rect class="emb" x="440" y="110" width="30" height="22"/><rect class="emb" x="470" y="110" width="30" height="22"/>
+  <text x="455" y="76" text-anchor="middle" font-size="18"><tspan class="s" font-weight="bold">v</tspan><tspan dy="5" font-size="12">みかん</tspan></text>
+  <text class="cap" x="455" y="96">（1×<tspan font-style="italic">d</tspan>）</text>
+  <text class="cap" x="455" y="154"><tspan font-style="italic">W</tspan><tspan dy="4" font-size="80%">in</tspan><tspan dy="-4"> </tspan>の「みかん」行</text>
+  <text class="cap" x="455" y="170">＝ 単語埋め込み</text>
+</svg>

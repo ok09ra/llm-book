@@ -1,0 +1,701 @@
+---
+theme: default
+colorSchema: light
+title: 大規模言語モデル入門 第1章 はじめに
+info: 輪読会資料（第1章）
+class: text-center
+highlighter: shiki
+lineNumbers: false
+drawings:
+  persist: false
+mdc: true
+transition: none
+fonts:
+  sans: Noto Sans JP
+  mono: Fira Code
+---
+
+# 第1章 はじめに
+
+大規模言語モデル入門 輪読会
+
+<div class="pt-8 opacity-70">
+奥田宗太（順天堂大学 D2 鈴木誉保グループ）
+</div>
+
+<!--
+デモは右下の ▶ で実行できる。実行サーバ（server/run_server.py）が起動しているか事前に確認。
+-->
+
+---
+
+# この章で分かること
+
+| # | 目標 | 節 |
+|---|---|---|
+| ① | transformers の **pipeline** で代表的な NLP タスクを動かし、中身（トークナイズ → モデル → 後処理）を説明できる | 1.1 |
+| ② | **AutoTokenizer / AutoModel** でトークン化と、次トークン予測の繰り返しによる文章生成ができる | 1.2 |
+| ③ | **word2vec**（CBOW・skip-gram）が、周辺語の予測から単語埋め込みを学ぶ仕組みを説明できる | 1.3 |
+| ④ | 損失関数・**勾配降下法**・**誤差逆伝播法**（連鎖律）でパラメータが更新される流れを説明できる | 1.3 |
+| ⑤ | **事前学習 → 転移学習**（ファインチューニング・プロンプト）と、ELMo から T5 までの系譜を説明できる | 1.4 |
+
+<div class="text-sm opacity-70 mt-4">最後の「まとめ」は、この ①〜⑤ に1対1で答える形になっています</div>
+
+---
+layout: section
+---
+
+# 1.1 transformers を使って<br>自然言語処理を解いてみよう
+
+---
+
+# pipeline とは
+
+モデル名を渡すだけで「前処理 → 推論 → 後処理」をまとめて行う関数
+
+```py
+from transformers import pipeline
+```
+
+| 節 | タスク | モデル（llm-book/…） | 作る章 |
+|---|---|---|---|
+| 1.1.1 | 文書分類 | bert-base-japanese-v3-marc_ja | 5章 |
+| 1.1.2 | 自然言語推論 | bert-base-japanese-v3-jnli | 5章 |
+| 1.1.3 | 意味的類似度 | bert-base-japanese-v3-jsts / unsup-simcse-jawiki | 5章 / 8章 |
+| 1.1.4 | 固有表現認識 | bert-base-japanese-v3-ner-wikipedia-dataset | 6章 |
+| 1.1.5 | 要約生成 | t5-base-long-livedoor-news-corpus | 7章 |
+
+<div class="mt-4 opacity-80">今日は「使う側」、後の章で「作る側」を学ぶ</div>
+
+
+---
+src: ./sections/demo-models.md#1-3
+---
+
+---
+
+# 1.1.1 文書分類（感情分析）
+
+テキストを決められたラベルに分類する。感情（肯定的／否定的）を判定するものは **感情分析**
+
+```py {monaco-run} {autorun:false}
+text_classification_pipeline = pipeline(
+    model="llm-book/bert-base-japanese-v3-marc_ja"
+)
+positive_text = "世界には言葉がわからなくても感動する音楽がある。"
+negative_text = "世界には言葉がでないほどひどい音楽がある。"
+print(text_classification_pipeline(positive_text)[0])
+print(text_classification_pipeline(negative_text)[0])
+```
+
+<div class="text-sm opacity-70">通販サイトのレビュー（MARC-ja）で学習。好きな文に書き換えて試してみましょう</div>
+
+<!--
+本の出力:
+{'label': 'positive', 'score': 0.9993619322776794}
+{'label': 'negative', 'score': 0.9636247754096985}
+score は予測確率。どちらも 96% 以上。
+-->
+
+---
+
+# 実装を覗く：pipeline を分解する
+
+pipeline は「① トークナイズ → ② モデル → ③ 後処理」をまとめたもの。手で書くと同じ結果になる
+
+```py {monaco-run} {autorun:false}
+import torch
+from transformers import AutoTokenizer, AutoModelForSequenceClassification
+
+name = "llm-book/bert-base-japanese-v3-marc_ja"
+tok = AutoTokenizer.from_pretrained(name)
+clf = AutoModelForSequenceClassification.from_pretrained(name)
+
+inputs = tok(positive_text, return_tensors="pt")      # ① テキスト → トークン ID
+with torch.no_grad():
+    logits = clf(**inputs).logits                     # ② ラベルごとのスコア
+probs = torch.softmax(logits, dim=-1)[0]              # ③ 確率に変換（式1.1）
+print("logits:", logits)
+print("probs :", probs)
+print(clf.config.id2label[probs.argmax().item()], probs.max().item())
+```
+
+<div class="text-sm opacity-70">BERT 本体の上に「ヘッド」（線形層）が載って2クラスのスコアを出している → 1.4 の図1.4 につながる</div>
+
+
+---
+src: ./sections/demo-models.md#4
+---
+
+---
+
+# 1.1.2 自然言語推論（NLI）
+
+2つのテキストの論理関係を予測する。言語モデルの意味理解能力の評価に使われる
+
+```py {monaco-run} {autorun:false}
+nli_pipeline = pipeline(model="llm-book/bert-base-japanese-v3-jnli")
+text = "二人の男性がジェット機を見ています"
+for pair in [
+    "ジェット機を見ている人が二人います",      # 含意
+    "二人の男性が飛んでいます",                # 矛盾
+    "2人の男性が、白い飛行機を眺めています",   # 中立
+]:
+    print(pair, nli_pipeline({"text": text, "text_pair": pair}))
+```
+
+| ラベル | 意味 |
+|---|---|
+| entailment | 含意：前提が成り立てば仮説も成り立つ |
+| contradiction | 矛盾：両立しない |
+| neutral | 中立：どちらとも判断できない |
+
+<!--
+本の出力:
+entailment 0.9964 / contradiction 0.9991 / neutral 0.9959
+-->
+
+---
+
+# 実装を覗く：2つの文はどう入力される？
+
+NLI や STS ではテキストのペアを **1つの系列** にまとめてモデルに入れる
+
+```py {monaco-run} {autorun:false}
+enc = tok("二人の男性がジェット機を見ています", "ジェット機を見ている人が二人います")
+tokens = tok.convert_ids_to_tokens(enc["input_ids"])
+print(" ".join(f"{t}/{s}" for t, s in zip(tokens, enc["token_type_ids"])))  # トークン/token_type_id
+```
+
+<div class="text-sm opacity-80">
+
+- `[CLS]`：先頭に付く特別なトークン。分類ではこの位置のベクトルを使う
+- `[SEP]`：文の区切り
+- `token_type_ids`：1文目なら 0、2文目なら 1
+- 「ジェット機」→「ジェット / 機」のように **サブワード** に分かれることもある（3章）
+
+</div>
+
+
+---
+src: ./sections/demo-models.md#5
+---
+
+---
+
+# 1.1.3 意味的類似度計算（STS）
+
+2つのテキストの意味の近さを **0〜5** のスコアで予測する（情報検索などに利用）
+
+```py {monaco-run} {autorun:false}
+text_sim_pipeline = pipeline(
+    model="llm-book/bert-base-japanese-v3-jsts",
+    function_to_apply="none",
+)
+text = "川べりでサーフボードを持った人たちがいます"
+sim_text = "サーファーたちが川べりに立っています"
+dissim_text = "トイレの壁に黒いタオルがかけられています"
+print(text_sim_pipeline({"text": text, "text_pair": sim_text})["score"])
+print(text_sim_pipeline({"text": text, "text_pair": dissim_text})["score"])
+```
+
+<!--
+本の出力: 3.5703558921813965 / 0.04162175580859184
+function_to_apply="none" は回帰スコアをそのまま出すため（softmax/sigmoid をかけない）。
+-->
+
+
+---
+src: ./sections/demo-models.md#6
+---
+
+---
+
+# 1.1.3 文埋め込みで類似度を測る
+
+テキストを **ベクトル（文埋め込み）** にして、コサイン類似度（−1〜1）を計算する（8章）
+
+```py {monaco-run} {autorun:false}
+from torch.nn.functional import cosine_similarity
+
+sim_enc_pipeline = pipeline(
+    model="llm-book/bert-base-japanese-v3-unsup-simcse-jawiki",
+    task="feature-extraction",
+)
+emb = lambda s: sim_enc_pipeline(s, return_tensors=True)[0][0]
+text_emb = emb(text)
+print(cosine_similarity(text_emb, emb(sim_text), dim=0).item())
+print(cosine_similarity(text_emb, emb(dissim_text), dim=0).item())
+```
+
+<div class="text-sm opacity-80">
+
+- STS モデル：ペアを入れてスコアを **直接予測**
+- 文埋め込み：文ごとにベクトル化して **比較**（大量の文書検索に向く）
+
+</div>
+
+<!--
+本の出力: 0.8568589687347412 / 0.45887047052383423
+[0][0] は先頭トークン [CLS] のベクトル。
+-->
+
+
+---
+src: ./sections/demo-models.md#7
+---
+
+---
+
+# 1.1.4 固有表現認識（NER）
+
+テキストから人名・地名などの **固有表現** を抽出する（ビジネス・化学・医療など幅広い分野）
+
+```py {monaco-run} {autorun:false}
+from pprint import pprint
+
+ner_pipeline = pipeline(
+    model="llm-book/bert-base-japanese-v3-ner-wikipedia-dataset",
+    aggregation_strategy="simple",
+)
+pprint(ner_pipeline("大谷翔平は岩手県水沢市出身のプロ野球選手"))
+```
+
+<div class="text-sm opacity-70">
+
+- `word`：抽出した語句、`entity_group`：種類、`score`：予測スコア
+- `start` / `end` が `None` になるのは日本語 BERT 実装の問題（正しく出すコードは6章）
+
+</div>
+
+<!--
+本の出力: 人名「大谷 翔平」0.998、地名「岩手 県 水沢 市」0.999
+-->
+
+---
+
+# 実装を覗く：トークン単位の予測
+
+`aggregation_strategy` を指定しないと、**トークンごとのラベル** がそのまま見える
+
+```py {monaco-run} {autorun:false}
+raw_ner = pipeline(model="llm-book/bert-base-japanese-v3-ner-wikipedia-dataset")
+for t in raw_ner("大谷翔平は岩手県水沢市出身のプロ野球選手"):
+    print(f'{t["word"]:6}\t{t["entity"]:8}\t{t["score"]:.3f}')
+```
+
+<div class="text-sm opacity-80">
+
+- **BIO 形式**：`B-`＝固有表現の始まり、`I-`＝続き、`O`＝固有表現以外（表示されない）
+- `aggregation_strategy="simple"` は B-/I- の連続をまとめて1つの固有表現にしている
+- 固有表現認識は「トークンごとの分類問題」として解かれている（6章）
+
+</div>
+
+
+---
+src: ./sections/demo-models.md#8
+---
+
+---
+
+# 1.1.5 要約生成
+
+長い文章から短い要約を生成する。ここではニュース記事から **見出し** を作る（7章）
+
+```py {monaco-run} {autorun:false}
+text2text_pipeline = pipeline(
+    "text2text-generation",
+    model="llm-book/t5-base-long-livedoor-news-corpus",
+)
+article = "ついに始まった３連休。テレビを見ながら過ごしている人も多いのではないだろうか？　今夜オススメなのは何と言っても、NHKスペシャル「世界を変えた男 スティーブ・ジョブズ」だ。実は知らない人も多いジョブズ氏の養子に出された生い立ちや、アップル社から一時追放されるなどの経験。そして、彼が追い求めた理想の未来とはなんだったのか、ファンならずとも気になる内容になっている。 今年、亡くなったジョブズ氏の伝記は日本でもベストセラーになっている。今後もアップル製品だけでなく、世界でのジョブズ氏の影響は大きいだろうと想像される。ジョブズ氏のことをあまり知らないという人もこの機会にぜひチェックしてみよう。 世界を変えた男　スティーブ・ジョブズ（NHKスペシャル）"
+print(text2text_pipeline(article)[0]["generated_text"])
+```
+
+<!--
+本の出力: 今夜はNHKスペシャル「世界を変えた男 スティーブ・ジョブズ」をチェック!
+-->
+
+
+---
+src: ./sections/demo-models.md#9
+---
+
+---
+
+# 自然言語処理のその他のタスク
+
+<div class="grid grid-cols-2 gap-8">
+<div>
+
+### 応用タスク
+- **質問応答**：質問にコンピュータが答える（9章）
+- **機械翻訳**：別の言語に翻訳する
+- **対話システム**：人間と対話する
+
+</div>
+<div>
+
+### 基礎的なタスク
+- **形態素解析**：文を形態素に分割して解析（分かち書き）
+- **構文解析**：係り受けなど文の構造を解析
+- **共参照解析**：異なる名詞が同じものを指すか識別
+
+</div>
+</div>
+
+---
+layout: section
+---
+
+# 1.2 transformers の基本的な使い方
+
+---
+
+# Auto Classes
+
+非常に多くのモデルの中から、適切な実装を **自動で選んでくれる** クラス群
+
+| クラス | 役割 |
+|---|---|
+| `AutoTokenizer` | テキストをトークンに分割する |
+| `AutoModel` 系 | モデル本体（タスクごとに `AutoModelForCausalLM` など） |
+
+```py
+model = AutoModelForCausalLM.from_pretrained("abeja/gpt2-large-japanese")
+#                              ↑ Hub のモデル名 or 保存先フォルダ
+```
+
+
+- **トークン**：モデルが扱う基本単位
+- **トークナイゼーション**：トークンに分割する処理
+- **トークナイザ**：それを行う実装
+
+
+---
+
+# トークナイザを動かす
+
+```py {monaco-run} {autorun:false}
+from transformers import AutoTokenizer
+
+tokenizer = AutoTokenizer.from_pretrained("abeja/gpt2-large-japanese")
+print(tokenizer.tokenize("今日は天気が良いので"))
+print(tokenizer("今日は天気が良いので")["input_ids"])
+```
+
+<div class="text-sm opacity-70">
+
+- 「が良い」のように単語の区切りとトークンの区切りは一致しない（3.6節）
+- `input_ids`：モデルに実際に入るのはトークンの ID 列
+
+</div>
+
+<!--
+本の出力: ['▁', '今日', 'は', '天気', 'が良い', 'の', 'で']
+input_ids の行は本にはない追加デモ。
+-->
+
+---
+
+# テキスト生成（GPT-2）
+
+```py {monaco-run} {autorun:false}
+from transformers import AutoModelForCausalLM
+
+model = AutoModelForCausalLM.from_pretrained("abeja/gpt2-large-japanese")
+inputs = tokenizer("今日は天気が良いので", return_tensors="pt")
+outputs = model.generate(
+    **inputs,
+    max_length=15,                        # 生成する最大トークン数
+    pad_token_id=tokenizer.pad_token_id,  # パディングのトークン ID
+)
+print(tokenizer.decode(outputs[0], skip_special_tokens=True))
+```
+
+<div class="text-sm opacity-70">入力文や <code>max_length</code> を変えて試してみましょう</div>
+
+<!--
+本の出力: 今日は天気が良いので外でお弁当を食べました。
+generate はデフォルトで greedy なので毎回同じ結果。do_sample=True にすると変わる。
+-->
+
+---
+
+# 実装を覗く：generate を手で書く
+
+言語モデルは「次のトークンの確率分布」を出すだけ。それを繰り返すと文章になる
+
+```py {monaco-run} {autorun:false}
+import torch
+
+ids = tokenizer("今日は天気が良いので", return_tensors="pt")["input_ids"]
+with torch.no_grad():
+    for _ in range(5):
+        logits = model(input_ids=ids).logits[0, -1]   # 最後の位置 = 次トークンのスコア
+        probs = torch.softmax(logits, dim=-1)          # 語彙全体の確率分布（式1.1）
+        top = probs.topk(3)
+        print([(tokenizer.decode(int(i)), round(p.item(), 3)) for p, i in zip(*top)])
+        ids = torch.cat([ids, top.indices[:1].view(1, 1)], dim=1)  # 最大を選ぶ（貪欲法）
+print(tokenizer.decode(ids[0], skip_special_tokens=True))
+```
+
+<div class="text-sm opacity-70">最大を選ぶ代わりに確率に従ってサンプリングすると、毎回違う文章になる（<code>do_sample=True</code>）</div>
+
+
+---
+src: ./sections/demo-models.md#10
+---
+
+---
+layout: section
+---
+
+# 1.3 単語埋め込みと<br>ニューラルネットワークの基礎
+
+---
+
+# 単語の意味をどう教えるか
+
+
+- **人手の辞書（語彙資源）**：例 WordNet（同義語・上位語・下位語）
+  - 新語・専門用語・固有名詞を網羅できない
+  - ニュアンスや類似性を記述しにくい、主観が入る
+- **word2vec（2013）**：大規模テキスト（**コーパス**）から単語の意味をベクトルとして学習
+  - 単語埋め込み ＝ 単語ベクトル ＝ 単語表現
+- **分布仮説**：単語の意味は周辺に出現する単語で表せる
+
+
+
+> "You shall know a word by the company it keeps." — J. R. Firth
+
+
+---
+
+# 単語埋め込み
+
+<img src="/figs/fig1-1-embedding.svg" class="mx-auto h-56" />
+
+- 単語ごとに **1つの実数ベクトル** を割り当てる
+- 同じ表記には同じベクトル → 「マウス」（入力機器／ネズミ）も1つのベクトル
+- **埋め込み**：タスクを解く際に有用な情報を表現したベクトル（本書で頻出）
+
+
+---
+src: ./sections/word2vec.md
+---
+
+---
+
+# skip-gram の確率モデル
+
+単語 $w \in V$（$V$：**語彙**）に $D$ 次元の埋め込み $\mathbf{x}_w$ と $\mathbf{u}_w$ を割り当てる
+
+**ソフトマックス関数**：合計が 1 になるよう正規化 → 確率分布として扱える
+
+$$
+\mathrm{softmax}_m(\mathbf{c}) = \frac{\exp(c_m)}{\sum_{k=1}^{K}\exp(c_k)} \tag{1.1}
+$$
+
+中央単語 $w_t$ が与えられたときに周辺単語 $w_c$ が出る確率
+
+$$
+P(w_c \mid w_t) = \mathrm{softmax}_{w_c}(\mathbf{U}\mathbf{x}_{w_t}) = \frac{\exp(\mathbf{u}_{w_c}^\top \mathbf{x}_{w_t})}{\sum_{w' \in V}\exp(\mathbf{u}_{w'}^\top \mathbf{x}_{w_t})} \tag{1.2}
+$$
+
+<div class="text-sm opacity-70">
+
+$\mathbf{U}\mathbf{x}$ のような線形変換を行う層 ＝ **線形層**（全結合層）。使うときは基本的に $\mathbf{x}_w$ を単語埋め込みとする
+
+</div>
+
+---
+
+# 学習：損失関数と勾配降下法
+
+**負の対数尤度**（交差エントロピー）を最小化する（$p$：窓幅、$\theta$：パラメータ）
+
+$$
+\mathcal{L}(\theta) = -\frac{1}{N}\sum_{t=1}^{N}\ \sum_{-p \le j \le p,\ j \ne 0} \log P(w_{t+j} \mid w_t, \theta) \tag{1.3}
+$$
+
+**勾配降下法**：$\alpha$ は **学習率**
+
+$$
+\theta^{(t+1)} = \theta^{(t)} - \alpha \nabla_\theta \mathcal{L}(\theta) \tag{1.4}
+$$
+
+
+- **ハイパーパラメータ**：窓幅 $p$、次元 $D$、学習率、バッチサイズなど
+- **確率的勾配降下法（SGD）**：ランダムに選んだ **ミニバッチ** で勾配を近似
+- **誤差逆伝播法**：前向き計算 → 連鎖律で損失を逆向きに伝えて勾配を計算
+
+
+
+
+---
+src: ./sections/backprop.md
+---
+
+---
+
+# 実装を覗く：skip-gram を PyTorch で書く
+
+式 (1.2)〜(1.4) をそのままコードにする（おもちゃのコーパスで数秒）
+
+```py {monaco-run} {autorun:false}
+import torch, torch.nn as nn
+torch.manual_seed(0)
+corpus = ["今日 こたつ で みかん を 食べる", "今日 こたつ で りんご を 食べる",
+          "冬 は みかん が 甘い", "冬 は りんご が 甘い",
+          "公園 で 犬 と 散歩 する", "公園 で 猫 と 散歩 する",
+          "犬 が ワン と 鳴く", "猫 が ニャー と 鳴く"]
+words = sorted({w for s in corpus for w in s.split()}); idx = {w: i for i, w in enumerate(words)}
+pairs = [(idx[s[t]], idx[s[t + j]]) for s in map(str.split, corpus)       # (中央, 周辺) の組
+         for t in range(len(s)) for j in (-2, -1, 1, 2) if 0 <= t + j < len(s)]  # 窓幅 2
+center, context = torch.tensor(pairs).T
+X = nn.Embedding(len(words), 10)              # 中央単語の埋め込み x_w（D = 10）
+U = nn.Linear(10, len(words), bias=False)     # 周辺単語の埋め込み u_w（線形層）
+opt = torch.optim.SGD([*X.parameters(), *U.parameters()], lr=1.0)  # 学習率 α
+for step in range(1001):
+    loss = nn.functional.cross_entropy(U(X(center)), context)  # 式(1.2)+(1.3)
+    opt.zero_grad(); loss.backward(); opt.step()               # 誤差逆伝播 → 式(1.4)
+    if step % 250 == 0: print(step, round(loss.item(), 3))
+```
+
+---
+
+# 実装を覗く：学習した単語埋め込みを見る
+
+```py {monaco-run} {autorun:false}
+E = nn.functional.normalize(X.weight.detach(), dim=1)   # 単語埋め込み x_w を長さ1に
+for w in ["みかん", "犬"]:
+    sims = E @ E[idx[w]]                                 # コサイン類似度
+    top = sims.argsort(descending=True)[1:4]
+    print(w, "→", [(words[i], round(sims[i].item(), 2)) for i in top])
+```
+
+
+- 「みかん」と「りんご」、「犬」と「猫」は **一度も同じ文に出ていない** のに近くなる
+- 周辺単語（こたつ・食べる・甘い／公園・散歩・鳴く）が共通だから → **分布仮説**
+- 本物の word2vec は、数十億語のコーパスと負例サンプリングで同じことをしている
+
+
+<!--
+手元での結果: みかん → りんご 0.61、犬 → 猫 0.55（seed=0）
+-->
+
+---
+
+# 事前学習と転移学習
+
+<div class="grid grid-cols-2 gap-6 items-center">
+<div>
+
+<img src="/figs/fig1-3-word2vec-task.svg" class="h-64" />
+
+</div>
+<div class="text-sm">
+
+- **事前学習**：解きたいタスクの前に別タスクで学習
+- **下流タスク**：実際に解きたいタスク
+- **転移学習**：別の方法で学習したモデルを転用
+- **自己教師あり学習**：入力から自動でラベルを作る
+  - ↔ 教師あり学習（人手ラベルが必要）
+- → Web の大規模コーパスで学習できるように
+
+</div>
+</div>
+
+<div class="mt-4 text-center font-bold">大規模コーパス × 自己教師あり事前学習 × 転移学習 ＝ 本書の基本パターン</div>
+
+---
+layout: section
+---
+
+# 1.4 大規模言語モデルとは
+
+---
+
+# 文脈を考慮した埋め込みへ
+
+
+- word2vec は文脈を見ない
+  - 「マウス」：動物？パソコンの入力機器？
+  - 「このレストランの料理は**おいしい**」と「値段の割にこのレストランの料理は**おいしい**」
+- **文脈化単語埋め込み**：周辺の文脈に応じて埋め込みを動的に計算
+  - 初期の代表例：ELMo（2018, RNN ベース）
+- ほぼ同時期に **Transformer** が登場（2章で詳説）
+
+
+---
+
+# 実装を覗く：文脈で変わる「マウス」
+
+BERT の各トークンの出力ベクトル（文脈化単語埋め込み）を比べてみる
+
+```py {monaco-run} {autorun:false}
+from transformers import AutoModel
+
+name = "llm-book/bert-base-japanese-v3-unsup-simcse-jawiki"
+enc_tok, encoder = AutoTokenizer.from_pretrained(name), AutoModel.from_pretrained(name)
+
+def word_vec(sentence, word):
+    enc = enc_tok(sentence, return_tensors="pt")
+    pos = enc_tok.convert_ids_to_tokens(enc["input_ids"][0]).index(word)
+    with torch.no_grad():
+        return encoder(**enc).last_hidden_state[0, pos]   # (トークン数, 768) の該当位置
+
+pc1 = word_vec("パソコンのマウスをクリックしてファイルを開く", "マウス")
+pc2 = word_vec("マウスのカーソルを画面の右上に動かす", "マウス")
+animal = word_vec("実験用のマウスにチーズを与える", "マウス")
+print("PC と PC  :", cosine_similarity(pc1, pc2, dim=0).item())
+print("PC と 動物:", cosine_similarity(pc1, animal, dim=0).item())
+```
+
+<div class="text-sm opacity-70">word2vec なら「マウス」は常に同じベクトル（類似度 1.0）。1.1.3 の <code>[0][0]</code> はこの出力の先頭（[CLS]）を文埋め込みとして使っていた</div>
+
+
+---
+src: ./sections/model-map.md
+---
+
+---
+
+# 事前学習 ＋ ファインチューニング
+
+<div class="grid grid-cols-2 gap-6 items-center">
+<div>
+
+<img src="/figs/fig1-4-transformer-finetune.svg" class="h-64" />
+
+</div>
+<div class="text-sm">
+
+- **大規模言語モデル**／**事前学習済み言語モデル（PLM）**
+  - 本書では BERT（約1億パラメータ）も含む
+- **ファインチューニング**：下流タスクのデータで微調整（3章）
+  - ヘッドは少量パラメータの単純な構造
+  - word2vec と違い **ほぼ全パラメータが事前学習の対象**
+- **プロンプト**：ファインチューニングせず、指示文を入れて直接解かせる（4章）
+
+</div>
+</div>
+
+---
+
+# まとめ
+
+<div class="text-sm">
+
+| # | 目標 | 分かったこと |
+|---|---|---|
+| ① | pipeline | `pipeline(model=...)` は トークナイズ → モデル（BERT 本体＋タスク用ヘッド）→ softmax などの後処理 をまとめたもの。手で分解しても同じ値になる |
+| ② | AutoTokenizer / AutoModel | テキストはトークン ID 列になってモデルに入る。生成は「次トークンの確率分布 → 1つ選んで追加」の繰り返し |
+| ③ | word2vec | 窓の中の周辺語と中央語の予測（CBOW：周辺→中央、skip-gram：中央→周辺）を解くうちに、$W_{\mathrm{in}}$ の各行が単語埋め込みになる。似た文脈の単語は似たベクトルになる（分布仮説） |
+| ④ | 学習の仕組み | 損失（負の対数尤度）の勾配を、連鎖律で出力側から入力側へ順に掛けて求め（誤差逆伝播）、$\theta \leftarrow \theta - \alpha \nabla_\theta \mathcal{L}$ で更新する |
+| ⑤ | LLM へ | 大規模コーパスで自己教師あり事前学習 → 下流タスクへ転移。文脈化埋め込み（ELMo）→ Transformer → GPT / BERT / RoBERTa / T5 と発展し、ファインチューニングやプロンプトで解く |
+
+</div>
+
+<div class="mt-6 opacity-70">次回：第2章 Transformer</div>

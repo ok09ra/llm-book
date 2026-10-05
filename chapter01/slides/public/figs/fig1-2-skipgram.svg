@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 230" font-family="Noto Sans JP, sans-serif" font-size="16" fill="#222">
+  <defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#444"/></marker></defs>
+  <style>.b{fill:#fff;stroke:#333;stroke-width:1.5}.c{fill:#dbeafe;stroke:#1d4ed8;stroke-width:2}.t{text-anchor:middle}.arc{fill:none;stroke:#444;stroke-width:1.5;stroke-dasharray:6 4;marker-end:url(#a)}.p{font-size:14px;text-anchor:middle;font-style:italic;paint-order:stroke;stroke:#fff;stroke-width:5px;stroke-linejoin:round}</style>
+  <rect class="b" x="10" y="140" width="80" height="36"/><text class="t" x="50" y="164">今日</text>
+  <rect class="b" x="115" y="140" width="85" height="36"/><text class="t" x="157" y="164">こたつ</text>
+  <rect class="b" x="225" y="140" width="70" height="36"/><text class="t" x="260" y="164">で</text>
+  <rect class="c" x="320" y="140" width="90" height="36"/><text class="t" x="365" y="164" font-weight="bold">みかん</text>
+  <rect class="b" x="435" y="140" width="70" height="36"/><text class="t" x="470" y="164">を</text>
+  <rect class="b" x="530" y="140" width="95" height="36"/><text class="t" x="577" y="164">食べる</text>
+  <path class="arc" d="M355 138 C 320 20, 200 20, 160 136"/><text class="p" x="230" y="40">P(こたつ | みかん)</text>
+  <path class="arc" d="M345 138 C 330 100, 285 95, 263 136"/><text class="p" x="250" y="112">P(で | みかん)</text>
+  <path class="arc" d="M385 138 C 400 100, 445 95, 467 136"/><text class="p" x="480" y="112">P(を | みかん)</text>
+  <path class="arc" d="M375 138 C 410 20, 540 20, 575 136"/><text class="p" x="500" y="40">P(食べる | みかん)</text>
+  <path d="M115 190 v8 h180 v-8" fill="none" stroke="#333"/><text class="t" x="205" y="218">左側の周辺単語</text>
+  <path d="M435 190 v8 h190 v-8" fill="none" stroke="#333"/><text class="t" x="530" y="218">右側の周辺単語</text>
+</svg>

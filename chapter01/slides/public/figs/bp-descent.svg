@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 345" width="860" height="345" font-family="Noto Sans JP, sans-serif">
+<defs>
+<marker id="ak" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#1f2937"/></marker>
+<marker id="ab" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2563eb"/></marker>
+<marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#dc2626"/></marker>
+<marker id="ag" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#6b7280"/></marker>
+</defs>
+<rect width="860" height="345" fill="#ffffff"/>
+<text x="200.0" y="30.0" font-size="17" fill="#1f2937" text-anchor="middle" font-weight="bold">1変数：傾き（微分）を見て下る</text>
+<line x1="40.0" y1="285.0" x2="370.0" y2="285.0" stroke="#6b7280" stroke-width="1.5" marker-end="url(#ag)"/>
+<text x="372.0" y="305.0" font-size="16" fill="#6b7280" text-anchor="middle" font-weight="normal" font-style="italic">θ</text>
+<line x1="45.0" y1="290.0" x2="45.0" y2="50.0" stroke="#6b7280" stroke-width="1.5" marker-end="url(#ag)"/>
+<text x="60.0" y="50.0" font-size="16" fill="#6b7280" text-anchor="start" font-weight="normal">𝓛(θ)</text>
+<polyline points="50.0,62.0 53.8,72.3 57.5,82.3 61.2,92.0 65.0,101.5 68.8,110.8 72.5,119.7 76.2,128.4 80.0,136.9 83.8,145.1 87.5,153.0 91.2,160.7 95.0,168.1 98.8,175.2 102.5,182.1 106.2,188.8 110.0,195.1 113.8,201.2 117.5,207.1 121.2,212.7 125.0,218.0 128.8,223.1 132.5,227.9 136.2,232.4 140.0,236.7 143.8,240.8 147.5,244.5 151.2,248.0 155.0,251.3 158.8,254.3 162.5,257.0 166.2,259.5 170.0,261.7 173.8,263.6 177.5,265.3 181.2,266.8 185.0,267.9 188.8,268.8 192.5,269.5 196.2,269.9 200.0,270.0 203.8,269.9 207.5,269.5 211.2,268.8 215.0,267.9 218.8,266.8 222.5,265.3 226.2,263.6 230.0,261.7 233.8,259.5 237.5,257.0 241.2,254.3 245.0,251.3 248.8,248.0 252.5,244.5 256.2,240.8 260.0,236.7 263.8,232.4 267.5,227.9 271.2,223.1 275.0,218.0 278.8,212.7 282.5,207.1 286.2,201.2 290.0,195.1 293.8,188.8 297.5,182.1 301.2,175.2 305.0,168.1 308.8,160.7 312.5,153.0 316.2,145.1 320.0,136.9 323.8,128.4 327.5,119.7 331.2,110.8 335.0,101.5 338.8,92.0 342.5,82.3 346.2,72.3 350.0,62.0" fill="none" stroke="#1f2937" stroke-width="2.5"/>
+<line x1="235.0" y1="286.6" x2="345.0" y2="103.6" stroke="#2563eb" stroke-width="2" stroke-dasharray="6 4"/>
+<text x="350.0" y="97.6" font-size="14" fill="#2563eb" text-anchor="start" font-weight="normal">傾き d𝓛/dθ = 2.4 > 0</text>
+<path d="M284.0,203.1 Q268.0,278.0 244.0,260.0" fill="none" stroke="#dc2626" stroke-width="2.5" marker-end="url(#ar)"/>
+<circle cx="290.0" cy="195.1" r="7" fill="#2563eb"/>
+<circle cx="236.0" cy="258.0" r="7" fill="#dc2626"/>
+<text x="302.0" y="217.1" font-size="15" fill="#2563eb" text-anchor="start" font-weight="normal">θ⁽ᵗ⁾</text>
+<text x="226.0" y="244.0" font-size="15" fill="#dc2626" text-anchor="end" font-weight="normal">θ⁽ᵗ⁺¹⁾</text>
+<text x="200.0" y="330.0" font-size="14" fill="#1f2937" text-anchor="middle" font-weight="normal">傾きが正 → θ を減らす（傾きと逆向きに進む）</text>
+<text x="630.0" y="30.0" font-size="17" fill="#1f2937" text-anchor="middle" font-weight="bold">多変数：勾配 ∇𝓛 ＝ 一番急な上り方向</text>
+<ellipse cx="620" cy="175" rx="40" ry="25" fill="none" stroke="#94a3b8" stroke-width="1.5"/>
+<ellipse cx="620" cy="175" rx="80" ry="50" fill="none" stroke="#94a3b8" stroke-width="1.5"/>
+<ellipse cx="620" cy="175" rx="120" ry="75" fill="none" stroke="#94a3b8" stroke-width="1.5"/>
+<ellipse cx="620" cy="175" rx="160" ry="100" fill="none" stroke="#94a3b8" stroke-width="1.5"/>
+<circle cx="620" cy="175" r="4" fill="#1f2937"/>
+<text x="620.0" y="195.0" font-size="13" fill="#6b7280" text-anchor="middle" font-weight="normal">谷底（最小）</text>
+<line x1="711.9" y1="126.8" x2="744.8" y2="82.7" stroke="#2563eb" stroke-width="2.5" marker-end="url(#ab)" stroke-dasharray="6 4"/>
+<line x1="711.9" y1="126.8" x2="676.1" y2="174.9" stroke="#dc2626" stroke-width="3" marker-end="url(#ar)"/>
+<circle cx="711.9" cy="126.8" r="6" fill="#1f2937"/>
+<text x="752.8" y="82.7" font-size="15" fill="#2563eb" text-anchor="start" font-weight="normal">∇𝓛（上り）</text>
+<text x="686.1" y="192.9" font-size="15" fill="#dc2626" text-anchor="start" font-weight="normal">−α∇𝓛（下り）</text>
+<text x="452.0" y="179.0" font-size="15" fill="#6b7280" text-anchor="middle" font-weight="normal" font-style="italic">θ₁</text>
+<text x="620.0" y="67.0" font-size="15" fill="#6b7280" text-anchor="middle" font-weight="normal" font-style="italic">θ₂</text>
+<text x="620.0" y="330.0" font-size="14" fill="#1f2937" text-anchor="middle" font-weight="normal">楕円 = 𝓛 が同じ値の線（等高線）</text>
+</svg>

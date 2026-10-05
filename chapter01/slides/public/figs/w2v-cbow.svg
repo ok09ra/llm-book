@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1010 330" font-family="Noto Sans JP, sans-serif" font-size="16" fill="#222">
+  <rect x="0" y="0" width="1010" height="330" fill="#fff"/>
+  <defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#444"/></marker></defs>
+  <style>.b{fill:#fff;stroke:#333;stroke-width:1.5}.c{fill:#dbeafe;stroke:#1d4ed8;stroke-width:2}.o{fill:#fde68a;stroke:#b45309;stroke-width:1.5}.g{fill:#f3f4f6;stroke:#333;stroke-width:1.5}.cell{fill:#fff;stroke:#555;stroke-width:1}.on{fill:#1d4ed8;stroke:#555;stroke-width:1}.emb{fill:#bfdbfe;stroke:#555;stroke-width:1}.t{text-anchor:middle}.s{font-style:italic}.sm{font-size:13px}.cap{font-size:13px;fill:#555;text-anchor:middle}.ar{fill:none;stroke:#444;stroke-width:1.6;marker-end:url(#a)}.dash{fill:none;stroke:#666;stroke-width:1.2;stroke-dasharray:5 4}.n{font-family:Fira Code,monospace;font-size:12px;text-anchor:middle}</style>
+
+  <text class="t" x="110" y="22" font-weight="bold" fill="#555">入力層（文脈語 <tspan font-style="italic">n</tspan> = 2）</text>
+  <text class="t" x="390" y="22" font-weight="bold" fill="#555">中間層</text>
+  <text class="t" x="720" y="22" font-weight="bold" fill="#555">出力層</text>
+  <rect class="o" x="14" y="36" width="40" height="28" rx="4"/><text class="t" x="34" y="56">で</text>
+  <rect class="cell" x="80" y="70" width="14" height="14"/><rect class="cell" x="94" y="70" width="14" height="14"/><rect class="on" x="108" y="70" width="14" height="14"/><rect class="cell" x="122" y="70" width="14" height="14"/><rect class="cell" x="136" y="70" width="14" height="14"/><rect class="cell" x="150" y="70" width="14" height="14"/>
+  <text x="122" y="56" text-anchor="middle" font-size="17"><tspan class="s" font-weight="bold">x</tspan><tspan dy="5" font-size="11">で</tspan></text>
+  <text class="cap" x="122" y="102">one-hot（1×<tspan font-style="italic">V</tspan>）</text>
+  <path class="ar" d="M168 77 L192 77"/>
+  <rect class="g" x="196" y="52" width="60" height="50" rx="4"/>
+  <text x="226" y="83" text-anchor="middle" font-size="18"><tspan class="s">W</tspan><tspan dy="5" font-size="12">in</tspan></text>
+  <text class="cap" x="226" y="120">（<tspan font-style="italic">V</tspan>×<tspan font-style="italic">d</tspan>）</text>
+  <path class="ar" d="M258 77 L280 77"/>
+  <rect class="emb" x="284" y="70" width="20" height="14"/><rect class="emb" x="304" y="70" width="20" height="14"/><rect class="emb" x="324" y="70" width="20" height="14"/>
+  <text x="314" y="56" text-anchor="middle" font-size="17"><tspan class="s" font-weight="bold">v</tspan><tspan dy="5" font-size="11">で</tspan></text>
+  <text class="cap" x="314" y="102">単語埋め込み</text>
+  <text class="cap" x="314" y="118">（1×<tspan font-style="italic">d</tspan>）</text>
+  <rect class="o" x="14" y="206" width="40" height="28" rx="4"/><text class="t" x="34" y="226">を</text>
+  <rect class="cell" x="80" y="240" width="14" height="14"/><rect class="cell" x="94" y="240" width="14" height="14"/><rect class="cell" x="108" y="240" width="14" height="14"/><rect class="cell" x="122" y="240" width="14" height="14"/><rect class="on" x="136" y="240" width="14" height="14"/><rect class="cell" x="150" y="240" width="14" height="14"/>
+  <text x="122" y="226" text-anchor="middle" font-size="17"><tspan class="s" font-weight="bold">x</tspan><tspan dy="5" font-size="11">を</tspan></text>
+  <text class="cap" x="122" y="272">one-hot（1×<tspan font-style="italic">V</tspan>）</text>
+  <path class="ar" d="M168 247 L192 247"/>
+  <rect class="g" x="196" y="222" width="60" height="50" rx="4"/>
+  <text x="226" y="253" text-anchor="middle" font-size="18"><tspan class="s">W</tspan><tspan dy="5" font-size="12">in</tspan></text>
+  <text class="cap" x="226" y="290">（<tspan font-style="italic">V</tspan>×<tspan font-style="italic">d</tspan>）</text>
+  <path class="ar" d="M258 247 L280 247"/>
+  <rect class="emb" x="284" y="240" width="20" height="14"/><rect class="emb" x="304" y="240" width="20" height="14"/><rect class="emb" x="324" y="240" width="20" height="14"/>
+  <text x="314" y="226" text-anchor="middle" font-size="17"><tspan class="s" font-weight="bold">v</tspan><tspan dy="5" font-size="11">を</tspan></text>
+  <text class="cap" x="314" y="272">単語埋め込み</text>
+  <text class="cap" x="314" y="288">（1×<tspan font-style="italic">d</tspan>）</text>
+  <path class="dash" d="M226 126 V 204"/>
+  <text class="t sm" x="226" y="160" fill="#1d4ed8" font-weight="bold">同じ行列</text>
+  <text class="t sm" x="226" y="176" fill="#1d4ed8" font-weight="bold">を共有</text>
+  <path class="ar" d="M346 80 L372 148"/>
+  <path class="ar" d="M346 244 L372 176"/>
+  <circle class="b" cx="390" cy="162" r="22"/><text class="t" x="390" y="168" font-size="14">平均</text>
+  <text class="cap" x="390" y="204">1/<tspan font-style="italic">n</tspan> Σ <tspan font-style="italic" font-weight="bold">v</tspan></text>
+  <path class="ar" d="M413 162 L438 162"/>
+  <rect class="emb" x="442" y="155" width="20" height="14"/><rect class="emb" x="462" y="155" width="20" height="14"/><rect class="emb" x="482" y="155" width="20" height="14"/>
+  <text x="472" y="141" text-anchor="middle" font-size="18"><tspan class="s" font-weight="bold">h</tspan></text>
+  <text class="cap" x="472" y="191">文脈の中間表現</text>
+  <text class="cap" x="472" y="209">（1×<tspan font-style="italic">d</tspan>）</text>
+  <path class="ar" d="M504 162 L528 162"/>
+  <rect class="g" x="532" y="137" width="64" height="50" rx="4"/>
+  <text x="564" y="168" text-anchor="middle" font-size="18"><tspan class="s">W</tspan><tspan dy="5" font-size="12">out</tspan></text>
+  <text class="cap" x="564" y="205">（<tspan font-style="italic">d</tspan>×<tspan font-style="italic">V</tspan>）</text>
+  <path class="ar" d="M598 162 L624 162"/>
+  <rect class="cell" x="628" y="155" width="14" height="14"/><rect class="cell" x="642" y="155" width="14" height="14"/><rect class="cell" x="656" y="155" width="14" height="14"/><rect class="cell" x="670" y="155" width="14" height="14"/><rect class="cell" x="684" y="155" width="14" height="14"/><rect class="cell" x="698" y="155" width="14" height="14"/>
+  <text x="670" y="141" text-anchor="middle" font-size="18"><tspan class="s" font-weight="bold">s</tspan></text>
+  <text class="cap" x="670" y="191">スコア（1×<tspan font-style="italic">V</tspan>）</text>
+  <text class="cap" x="670" y="207"><tspan font-style="italic" font-weight="bold">s</tspan> = <tspan font-style="italic" font-weight="bold">h</tspan><tspan font-style="italic">W</tspan><tspan dy="4" font-size="80%">out</tspan><tspan dy="-4"> </tspan></text>
+  <path class="ar" d="M714 162 L742 162"/>
+  <rect class="b" x="746" y="143" width="80" height="38" rx="19"/>
+  <text class="t" x="786" y="167">softmax</text>
+  <path class="ar" d="M828 162 L854 162"/>
+  <rect class="emb" x="858" y="174.2" width="13" height="2.8000000000000003"/>
+  <rect class="emb" x="874" y="172.8" width="13" height="4.2"/>
+  <rect class="emb" x="890" y="171.4" width="13" height="5.6000000000000005"/>
+  <rect class="on" x="906" y="138.5" width="13" height="38.5"/>
+  <rect class="emb" x="922" y="172.1" width="13" height="4.9"/>
+  <rect class="emb" x="938" y="163.0" width="13" height="14.0"/>
+  <path d="M855 177 h99" stroke="#333" stroke-width="1"/>
+  <text x="906" y="109" text-anchor="middle" font-size="18"><tspan class="s" font-weight="bold">ŷ</tspan></text>
+  <text class="cap" x="906" y="195">確率分布（1×<tspan font-style="italic">V</tspan>）</text>
+  <text font-size="10" x="864" y="211" text-anchor="middle" fill="#555">今</text>
+  <text font-size="10" x="880" y="211" text-anchor="middle" fill="#555">こ</text>
+  <text font-size="10" x="896" y="211" text-anchor="middle" fill="#555">で</text>
+  <text font-size="10" x="912" y="211" text-anchor="middle" fill="#555">み</text>
+  <text font-size="10" x="928" y="211" text-anchor="middle" fill="#555">を</text>
+  <text font-size="10" x="944" y="211" text-anchor="middle" fill="#555">食</text>
+  <rect class="c" x="866" y="250" width="80" height="30" rx="4"/><text class="t" x="906" y="271" font-weight="bold">みかん</text>
+  <text class="cap" x="906" y="298">正解の中央語（one-hot <tspan font-style="italic" font-weight="bold">y</tspan>）</text>
+  <path class="dash" d="M906 248 V 216"/>
+  <text class="t sm" x="906" y="320" fill="#b91c1c">損失 <tspan font-style="italic">L</tspan> = −log <tspan font-style="italic" font-weight="bold">ŷ</tspan><tspan dy="4" font-size="80%">みかん</tspan><tspan dy="-4"> </tspan></text>
+</svg>

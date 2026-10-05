@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 395" width="1000" height="395" font-family="Noto Sans JP, sans-serif">
+<defs>
+<marker id="ak" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#1f2937"/></marker>
+<marker id="ab" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2563eb"/></marker>
+<marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#dc2626"/></marker>
+<marker id="ag" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#6b7280"/></marker>
+</defs>
+<rect width="1000" height="395" fill="#ffffff"/>
+<text x="500.0" y="26.0" font-size="17" fill="#1f2937" text-anchor="middle" font-weight="bold">前向き計算（黒）と逆向き計算（赤）：CBOW</text>
+<rect x="20" y="60" width="96" height="44" rx="8" fill="#f1f5f9" stroke="#1f2937" stroke-width="2"/>
+<text x="68.0" y="80.0" font-size="16" fill="#1f2937" text-anchor="middle" font-weight="normal">x<tspan font-size="70%" dy="4">w</tspan><tspan font-size="55%" dy="3">1</tspan><tspan dy="-7"> </tspan></text>
+<text x="68.0" y="97.0" font-size="12" fill="#6b7280" text-anchor="middle" font-weight="normal">1×V</text>
+<rect x="20" y="170" width="96" height="44" rx="8" fill="#f1f5f9" stroke="#1f2937" stroke-width="2"/>
+<text x="68.0" y="190.0" font-size="16" fill="#1f2937" text-anchor="middle" font-weight="normal">x<tspan font-size="70%" dy="4">w</tspan><tspan font-size="55%" dy="3">n</tspan><tspan dy="-7"> </tspan></text>
+<text x="68.0" y="207.0" font-size="12" fill="#6b7280" text-anchor="middle" font-weight="normal">1×V</text>
+<text x="68.0" y="140.0" font-size="18" fill="#6b7280" text-anchor="middle" font-weight="normal">⋮</text>
+<rect x="190" y="60" width="96" height="44" rx="8" fill="#f1f5f9" stroke="#1f2937" stroke-width="2"/>
+<text x="238.0" y="80.0" font-size="16" fill="#1f2937" text-anchor="middle" font-weight="normal">v<tspan font-size="70%" dy="4">w</tspan><tspan font-size="55%" dy="3">1</tspan><tspan dy="-7"> </tspan></text>
+<text x="238.0" y="97.0" font-size="12" fill="#6b7280" text-anchor="middle" font-weight="normal">1×d</text>
+<rect x="190" y="170" width="96" height="44" rx="8" fill="#f1f5f9" stroke="#1f2937" stroke-width="2"/>
+<text x="238.0" y="190.0" font-size="16" fill="#1f2937" text-anchor="middle" font-weight="normal">v<tspan font-size="70%" dy="4">w</tspan><tspan font-size="55%" dy="3">n</tspan><tspan dy="-7"> </tspan></text>
+<text x="238.0" y="207.0" font-size="12" fill="#6b7280" text-anchor="middle" font-weight="normal">1×d</text>
+<text x="238.0" y="140.0" font-size="18" fill="#6b7280" text-anchor="middle" font-weight="normal">⋮</text>
+<line x1="116.0" y1="82.0" x2="188.0" y2="82.0" stroke="#1f2937" stroke-width="2" marker-end="url(#ak)"/>
+<line x1="116.0" y1="192.0" x2="188.0" y2="192.0" stroke="#1f2937" stroke-width="2" marker-end="url(#ak)"/>
+<text x="152.0" y="74.0" font-size="13" fill="#b45309" text-anchor="middle" font-weight="normal">W<tspan font-size="70%" dy="4">in</tspan><tspan dy="-4"> </tspan></text>
+<text x="152.0" y="184.0" font-size="13" fill="#b45309" text-anchor="middle" font-weight="normal">W<tspan font-size="70%" dy="4">in</tspan><tspan dy="-4"> </tspan></text>
+<rect x="370" y="115" width="96" height="44" rx="8" fill="#f1f5f9" stroke="#1f2937" stroke-width="2"/>
+<text x="418.0" y="135.0" font-size="16" fill="#1f2937" text-anchor="middle" font-weight="normal">h</text>
+<text x="418.0" y="152.0" font-size="12" fill="#6b7280" text-anchor="middle" font-weight="normal">1×d</text>
+<line x1="286.0" y1="82.0" x2="368.0" y2="130.0" stroke="#1f2937" stroke-width="2" marker-end="url(#ak)"/>
+<line x1="286.0" y1="192.0" x2="368.0" y2="150.0" stroke="#1f2937" stroke-width="2" marker-end="url(#ak)"/>
+<text x="330.0" y="102.0" font-size="13" fill="#b45309" text-anchor="middle" font-weight="normal">平均</text>
+<rect x="550" y="115" width="96" height="44" rx="8" fill="#f1f5f9" stroke="#1f2937" stroke-width="2"/>
+<text x="598.0" y="135.0" font-size="16" fill="#1f2937" text-anchor="middle" font-weight="normal">s</text>
+<text x="598.0" y="152.0" font-size="12" fill="#6b7280" text-anchor="middle" font-weight="normal">1×V</text>
+<line x1="466.0" y1="137.0" x2="548.0" y2="137.0" stroke="#1f2937" stroke-width="2" marker-end="url(#ak)"/>
+<text x="507.0" y="129.0" font-size="13" fill="#b45309" text-anchor="middle" font-weight="normal">W<tspan font-size="70%" dy="4">out</tspan><tspan dy="-4"> </tspan></text>
+<rect x="730" y="115" width="96" height="44" rx="8" fill="#f1f5f9" stroke="#1f2937" stroke-width="2"/>
+<text x="778.0" y="135.0" font-size="16" fill="#1f2937" text-anchor="middle" font-weight="normal"><tspan font-family="Times New Roman, serif" font-style="italic">ŷ</tspan></text>
+<text x="778.0" y="152.0" font-size="12" fill="#6b7280" text-anchor="middle" font-weight="normal">1×V</text>
+<line x1="646.0" y1="137.0" x2="728.0" y2="137.0" stroke="#1f2937" stroke-width="2" marker-end="url(#ak)"/>
+<text x="687.0" y="129.0" font-size="13" fill="#b45309" text-anchor="middle" font-weight="normal">softmax</text>
+<rect x="890" y="115" width="86" height="44" rx="8" fill="#f1f5f9" stroke="#1f2937" stroke-width="2"/>
+<text x="933.0" y="135.0" font-size="16" fill="#1f2937" text-anchor="middle" font-weight="normal">𝓛</text>
+<text x="933.0" y="152.0" font-size="12" fill="#6b7280" text-anchor="middle" font-weight="normal">スカラー</text>
+<line x1="826.0" y1="137.0" x2="888.0" y2="137.0" stroke="#1f2937" stroke-width="2" marker-end="url(#ak)"/>
+<rect x="890" y="30" width="86" height="44" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="2"/>
+<text x="933.0" y="50.0" font-size="16" fill="#1f2937" text-anchor="middle" font-weight="normal">y</text>
+<text x="933.0" y="67.0" font-size="12" fill="#6b7280" text-anchor="middle" font-weight="normal">1×V（正解）</text>
+<line x1="933.0" y1="74.0" x2="933.0" y2="113.0" stroke="#16a34a" stroke-width="2" marker-end="url(#ak)"/>
+<rect x="530" y="250" width="200" height="58" rx="8" fill="#fef2f2" stroke="#dc2626" stroke-width="1.5"/>
+<text x="630.0" y="274.0" font-size="15" fill="#dc2626" text-anchor="middle" font-weight="bold">① δ = <tspan font-family="Times New Roman, serif" font-style="italic">ŷ</tspan> − y</text>
+<text x="630.0" y="296.0" font-size="13" fill="#dc2626" text-anchor="middle" font-weight="normal">∂𝓛/∂s（1×V）</text>
+<rect x="530" y="325" width="200" height="58" rx="8" fill="#fef2f2" stroke="#dc2626" stroke-width="1.5"/>
+<text x="630.0" y="349.0" font-size="15" fill="#dc2626" text-anchor="middle" font-weight="bold">② ∂𝓛/∂W<tspan font-size="70%" dy="4">out</tspan><tspan dy="-4"> </tspan>= hᵀδ</text>
+<text x="630.0" y="371.0" font-size="13" fill="#dc2626" text-anchor="middle" font-weight="normal">（d×1）(1×V) = d×V</text>
+<rect x="290" y="250" width="220" height="58" rx="8" fill="#fef2f2" stroke="#dc2626" stroke-width="1.5"/>
+<text x="400.0" y="274.0" font-size="15" fill="#dc2626" text-anchor="middle" font-weight="bold">③ ∂𝓛/∂h = δ W<tspan font-size="70%" dy="4">out</tspan><tspan dy="-4"> </tspan>ᵀ</text>
+<text x="400.0" y="296.0" font-size="13" fill="#dc2626" text-anchor="middle" font-weight="normal">（1×V）(V×d) = 1×d</text>
+<rect x="40" y="250" width="230" height="58" rx="8" fill="#fef2f2" stroke="#dc2626" stroke-width="1.5"/>
+<text x="155.0" y="274.0" font-size="15" fill="#dc2626" text-anchor="middle" font-weight="bold">④ ∂𝓛/∂v<tspan font-size="70%" dy="4">w</tspan><tspan font-size="55%" dy="3">i</tspan><tspan dy="-7"> </tspan>= (1/n)∂𝓛/∂h</text>
+<text x="155.0" y="296.0" font-size="13" fill="#dc2626" text-anchor="middle" font-weight="normal">平均は 1/n ずつ配る（1×d）</text>
+<rect x="40" y="325" width="230" height="58" rx="8" fill="#fef2f2" stroke="#dc2626" stroke-width="1.5"/>
+<text x="155.0" y="349.0" font-size="15" fill="#dc2626" text-anchor="middle" font-weight="bold">⑤ ∂𝓛/∂W<tspan font-size="70%" dy="4">in</tspan><tspan dy="-4"> </tspan>の w<tspan font-size="70%" dy="4">i</tspan><tspan dy="-4"> </tspan>行</text>
+<text x="155.0" y="371.0" font-size="13" fill="#dc2626" text-anchor="middle" font-weight="normal">+= (1/n)∂𝓛/∂h（他の行は 0）</text>
+<line x1="610.0" y1="248.0" x2="598.0" y2="164.0" stroke="#dc2626" stroke-width="2" marker-end="url(#ar)" stroke-dasharray="5 4"/>
+<line x1="528.0" y1="279.0" x2="512.0" y2="279.0" stroke="#dc2626" stroke-width="2" marker-end="url(#ar)"/>
+<line x1="288.0" y1="279.0" x2="272.0" y2="279.0" stroke="#dc2626" stroke-width="2" marker-end="url(#ar)"/>
+</svg>

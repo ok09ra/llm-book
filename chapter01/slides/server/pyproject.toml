@@ -1,0 +1,18 @@
+[project]
+name = "chapter01-demo-server"
+version = "0.1.0"
+description = "第1章スライドのデモ実行サーバ"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    "fugashi>=1.5.2",
+    "ipykernel>=7.4.0",
+    "jupyter-client>=8.10.0",
+    "protobuf>=7.36.2",
+    "sentencepiece>=0.2.2",
+    "torch>=2.14.1",
+    "transformers==4.40.2",
+    "unidic-lite>=1.0.8",
+]
+
+[tool.uv]
+package = false

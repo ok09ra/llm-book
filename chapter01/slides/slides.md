@@ -49,6 +49,39 @@ layout: section
 
 ---
 
+# transformers とは
+
+Hugging Face が開発する、事前学習済みモデルを扱うための Python ライブラリ
+
+<div class="grid grid-cols-2 gap-8 mt-4">
+<div>
+
+**何ができるか**
+
+- BERT・GPT・T5 など多数のモデルの **実装** をまとめて提供
+- **Hugging Face Hub** から学習済みの重みとトークナイザを名前で取得
+  - `"llm-book/bert-base-japanese-v3-marc_ja"` ＝ Hub 上のリポジトリ名
+- 推論だけでなく、ファインチューニング（`Trainer`）も同じ流れで書ける
+- 中身の計算は PyTorch（TensorFlow・JAX にも対応）
+
+</div>
+<div>
+
+**使い方の3つの層**（上ほど手軽、下ほど細かく制御）
+
+<div class="flex flex-col gap-2 mt-2 text-sm">
+<div class="border rounded px-3 py-2 bg-blue-50"><b>pipeline</b>：タスク名とモデル名だけで完結 → 1.1 節</div>
+<div class="border rounded px-3 py-2 bg-green-50"><b>AutoTokenizer / AutoModel</b>：前処理と推論を分けて書く → 1.2 節</div>
+<div class="border rounded px-3 py-2 bg-orange-50"><b>BertModel などの個別クラス</b>：アーキテクチャを直接扱う → 3章以降</div>
+</div>
+
+<div class="text-xs opacity-60 mt-4">このデッキのデモは transformers 4.40.2 で実行（本のリポジトリは &lt; 4.41.0 に固定）</div>
+
+</div>
+</div>
+
+---
+
 # pipeline とは
 
 モデル名を渡すだけで「前処理 → 推論 → 後処理」をまとめて行う関数

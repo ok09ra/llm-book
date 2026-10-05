@@ -1,0 +1,174 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 50 640 470" width="640" height="470" font-family="Noto Sans JP, sans-serif" font-size="14" fill="#1f2937">
+<defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#6b7280"/></marker></defs>
+<rect width="640" height="470" fill="#fff"/>
+<text x="8" y="490" font-size="12" fill="#374151" font-weight="bold">① トークン</text>
+<rect x="110.0" y="470" width="60" height="30" rx="5" fill="#fef3c7" stroke="#9ca3af"/><text x="140.0" y="490" text-anchor="middle" font-size="12">[CLS]</text>
+<line x1="140.0" y1="470" x2="140.0" y2="448" stroke="#6b7280" stroke-width="1.5" marker-end="url(#a)"/>
+<rect x="182.0" y="470" width="60" height="30" rx="5" fill="#f3f4f6" stroke="#9ca3af"/><text x="212.0" y="490" text-anchor="middle" font-size="14">今日</text>
+<line x1="212.0" y1="470" x2="212.0" y2="448" stroke="#6b7280" stroke-width="1.5" marker-end="url(#a)"/>
+<rect x="254.0" y="470" width="60" height="30" rx="5" fill="#f3f4f6" stroke="#9ca3af"/><text x="284.0" y="490" text-anchor="middle" font-size="14">は</text>
+<line x1="284.0" y1="470" x2="284.0" y2="448" stroke="#6b7280" stroke-width="1.5" marker-end="url(#a)"/>
+<rect x="326.0" y="470" width="60" height="30" rx="5" fill="#f3f4f6" stroke="#9ca3af"/><text x="356.0" y="490" text-anchor="middle" font-size="14">良い</text>
+<line x1="356.0" y1="470" x2="356.0" y2="448" stroke="#6b7280" stroke-width="1.5" marker-end="url(#a)"/>
+<rect x="398.0" y="470" width="60" height="30" rx="5" fill="#f3f4f6" stroke="#9ca3af"/><text x="428.0" y="490" text-anchor="middle" font-size="14">天気</text>
+<line x1="428.0" y1="470" x2="428.0" y2="448" stroke="#6b7280" stroke-width="1.5" marker-end="url(#a)"/>
+<rect x="470.0" y="470" width="60" height="30" rx="5" fill="#f3f4f6" stroke="#9ca3af"/><text x="500.0" y="490" text-anchor="middle" font-size="14">です</text>
+<line x1="500.0" y1="470" x2="500.0" y2="448" stroke="#6b7280" stroke-width="1.5" marker-end="url(#a)"/>
+<rect x="542.0" y="470" width="60" height="30" rx="5" fill="#fef3c7" stroke="#9ca3af"/><text x="572.0" y="490" text-anchor="middle" font-size="12">[SEP]</text>
+<line x1="572.0" y1="470" x2="572.0" y2="448" stroke="#6b7280" stroke-width="1.5" marker-end="url(#a)"/>
+<text x="8" y="438" font-size="12" fill="#374151" font-weight="bold">② ID</text>
+<text x="140.0" y="438" text-anchor="middle" font-size="13" fill="#6b7280">2</text>
+<line x1="140.0" y1="420" x2="140.0" y2="402" stroke="#6b7280" stroke-width="1.5" marker-end="url(#a)"/>
+<text x="212.0" y="438" text-anchor="middle" font-size="13" fill="#6b7280">15028</text>
+<line x1="212.0" y1="420" x2="212.0" y2="402" stroke="#6b7280" stroke-width="1.5" marker-end="url(#a)"/>
+<text x="284.0" y="438" text-anchor="middle" font-size="13" fill="#6b7280">465</text>
+<line x1="284.0" y1="420" x2="284.0" y2="402" stroke="#6b7280" stroke-width="1.5" marker-end="url(#a)"/>
+<text x="356.0" y="438" text-anchor="middle" font-size="13" fill="#6b7280">14459</text>
+<line x1="356.0" y1="420" x2="356.0" y2="402" stroke="#6b7280" stroke-width="1.5" marker-end="url(#a)"/>
+<text x="428.0" y="438" text-anchor="middle" font-size="13" fill="#6b7280">18834</text>
+<line x1="428.0" y1="420" x2="428.0" y2="402" stroke="#6b7280" stroke-width="1.5" marker-end="url(#a)"/>
+<text x="500.0" y="438" text-anchor="middle" font-size="13" fill="#6b7280">13037</text>
+<line x1="500.0" y1="420" x2="500.0" y2="402" stroke="#6b7280" stroke-width="1.5" marker-end="url(#a)"/>
+<text x="572.0" y="438" text-anchor="middle" font-size="13" fill="#6b7280">3</text>
+<line x1="572.0" y1="420" x2="572.0" y2="402" stroke="#6b7280" stroke-width="1.5" marker-end="url(#a)"/>
+<text x="8" y="350" font-size="12" fill="#374151" font-weight="bold">③ 埋め込み</text>
+<text x="8" y="366" font-size="12" fill="#374151" font-weight="bold">（768次元）</text>
+<rect x="102" y="324" width="508" height="72" rx="8" fill="#eff6ff" stroke="#93c5fd"/>
+<rect x="131.0" y="330.0" width="18" height="6.0" fill="#2563eb" opacity="0.35"/>
+<rect x="131.0" y="337.0" width="18" height="6.0" fill="#2563eb" opacity="0.52"/>
+<rect x="131.0" y="344.0" width="18" height="6.0" fill="#2563eb" opacity="0.69"/>
+<rect x="131.0" y="351.0" width="18" height="6.0" fill="#2563eb" opacity="0.86"/>
+<rect x="131.0" y="358.0" width="18" height="6.0" fill="#2563eb" opacity="0.44"/>
+<rect x="131.0" y="365.0" width="18" height="6.0" fill="#2563eb" opacity="0.61"/>
+<rect x="131.0" y="372.0" width="18" height="6.0" fill="#2563eb" opacity="0.78"/>
+<rect x="131.0" y="379.0" width="18" height="6.0" fill="#2563eb" opacity="0.35"/>
+<rect x="203.0" y="330.0" width="18" height="6.0" fill="#2563eb" opacity="0.52"/>
+<rect x="203.0" y="337.0" width="18" height="6.0" fill="#2563eb" opacity="0.69"/>
+<rect x="203.0" y="344.0" width="18" height="6.0" fill="#2563eb" opacity="0.86"/>
+<rect x="203.0" y="351.0" width="18" height="6.0" fill="#2563eb" opacity="0.44"/>
+<rect x="203.0" y="358.0" width="18" height="6.0" fill="#2563eb" opacity="0.61"/>
+<rect x="203.0" y="365.0" width="18" height="6.0" fill="#2563eb" opacity="0.78"/>
+<rect x="203.0" y="372.0" width="18" height="6.0" fill="#2563eb" opacity="0.35"/>
+<rect x="203.0" y="379.0" width="18" height="6.0" fill="#2563eb" opacity="0.52"/>
+<rect x="275.0" y="330.0" width="18" height="6.0" fill="#2563eb" opacity="0.69"/>
+<rect x="275.0" y="337.0" width="18" height="6.0" fill="#2563eb" opacity="0.86"/>
+<rect x="275.0" y="344.0" width="18" height="6.0" fill="#2563eb" opacity="0.44"/>
+<rect x="275.0" y="351.0" width="18" height="6.0" fill="#2563eb" opacity="0.61"/>
+<rect x="275.0" y="358.0" width="18" height="6.0" fill="#2563eb" opacity="0.78"/>
+<rect x="275.0" y="365.0" width="18" height="6.0" fill="#2563eb" opacity="0.35"/>
+<rect x="275.0" y="372.0" width="18" height="6.0" fill="#2563eb" opacity="0.52"/>
+<rect x="275.0" y="379.0" width="18" height="6.0" fill="#2563eb" opacity="0.69"/>
+<rect x="347.0" y="330.0" width="18" height="6.0" fill="#2563eb" opacity="0.86"/>
+<rect x="347.0" y="337.0" width="18" height="6.0" fill="#2563eb" opacity="0.44"/>
+<rect x="347.0" y="344.0" width="18" height="6.0" fill="#2563eb" opacity="0.61"/>
+<rect x="347.0" y="351.0" width="18" height="6.0" fill="#2563eb" opacity="0.78"/>
+<rect x="347.0" y="358.0" width="18" height="6.0" fill="#2563eb" opacity="0.35"/>
+<rect x="347.0" y="365.0" width="18" height="6.0" fill="#2563eb" opacity="0.52"/>
+<rect x="347.0" y="372.0" width="18" height="6.0" fill="#2563eb" opacity="0.69"/>
+<rect x="347.0" y="379.0" width="18" height="6.0" fill="#2563eb" opacity="0.86"/>
+<rect x="419.0" y="330.0" width="18" height="6.0" fill="#2563eb" opacity="0.44"/>
+<rect x="419.0" y="337.0" width="18" height="6.0" fill="#2563eb" opacity="0.61"/>
+<rect x="419.0" y="344.0" width="18" height="6.0" fill="#2563eb" opacity="0.78"/>
+<rect x="419.0" y="351.0" width="18" height="6.0" fill="#2563eb" opacity="0.35"/>
+<rect x="419.0" y="358.0" width="18" height="6.0" fill="#2563eb" opacity="0.52"/>
+<rect x="419.0" y="365.0" width="18" height="6.0" fill="#2563eb" opacity="0.69"/>
+<rect x="419.0" y="372.0" width="18" height="6.0" fill="#2563eb" opacity="0.86"/>
+<rect x="419.0" y="379.0" width="18" height="6.0" fill="#2563eb" opacity="0.44"/>
+<rect x="491.0" y="330.0" width="18" height="6.0" fill="#2563eb" opacity="0.61"/>
+<rect x="491.0" y="337.0" width="18" height="6.0" fill="#2563eb" opacity="0.78"/>
+<rect x="491.0" y="344.0" width="18" height="6.0" fill="#2563eb" opacity="0.35"/>
+<rect x="491.0" y="351.0" width="18" height="6.0" fill="#2563eb" opacity="0.52"/>
+<rect x="491.0" y="358.0" width="18" height="6.0" fill="#2563eb" opacity="0.69"/>
+<rect x="491.0" y="365.0" width="18" height="6.0" fill="#2563eb" opacity="0.86"/>
+<rect x="491.0" y="372.0" width="18" height="6.0" fill="#2563eb" opacity="0.44"/>
+<rect x="491.0" y="379.0" width="18" height="6.0" fill="#2563eb" opacity="0.61"/>
+<rect x="563.0" y="330.0" width="18" height="6.0" fill="#2563eb" opacity="0.78"/>
+<rect x="563.0" y="337.0" width="18" height="6.0" fill="#2563eb" opacity="0.35"/>
+<rect x="563.0" y="344.0" width="18" height="6.0" fill="#2563eb" opacity="0.52"/>
+<rect x="563.0" y="351.0" width="18" height="6.0" fill="#2563eb" opacity="0.69"/>
+<rect x="563.0" y="358.0" width="18" height="6.0" fill="#2563eb" opacity="0.86"/>
+<rect x="563.0" y="365.0" width="18" height="6.0" fill="#2563eb" opacity="0.44"/>
+<rect x="563.0" y="372.0" width="18" height="6.0" fill="#2563eb" opacity="0.61"/>
+<rect x="563.0" y="379.0" width="18" height="6.0" fill="#2563eb" opacity="0.78"/>
+<line x1="140.0" y1="322" x2="140.0" y2="294" stroke="#6b7280" stroke-width="1.5" marker-end="url(#a)"/>
+<line x1="212.0" y1="322" x2="212.0" y2="294" stroke="#6b7280" stroke-width="1.5" marker-end="url(#a)"/>
+<line x1="284.0" y1="322" x2="284.0" y2="294" stroke="#6b7280" stroke-width="1.5" marker-end="url(#a)"/>
+<line x1="356.0" y1="322" x2="356.0" y2="294" stroke="#6b7280" stroke-width="1.5" marker-end="url(#a)"/>
+<line x1="428.0" y1="322" x2="428.0" y2="294" stroke="#6b7280" stroke-width="1.5" marker-end="url(#a)"/>
+<line x1="500.0" y1="322" x2="500.0" y2="294" stroke="#6b7280" stroke-width="1.5" marker-end="url(#a)"/>
+<line x1="572.0" y1="322" x2="572.0" y2="294" stroke="#6b7280" stroke-width="1.5" marker-end="url(#a)"/>
+<text x="8" y="240" font-size="12" fill="#374151" font-weight="bold">④ エンコーダ</text>
+<rect x="102" y="200" width="508" height="88" rx="10" fill="#f5f3ff" stroke="#7c3aed"/>
+<text x="362.0" y="230" text-anchor="middle" font-size="15" font-weight="bold">Transformer エンコーダ層 × 12</text>
+<text x="362.0" y="254" text-anchor="middle" font-size="13">各層：自己注意（全トークンを見て混ぜる）→ フィードフォワード</text>
+<text x="362.0" y="274" text-anchor="middle" font-size="12" fill="#6b7280">形は変わらない：(トークン数 7) × 768 → 7 × 768</text>
+<line x1="140.0" y1="200" x2="140.0" y2="174" stroke="#6b7280" stroke-width="1.5" marker-end="url(#a)"/>
+<line x1="212.0" y1="200" x2="212.0" y2="174" stroke="#6b7280" stroke-width="1.5" marker-end="url(#a)"/>
+<line x1="284.0" y1="200" x2="284.0" y2="174" stroke="#6b7280" stroke-width="1.5" marker-end="url(#a)"/>
+<line x1="356.0" y1="200" x2="356.0" y2="174" stroke="#6b7280" stroke-width="1.5" marker-end="url(#a)"/>
+<line x1="428.0" y1="200" x2="428.0" y2="174" stroke="#6b7280" stroke-width="1.5" marker-end="url(#a)"/>
+<line x1="500.0" y1="200" x2="500.0" y2="174" stroke="#6b7280" stroke-width="1.5" marker-end="url(#a)"/>
+<line x1="572.0" y1="200" x2="572.0" y2="174" stroke="#6b7280" stroke-width="1.5" marker-end="url(#a)"/>
+<text x="8" y="130" font-size="12" fill="#374151" font-weight="bold">⑤ 出力</text>
+<text x="8" y="146" font-size="12" fill="#374151" font-weight="bold">（768次元）</text>
+<rect x="102" y="104" width="508" height="72" rx="8" fill="#ecfdf5" stroke="#6ee7b7"/>
+<rect x="131.0" y="110.0" width="18" height="6.0" fill="#dc2626" opacity="0.35"/>
+<rect x="131.0" y="117.0" width="18" height="6.0" fill="#dc2626" opacity="0.52"/>
+<rect x="131.0" y="124.0" width="18" height="6.0" fill="#dc2626" opacity="0.69"/>
+<rect x="131.0" y="131.0" width="18" height="6.0" fill="#dc2626" opacity="0.86"/>
+<rect x="131.0" y="138.0" width="18" height="6.0" fill="#dc2626" opacity="0.44"/>
+<rect x="131.0" y="145.0" width="18" height="6.0" fill="#dc2626" opacity="0.61"/>
+<rect x="131.0" y="152.0" width="18" height="6.0" fill="#dc2626" opacity="0.78"/>
+<rect x="131.0" y="159.0" width="18" height="6.0" fill="#dc2626" opacity="0.35"/>
+<rect x="203.0" y="110.0" width="18" height="6.0" fill="#059669" opacity="0.52"/>
+<rect x="203.0" y="117.0" width="18" height="6.0" fill="#059669" opacity="0.69"/>
+<rect x="203.0" y="124.0" width="18" height="6.0" fill="#059669" opacity="0.86"/>
+<rect x="203.0" y="131.0" width="18" height="6.0" fill="#059669" opacity="0.44"/>
+<rect x="203.0" y="138.0" width="18" height="6.0" fill="#059669" opacity="0.61"/>
+<rect x="203.0" y="145.0" width="18" height="6.0" fill="#059669" opacity="0.78"/>
+<rect x="203.0" y="152.0" width="18" height="6.0" fill="#059669" opacity="0.35"/>
+<rect x="203.0" y="159.0" width="18" height="6.0" fill="#059669" opacity="0.52"/>
+<rect x="275.0" y="110.0" width="18" height="6.0" fill="#059669" opacity="0.69"/>
+<rect x="275.0" y="117.0" width="18" height="6.0" fill="#059669" opacity="0.86"/>
+<rect x="275.0" y="124.0" width="18" height="6.0" fill="#059669" opacity="0.44"/>
+<rect x="275.0" y="131.0" width="18" height="6.0" fill="#059669" opacity="0.61"/>
+<rect x="275.0" y="138.0" width="18" height="6.0" fill="#059669" opacity="0.78"/>
+<rect x="275.0" y="145.0" width="18" height="6.0" fill="#059669" opacity="0.35"/>
+<rect x="275.0" y="152.0" width="18" height="6.0" fill="#059669" opacity="0.52"/>
+<rect x="275.0" y="159.0" width="18" height="6.0" fill="#059669" opacity="0.69"/>
+<rect x="347.0" y="110.0" width="18" height="6.0" fill="#059669" opacity="0.86"/>
+<rect x="347.0" y="117.0" width="18" height="6.0" fill="#059669" opacity="0.44"/>
+<rect x="347.0" y="124.0" width="18" height="6.0" fill="#059669" opacity="0.61"/>
+<rect x="347.0" y="131.0" width="18" height="6.0" fill="#059669" opacity="0.78"/>
+<rect x="347.0" y="138.0" width="18" height="6.0" fill="#059669" opacity="0.35"/>
+<rect x="347.0" y="145.0" width="18" height="6.0" fill="#059669" opacity="0.52"/>
+<rect x="347.0" y="152.0" width="18" height="6.0" fill="#059669" opacity="0.69"/>
+<rect x="347.0" y="159.0" width="18" height="6.0" fill="#059669" opacity="0.86"/>
+<rect x="419.0" y="110.0" width="18" height="6.0" fill="#059669" opacity="0.44"/>
+<rect x="419.0" y="117.0" width="18" height="6.0" fill="#059669" opacity="0.61"/>
+<rect x="419.0" y="124.0" width="18" height="6.0" fill="#059669" opacity="0.78"/>
+<rect x="419.0" y="131.0" width="18" height="6.0" fill="#059669" opacity="0.35"/>
+<rect x="419.0" y="138.0" width="18" height="6.0" fill="#059669" opacity="0.52"/>
+<rect x="419.0" y="145.0" width="18" height="6.0" fill="#059669" opacity="0.69"/>
+<rect x="419.0" y="152.0" width="18" height="6.0" fill="#059669" opacity="0.86"/>
+<rect x="419.0" y="159.0" width="18" height="6.0" fill="#059669" opacity="0.44"/>
+<rect x="491.0" y="110.0" width="18" height="6.0" fill="#059669" opacity="0.61"/>
+<rect x="491.0" y="117.0" width="18" height="6.0" fill="#059669" opacity="0.78"/>
+<rect x="491.0" y="124.0" width="18" height="6.0" fill="#059669" opacity="0.35"/>
+<rect x="491.0" y="131.0" width="18" height="6.0" fill="#059669" opacity="0.52"/>
+<rect x="491.0" y="138.0" width="18" height="6.0" fill="#059669" opacity="0.69"/>
+<rect x="491.0" y="145.0" width="18" height="6.0" fill="#059669" opacity="0.86"/>
+<rect x="491.0" y="152.0" width="18" height="6.0" fill="#059669" opacity="0.44"/>
+<rect x="491.0" y="159.0" width="18" height="6.0" fill="#059669" opacity="0.61"/>
+<rect x="563.0" y="110.0" width="18" height="6.0" fill="#059669" opacity="0.78"/>
+<rect x="563.0" y="117.0" width="18" height="6.0" fill="#059669" opacity="0.35"/>
+<rect x="563.0" y="124.0" width="18" height="6.0" fill="#059669" opacity="0.52"/>
+<rect x="563.0" y="131.0" width="18" height="6.0" fill="#059669" opacity="0.69"/>
+<rect x="563.0" y="138.0" width="18" height="6.0" fill="#059669" opacity="0.86"/>
+<rect x="563.0" y="145.0" width="18" height="6.0" fill="#059669" opacity="0.44"/>
+<rect x="563.0" y="152.0" width="18" height="6.0" fill="#059669" opacity="0.61"/>
+<rect x="563.0" y="159.0" width="18" height="6.0" fill="#059669" opacity="0.78"/>
+<text x="362.0" y="96" text-anchor="middle" font-size="12" fill="#059669">文脈を反映したベクトル（同じ「天気」でも文が違えば値が変わる）</text>
+<text x="140.0" y="76" text-anchor="middle" font-size="12" fill="#dc2626" font-weight="bold">[CLS] → 文の分類</text>
+<text x="428.0" y="76" text-anchor="middle" font-size="12" fill="#059669" font-weight="bold">各トークン → 固有表現認識など</text>
+</svg>

@@ -12,6 +12,15 @@ npm install
 cd server && uv sync
 ```
 
+## Windows の場合
+
+macOS で動作確認しています。Windows では未確認ですが、使っているパッケージ（torch・fugashi・sentencepiece など）はすべて Windows 用のビルドがあるので、同じ手順で動く想定です。違いは次のとおりです。
+
+- **Node.js：** 公式インストーラか nvm-windows で 22 以上を入れてください（nvm-windows は `.nvmrc` を読まないので `nvm install 22` / `nvm use 22`）。
+- **uv：** PowerShell で `powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"` を実行して入れます。
+- **`&&`：** Windows PowerShell 5.1 では使えません。`cd server` と `uv sync` を1行ずつ実行するか、PowerShell 7 を使ってください。
+- **メモリ：** 実行サーバは起動時に全モデル（GPT-2 large を含む）を読み込むので、空きメモリが 8GB 以上あると安心です。
+
 ## 発表時
 
 ターミナルを2つ使います。

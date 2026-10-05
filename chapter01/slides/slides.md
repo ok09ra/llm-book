@@ -53,6 +53,8 @@ layout: section
 
 Hugging Face が開発する、事前学習済みモデルを扱うための Python ライブラリ
 
+<div class="text-sm">📖 公式ドキュメント：<a href="https://huggingface.co/docs/transformers/ja/index" target="_blank">日本語（最新版）</a> ／ <a href="https://huggingface.co/docs/transformers/v4.40.2/en/index" target="_blank">v4.40.2（このデモと同じ版）</a></div>
+
 <div class="grid grid-cols-2 gap-8 mt-4">
 <div>
 

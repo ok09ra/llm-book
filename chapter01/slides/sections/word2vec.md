@@ -3,19 +3,25 @@
 <img src="/figs/w2v-window.svg" class="mx-auto h-60" />
 
 - **窓幅 $p$**：中央語の **左右それぞれ** 何語までを「周辺語（文脈語）」とみなすか
-- 文脈語の数は $n = 2p$（文頭・文末では窓がはみ出すぶん少なくなる）
+- 位置 $t$ の単語を **中央語** $w_t$ と呼ぶ。文脈語の数は $n = 2p$（文頭・文末では窓がはみ出すぶん少なくなる）
 - 本書 式(1.3) の $p$ と同じもの。小さいと文法的、大きいと意味的な関係を拾いやすい
 
 ---
 
 # 単語を one-hot ベクトルで表す
 
-<img src="/figs/w2v-onehot.svg" class="mx-auto h-48" />
+<img src="/figs/w2v-onehot.svg" class="mx-auto h-40" />
 
-- 各単語はまず **語彙ID** として扱い、概念上は $V$ 次元の **one-hot ベクトル** $\mathbf{x}_w$ で表す
+- 各単語はまず **語彙ID** として扱い、概念上は $V$ 次元（$V$＝語彙数）の **one-hot ベクトル** $\mathbf{x}_w \in \mathbb{R}^{1 \times V}$ で表す
 - $\mathbf{x}_w$ は意味を持たない。「語彙表の何番目か」だけを表す
-- $W_{\text{in}} \in \mathbb{R}^{V \times d}$ を掛ける $\mathbf{v}_w = \mathbf{x}_w W_{\text{in}}$ は、実質 **$W_{\text{in}}$ の $w$ 行目を取り出すだけ**
+- $W_{\text{in}} \in \mathbb{R}^{V \times d}$（$d$＝埋め込みの次元）を掛ける $\mathbf{v}_w = \mathbf{x}_w W_{\text{in}}$ は、実質 **$W_{\text{in}}$ の $w$ 行目を取り出すだけ**
 - この $\mathbf{v}_w \in \mathbb{R}^{1 \times d}$ が単語の **埋め込みベクトル（分散表現）**
+
+<div class="text-sm mt-1 px-2 py-0 rounded bg-amber-50">
+
+⚠ **本書との記号の違い**：本書の $\mathbf{x}_w$ は **埋め込み**（ここでの $\mathbf{v}_w$）を指し、次元は $D$（ここでの $d$）。このパートでは $\mathbf{x}_w$ を **one-hot** の意味で使う
+
+</div>
 
 ---
 
@@ -69,6 +75,7 @@ $$
 
 - $\hat{\mathbf{y}}_t$ は「この文脈なら中央語として **どの単語が出るか**」の確率分布
 - 学習では正解の中央語 $w_t$ の確率 $\hat{y}_{t,w_t}$ が高くなるよう $W_{\text{in}}, W_{\text{out}}$ を動かす
+- 本書との対応：$W_{\text{out}} = \mathbf{U}^\top$（本書の行 $\mathbf{u}_w$ がここでは列）、$\mathbf{h}_t$ は本書の $\mathbf{x}_{w_t}^\top$ に当たる
 
 ---
 
@@ -94,13 +101,13 @@ $$
 \ell_t = -\sum_{k=1}^{V} y_{t,k} \log \hat{y}_{t,k} = -\log \hat{y}_{t,\,w_t} \qquad (\mathbf{y}_t \text{ は } w_t \text{ の位置だけ } 1)
 $$
 
-コーパス全体（$N$ 位置）で平均した **負の対数尤度**
+コーパス全体（$N$＝単語の位置の数、本書と同じ）で平均した **負の対数尤度**
 
 $$
-\mathcal{L}_{\text{CBOW}}(\theta) = -\frac{1}{N}\sum_{t=1}^{N} \log P\bigl(w_t \mid w_{t-p}, \dots, w_{t-1}, w_{t+1}, \dots, w_{t+p};\ \theta\bigr),
-\qquad \theta = \{W_{\text{in}}, W_{\text{out}}\}
+\mathcal{L}_{\text{CBOW}}(\theta) = -\frac{1}{N}\sum_{t=1}^{N} \log P\bigl(w_t \mid w_{t-p}, \dots, w_{t-1}, w_{t+1}, \dots, w_{t+p};\ \theta\bigr)
 $$
 
+- $\theta = \{W_{\text{in}}, W_{\text{out}}\}$：学習するパラメータ（本書の $\theta$ と同じ）
 - 式(1.3) と比べると **条件と予測対象が入れ替わり**、$j$ についての和が消えている（1 位置 1 項）
 - 最小化は式(1.4) の勾配降下法（誤差逆伝播で $W_{\text{out}}$ → $\mathbf{h}$ → 平均 → $W_{\text{in}}$ の各行へ）
 
@@ -136,45 +143,6 @@ $$
 <div class="text-sm opacity-80">
 
 本書 式(1.2) の $\mathbf{U}\mathbf{x}_{w_t}$ は、ここでの $(\mathbf{v}_{w_t} W_{\text{out}})^\top$ と同じ（列ベクトルか行ベクトルかの違いだけ）
-
-</div>
-
----
-
-# 変数の一覧と本書の記号との対応
-
-<div class="grid grid-cols-2 gap-4 text-sm">
-<div>
-
-| 記号 | 形 | 意味 | 本書 |
-|---|---|---|---|
-| $V$ | 数 | 語彙数（語彙の集合も $V$） | $V$ |
-| $d$ | 数 | 埋め込みの次元 | $D$ |
-| $p$ | 数 | 窓幅（片側の語数） | $p$ |
-| $n$ | 数 | 文脈語の数（$\le 2p$） | — |
-| $N$ | 数 | コーパスの位置（単語）数 | $N$ |
-| $w_t$ | — | 位置 $t$ の単語（中央語） | $w_t$ |
-| $\theta$ | — | $\{W_{\text{in}}, W_{\text{out}}\}$ | $\theta$ |
-
-</div>
-<div>
-
-| 記号 | 形 | 意味 | 本書 |
-|---|---|---|---|
-| $\mathbf{x}_w$ | $1\times V$ | one-hot（語彙ID） | — ⚠ |
-| $W_{\text{in}}$ | $V\times d$ | 入力側の重み | 各行 $\mathbf{x}_w^\top$ |
-| $\mathbf{v}_w$ | $1\times d$ | 単語埋め込み | $\mathbf{x}_w^\top$ |
-| $\mathbf{h}$ | $1\times d$ | 中間表現（CBOW は平均） | $\mathbf{x}_{w_t}^\top$ |
-| $W_{\text{out}}$ | $d\times V$ | 出力側の重み | $\mathbf{U}^\top$（列 $\mathbf{u}_w$） |
-| $\mathbf{s}$ | $1\times V$ | スコア | $(\mathbf{U}\mathbf{x}_{w_t})^\top$ |
-| $\hat{\mathbf{y}}$, $\mathbf{y}$ | $1\times V$ | softmax 出力 / 正解 one-hot | $P(\cdot \mid w_t)$ / — |
-
-</div>
-</div>
-
-<div class="mt-3 text-sm">
-
-⚠ **記号の衝突に注意**：本書の $\mathbf{x}_w$ は **埋め込み**（ここでの $\mathbf{v}_w$）。このパートでは $\mathbf{x}_w$ を **one-hot** の意味で使う
 
 </div>
 

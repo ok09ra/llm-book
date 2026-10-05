@@ -137,99 +137,106 @@ src: ./sections/demo-models.md#1-7
 
 テキストを決められたラベルに分類する。感情（肯定的／否定的）を判定するものは **感情分析**
 
+<div class="grid grid-cols-2 gap-4">
+<div>
+
+**pipeline で解く**
+
 ```py {monaco-run} {autorun:false}
-text_classification_pipeline = pipeline(
-    model="llm-book/bert-base-japanese-v3-marc_ja"
-)
+clf_pipe = pipeline(
+    model="llm-book/bert-base-japanese-v3-marc_ja")
 positive_text = "世界には言葉がわからなくても感動する音楽がある。"
 negative_text = "世界には言葉がでないほどひどい音楽がある。"
-print(text_classification_pipeline(positive_text)[0])
-print(text_classification_pipeline(negative_text)[0])
+print(clf_pipe(positive_text)[0])
+print(clf_pipe(negative_text)[0])
 ```
 
-<div class="text-sm opacity-70">通販サイトのレビュー（MARC-ja）で学習。好きな文に書き換えて試してみましょう</div>
+<div class="text-xs opacity-70 mt-1">通販サイトのレビュー（MARC-ja）で学習したモデル</div>
+
+</div>
+<div>
+
+**実装を覗く：pipeline を分解すると**
+
+```py {monaco-run} {autorun:false}
+name = "llm-book/bert-base-japanese-v3-marc_ja"
+tok = AutoTokenizer.from_pretrained(name)
+clf = AutoModelForSequenceClassification \
+    .from_pretrained(name)
+inputs = tok(positive_text, return_tensors="pt")  # ①
+with torch.no_grad():
+    logits = clf(**inputs).logits                 # ②
+probs = torch.softmax(logits, dim=-1)[0]          # ③
+print("logits:", logits)
+print("probs :", probs)
+print(clf.config.id2label[probs.argmax().item()])
+```
+
+<div class="text-xs opacity-70 mt-1">① トークン ID に変換 → ② BERT＋分類ヘッドでスコア → ③ softmax で確率（式1.1）。pipeline と同じ結果になる</div>
+
+</div>
+</div>
 
 <!--
 本の出力:
 {'label': 'positive', 'score': 0.9993619322776794}
 {'label': 'negative', 'score': 0.9636247754096985}
 score は予測確率。どちらも 96% 以上。
+BERT 本体の上に「ヘッド」（線形層）が載って2クラスのスコアを出している → 1.4 の図1.4 につながる
 -->
-
----
-
-# 実装を覗く：pipeline を分解する
-
-pipeline は「① トークナイズ → ② モデル → ③ 後処理」をまとめたもの。手で書くと同じ結果になる
-
-```py {monaco-run} {autorun:false}
-name = "llm-book/bert-base-japanese-v3-marc_ja"
-tok = AutoTokenizer.from_pretrained(name)
-clf = AutoModelForSequenceClassification.from_pretrained(name)
-
-inputs = tok(positive_text, return_tensors="pt")      # ① テキスト → トークン ID
-with torch.no_grad():
-    logits = clf(**inputs).logits                     # ② ラベルごとのスコア
-probs = torch.softmax(logits, dim=-1)[0]              # ③ 確率に変換（式1.1）
-print("logits:", logits)
-print("probs :", probs)
-print(clf.config.id2label[probs.argmax().item()], probs.max().item())
-```
-
-<div class="text-sm opacity-70">BERT 本体の上に「ヘッド」（線形層）が載って2クラスのスコアを出している → 1.4 の図1.4 につながる</div>
-
-
 
 ---
 
 # 1.1.2 自然言語推論（NLI）
 
-2つのテキストの論理関係を予測する。言語モデルの意味理解能力の評価に使われる
+2つのテキストの論理関係（含意・矛盾・中立）を予測する。言語モデルの意味理解能力の評価に使われる
+
+<div class="grid grid-cols-2 gap-4">
+<div>
+
+**pipeline で解く**
 
 ```py {monaco-run} {autorun:false}
-nli_pipeline = pipeline(model="llm-book/bert-base-japanese-v3-jnli")
+nli_pipe = pipeline(
+    model="llm-book/bert-base-japanese-v3-jnli")
 text = "二人の男性がジェット機を見ています"
 for pair in [
-    "ジェット機を見ている人が二人います",      # 含意
-    "二人の男性が飛んでいます",                # 矛盾
-    "2人の男性が、白い飛行機を眺めています",   # 中立
+    "ジェット機を見ている人が二人います",     # 含意
+    "二人の男性が飛んでいます",               # 矛盾
+    "2人の男性が、白い飛行機を眺めています",  # 中立
 ]:
-    print(pair, nli_pipeline({"text": text, "text_pair": pair}))
+    print(nli_pipe({"text": text, "text_pair": pair}))
 ```
 
-| ラベル | 意味 |
-|---|---|
-| entailment | 含意：前提が成り立てば仮説も成り立つ |
-| contradiction | 矛盾：両立しない |
-| neutral | 中立：どちらとも判断できない |
+<div class="text-xs opacity-70 mt-1">entailment＝含意（前提が成り立てば仮説も成り立つ）、contradiction＝矛盾、neutral＝中立</div>
+
+</div>
+<div>
+
+**実装を覗く：2つの文はどう入力される？**
+
+```py {monaco-run} {autorun:false}
+enc = tok("二人の男性がジェット機を見ています",
+          "ジェット機を見ている人が二人います")
+tokens = tok.convert_ids_to_tokens(enc["input_ids"])
+for t, s in zip(tokens, enc["token_type_ids"]):
+    print(f"{t}/{s}", end=" ")  # トークン/何文目か
+```
+
+<div class="text-xs opacity-80 mt-1">
+
+- 2文を `[CLS] 文A [SEP] 文B [SEP]` の **1つの系列** にまとめて入れる
+- `token_type_ids`：1文目なら 0、2文目なら 1（セグメント埋め込み）
+
+</div>
+
+</div>
+</div>
 
 <!--
 本の出力:
 entailment 0.9964 / contradiction 0.9991 / neutral 0.9959
 -->
-
----
-
-# 実装を覗く：2つの文はどう入力される？
-
-NLI や STS ではテキストのペアを **1つの系列** にまとめてモデルに入れる
-
-```py {monaco-run} {autorun:false}
-enc = tok("二人の男性がジェット機を見ています", "ジェット機を見ている人が二人います")
-tokens = tok.convert_ids_to_tokens(enc["input_ids"])
-print(" ".join(f"{t}/{s}" for t, s in zip(tokens, enc["token_type_ids"])))  # トークン/token_type_id
-```
-
-<div class="text-sm opacity-80">
-
-- `[CLS]`：先頭に付く特別なトークン。分類ではこの位置のベクトルを使う
-- `[SEP]`：文の区切り
-- `token_type_ids`：1文目なら 0、2文目なら 1
-- 「ジェット機」→「ジェット / 機」のように **サブワード** に分かれることもある（3章）
-
-</div>
-
-
 
 ---
 
@@ -293,46 +300,47 @@ print(cosine_similarity(text_emb, emb(dissim_text), dim=0).item())
 
 テキストから人名・地名などの **固有表現** を抽出する（ビジネス・化学・医療など幅広い分野）
 
+<div class="grid grid-cols-2 gap-4">
+<div>
+
+**pipeline で解く**
+
 ```py {monaco-run} {autorun:false}
-ner_pipeline = pipeline(
-    model="llm-book/bert-base-japanese-v3-ner-wikipedia-dataset",
-    aggregation_strategy="simple",
-)
-pprint(ner_pipeline("大谷翔平は岩手県水沢市出身のプロ野球選手"))
+ner_name = ("llm-book/bert-base-japanese-v3-"
+            "ner-wikipedia-dataset")
+ner_pipe = pipeline(model=ner_name,
+                    aggregation_strategy="simple")
+pprint(ner_pipe("大谷翔平は岩手県水沢市出身のプロ野球選手"))
 ```
 
-<div class="text-sm opacity-70">
+<div class="text-xs opacity-70 mt-1">word＝抽出した語句、entity_group＝種類、score＝予測スコア。start / end が None なのは日本語 BERT 実装の問題（正しく出すコードは6章）</div>
 
-- `word`：抽出した語句、`entity_group`：種類、`score`：予測スコア
-- `start` / `end` が `None` になるのは日本語 BERT 実装の問題（正しく出すコードは6章）
+</div>
+<div>
 
+**実装を覗く：トークン単位の予測**
+
+```py {monaco-run} {autorun:false}
+raw_ner = pipeline(model=ner_name)  # まとめない
+for t in raw_ner("大谷翔平は岩手県水沢市出身のプロ野球選手"):
+    w, e, sc = t["word"], t["entity"], t["score"]
+    print(f"{w:6} {e:8} {sc:.3f}")
+```
+
+<div class="text-xs opacity-80 mt-1">
+
+- **BIO 形式**：`B-`＝始まり、`I-`＝続き、`O`＝固有表現以外（表示されない）
+- `aggregation_strategy="simple"` は B-/I- の連続を1つにまとめている
+- NER は「トークンごとの分類問題」として解かれている（6章）
+
+</div>
+
+</div>
 </div>
 
 <!--
 本の出力: 人名「大谷 翔平」0.998、地名「岩手 県 水沢 市」0.999
 -->
-
----
-
-# 実装を覗く：トークン単位の予測
-
-`aggregation_strategy` を指定しないと、**トークンごとのラベル** がそのまま見える
-
-```py {monaco-run} {autorun:false}
-raw_ner = pipeline(model="llm-book/bert-base-japanese-v3-ner-wikipedia-dataset")
-for t in raw_ner("大谷翔平は岩手県水沢市出身のプロ野球選手"):
-    print(f'{t["word"]:6}\t{t["entity"]:8}\t{t["score"]:.3f}')
-```
-
-<div class="text-sm opacity-80">
-
-- **BIO 形式**：`B-`＝固有表現の始まり、`I-`＝続き、`O`＝固有表現以外（表示されない）
-- `aggregation_strategy="simple"` は B-/I- の連続をまとめて1つの固有表現にしている
-- 固有表現認識は「トークンごとの分類問題」として解かれている（6章）
-
-</div>
-
-
 
 ---
 
@@ -432,45 +440,58 @@ input_ids の行は本にはない追加デモ。
 
 # テキスト生成（GPT-2）
 
+<div class="grid grid-cols-2 gap-4">
+<div>
+
+**generate で生成する**
+
 ```py {monaco-run} {autorun:false}
-model = AutoModelForCausalLM.from_pretrained("abeja/gpt2-large-japanese")
-inputs = tokenizer("今日は天気が良いので", return_tensors="pt")
+model = AutoModelForCausalLM.from_pretrained(
+    "abeja/gpt2-large-japanese")
+inputs = tokenizer("今日は天気が良いので",
+                   return_tensors="pt")
 outputs = model.generate(
     **inputs,
-    max_length=15,                        # 生成する最大トークン数
-    pad_token_id=tokenizer.pad_token_id,  # パディングのトークン ID
+    max_length=15,   # 生成する最大トークン数
+    pad_token_id=tokenizer.pad_token_id,
 )
-print(tokenizer.decode(outputs[0], skip_special_tokens=True))
+print(tokenizer.decode(outputs[0],
+                       skip_special_tokens=True))
 ```
 
-<div class="text-sm opacity-70">入力文や <code>max_length</code> を変えて試してみましょう</div>
+<div class="text-xs opacity-70 mt-1">入力文や max_length を変えて試してみましょう</div>
+
+</div>
+<div>
+
+**実装を覗く：generate を手で書く**
+
+```py {monaco-run} {autorun:false}
+dec = tokenizer.decode
+ids = tokenizer("今日は天気が良いので",
+                return_tensors="pt")["input_ids"]
+with torch.no_grad():
+    for _ in range(5):
+        logits = model(input_ids=ids).logits[0, -1]
+        probs = torch.softmax(logits, dim=-1)
+        top = probs.topk(3)
+        words = [dec(int(i)) for i in top.indices]
+        print(words, top.values.numpy().round(2))
+        nxt = top.indices[:1].view(1, 1)  # 最大を選ぶ
+        ids = torch.cat([ids, nxt], dim=1)
+print(dec(ids[0], skip_special_tokens=True))
+```
+
+<div class="text-xs opacity-70 mt-1">言語モデルは「次のトークンの確率分布」を出すだけ。最大を選んで足す（貪欲法）を繰り返すと文章になる。確率に従って選ぶと毎回変わる（do_sample=True）</div>
+
+</div>
+</div>
 
 <!--
 本の出力: 今日は天気が良いので外でお弁当を食べました。
 generate はデフォルトで greedy なので毎回同じ結果。do_sample=True にすると変わる。
+logits[0, -1] は最後の位置 = 次トークンのスコア。softmax は式1.1。
 -->
-
----
-
-# 実装を覗く：generate を手で書く
-
-言語モデルは「次のトークンの確率分布」を出すだけ。それを繰り返すと文章になる
-
-```py {monaco-run} {autorun:false}
-ids = tokenizer("今日は天気が良いので", return_tensors="pt")["input_ids"]
-with torch.no_grad():
-    for _ in range(5):
-        logits = model(input_ids=ids).logits[0, -1]   # 最後の位置 = 次トークンのスコア
-        probs = torch.softmax(logits, dim=-1)          # 語彙全体の確率分布（式1.1）
-        top = probs.topk(3)
-        print([(tokenizer.decode(int(i)), round(p.item(), 3)) for p, i in zip(*top)])
-        ids = torch.cat([ids, top.indices[:1].view(1, 1)], dim=1)  # 最大を選ぶ（貪欲法）
-print(tokenizer.decode(ids[0], skip_special_tokens=True))
-```
-
-<div class="text-sm opacity-70">最大を選ぶ代わりに確率に従ってサンプリングすると、毎回違う文章になる（<code>do_sample=True</code>）</div>
-
-
 
 ---
 layout: section

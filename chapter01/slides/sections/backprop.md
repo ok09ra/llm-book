@@ -288,7 +288,6 @@ W_out の第 j 列が式(1.2) の u_j に当たる。
 ①〜⑤ の式で計算した勾配と、PyTorch の `loss.backward()` が求めた `.grad` を比べる
 
 ```py {monaco-run} {autorun:false}
-import torch
 torch.manual_seed(0)
 V, d, ctx, tgt = 5, 3, [0, 2], 1                    # 語彙数 V, 次元 d, 文脈単語の ID, 中央単語の ID
 W_in = torch.randn(V, d, requires_grad=True)        # W_in  (Vxd)

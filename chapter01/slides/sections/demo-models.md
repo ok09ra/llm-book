@@ -33,8 +33,6 @@
 # config を自分で確かめる
 
 ```py {monaco-run} {autorun:false}
-from transformers import AutoConfig
-
 for name in [
     "llm-book/bert-base-japanese-v3-marc_ja",
     "llm-book/bert-base-japanese-v3-jsts",

@@ -82,13 +82,37 @@ Hugging Face が開発する、事前学習済みモデルを扱うための Pyt
 
 ---
 
+# 事前準備：インストールと import
+
+デモで使うライブラリを最初にまとめて読み込む（以降のスライドのコードはこの続きとして動く）
+
+```bash
+pip install "transformers[ja,sentencepiece,torch]"   # 本書の Colab ノートブックと同じ
+```
+
+```py {monaco-run} {autorun:false}
+from pprint import pprint
+
+import torch
+import torch.nn as nn
+from torch.nn.functional import cosine_similarity
+
+import transformers
+from transformers import (
+    pipeline,                            # 1.1 節：タスクをまるごと実行
+    AutoTokenizer, AutoConfig, AutoModel,  # 1.2 節：部品ごとに読み込む
+    AutoModelForSequenceClassification,
+    AutoModelForCausalLM,
+)
+
+print("torch", torch.__version__, "/ transformers", transformers.__version__)
+```
+
+---
+
 # pipeline とは
 
 モデル名を渡すだけで「前処理 → 推論 → 後処理」をまとめて行う関数
-
-```py
-from transformers import pipeline
-```
 
 | 節 | タスク | モデル（llm-book/…） | 作る章 |
 |---|---|---|---|
@@ -137,9 +161,6 @@ score は予測確率。どちらも 96% 以上。
 pipeline は「① トークナイズ → ② モデル → ③ 後処理」をまとめたもの。手で書くと同じ結果になる
 
 ```py {monaco-run} {autorun:false}
-import torch
-from transformers import AutoTokenizer, AutoModelForSequenceClassification
-
 name = "llm-book/bert-base-japanese-v3-marc_ja"
 tok = AutoTokenizer.from_pretrained(name)
 clf = AutoModelForSequenceClassification.from_pretrained(name)
@@ -249,8 +270,6 @@ src: ./sections/demo-models.md#6
 テキストを **ベクトル（文埋め込み）** にして、コサイン類似度（−1〜1）を計算する（8章）
 
 ```py {monaco-run} {autorun:false}
-from torch.nn.functional import cosine_similarity
-
 sim_enc_pipeline = pipeline(
     model="llm-book/bert-base-japanese-v3-unsup-simcse-jawiki",
     task="feature-extraction",
@@ -285,8 +304,6 @@ src: ./sections/demo-models.md#7
 テキストから人名・地名などの **固有表現** を抽出する（ビジネス・化学・医療など幅広い分野）
 
 ```py {monaco-run} {autorun:false}
-from pprint import pprint
-
 ner_pipeline = pipeline(
     model="llm-book/bert-base-japanese-v3-ner-wikipedia-dataset",
     aggregation_strategy="simple",
@@ -410,8 +427,6 @@ model = AutoModelForCausalLM.from_pretrained("abeja/gpt2-large-japanese")
 # トークナイザを動かす
 
 ```py {monaco-run} {autorun:false}
-from transformers import AutoTokenizer
-
 tokenizer = AutoTokenizer.from_pretrained("abeja/gpt2-large-japanese")
 print(tokenizer.tokenize("今日は天気が良いので"))
 print(tokenizer("今日は天気が良いので")["input_ids"])
@@ -434,8 +449,6 @@ input_ids の行は本にはない追加デモ。
 # テキスト生成（GPT-2）
 
 ```py {monaco-run} {autorun:false}
-from transformers import AutoModelForCausalLM
-
 model = AutoModelForCausalLM.from_pretrained("abeja/gpt2-large-japanese")
 inputs = tokenizer("今日は天気が良いので", return_tensors="pt")
 outputs = model.generate(
@@ -460,8 +473,6 @@ generate はデフォルトで greedy なので毎回同じ結果。do_sample=Tr
 言語モデルは「次のトークンの確率分布」を出すだけ。それを繰り返すと文章になる
 
 ```py {monaco-run} {autorun:false}
-import torch
-
 ids = tokenizer("今日は天気が良いので", return_tensors="pt")["input_ids"]
 with torch.no_grad():
     for _ in range(5):
@@ -577,7 +588,6 @@ src: ./sections/backprop.md
 式 (1.2)〜(1.4) をそのままコードにする（おもちゃのコーパスで数秒）
 
 ```py {monaco-run} {autorun:false}
-import torch, torch.nn as nn
 torch.manual_seed(0)
 corpus = ["今日 こたつ で みかん を 食べる", "今日 こたつ で りんご を 食べる",
           "冬 は みかん が 甘い", "冬 は りんご が 甘い",
@@ -668,8 +678,6 @@ layout: section
 BERT の各トークンの出力ベクトル（文脈化単語埋め込み）を比べてみる
 
 ```py {monaco-run} {autorun:false}
-from transformers import AutoModel
-
 name = "llm-book/bert-base-japanese-v3-unsup-simcse-jawiki"
 enc_tok, encoder = AutoTokenizer.from_pretrained(name), AutoModel.from_pretrained(name)
 

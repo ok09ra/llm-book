@@ -78,7 +78,6 @@
 # デモ：one-hot × $W_{\text{in}}$ ＝ 行の取り出し
 
 ```py {monaco-run} {autorun:false}
-import torch
 torch.manual_seed(0)
 words = ["今日", "こたつ", "で", "みかん", "を", "食べる"]   # 語彙（V = 6）
 W_in = torch.randn(len(words), 3)                    # 入力側の重み（V×d, d = 3）

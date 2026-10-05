@@ -182,30 +182,43 @@ q, k, v は各トークンのベクトルから線形変換で作るクエリ・
 
 # config を自分で確かめる
 
+<div class="grid grid-cols-2 gap-4">
+<div>
+
 ```py {monaco-run} {autorun:false}
-for name in [
-    "llm-book/bert-base-japanese-v3-marc_ja",
-    "llm-book/bert-base-japanese-v3-jsts",
-    "llm-book/bert-base-japanese-v3-ner-wikipedia-dataset",
+pre = "llm-book/bert-base-japanese-v3-"
+names = [
+    pre + "marc_ja", pre + "jsts",
+    pre + "ner-wikipedia-dataset",
     "llm-book/t5-base-long-livedoor-news-corpus",
     "abeja/gpt2-large-japanese",
-]:
+]
+for name in names:
     c = AutoConfig.from_pretrained(name)
-    print(name.split("/")[1][:30].ljust(30), c.architectures[0].ljust(30),
-          "層", c.num_hidden_layers, "次元", c.hidden_size, "語彙", c.vocab_size)
-    if "Classification" in c.architectures[0]:
-        print("    ", c.problem_type, c.id2label if len(c.id2label) < 4 else f"{len(c.id2label)} ラベル")
+    print(name.split("/")[1].replace("bert-base-", ""))
+    print("   ", c.architectures[0])
+    print("    層", c.num_hidden_layers,
+          "/ 次元", c.hidden_size)
 ```
 
-<div class="text-sm">
+</div>
+<div class="text-xs">
 
-| モデル | クラス | 層 × 次元 | パラメータ数 | 出力層 |
-|---|---|---|---|---|
-| BERT 系（marc_ja / jnli / jsts） | BertForSequenceClassification | 12 × 768 | 111.2M | Linear(768→2 / 3 / 1) |
-| BERT 系（ner） | BertForTokenClassification | 12 × 768 | 110.6M | Linear(768→17) |
-| T5（livedoor） | T5ForConditionalGeneration | 12＋12 × 768 | 247.6M | Linear(768→32,128) |
-| GPT-2（abeja） | GPT2LMHeadModel | 36 × 1280 | 750.7M | Linear(1280→32,000) |
+| モデル | 層 × 次元 | パラメータ | 出力層 |
+|---|---|---|---|
+| BERT 分類<br>（marc_ja / jnli / jsts） | 12 × 768 | 111.2M | Linear(768→2 / 3 / 1) |
+| BERT トークン分類<br>（ner） | 12 × 768 | 110.6M | Linear(768→17) |
+| T5（livedoor） | 12＋12 × 768 | 247.6M | Linear(768→32,128) |
+| GPT-2（abeja） | 36 × 1280 | 750.7M | Linear(1280→32,000) |
 
+<div class="opacity-70 mt-2">
+
+- 本体の大きさはどれも config で決まる
+- 違うのは最後の **出力層**：ラベル数（分類）か語彙数（生成）か
+
+</div>
+
+</div>
 </div>
 
 <!--

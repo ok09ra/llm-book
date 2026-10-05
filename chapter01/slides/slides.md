@@ -144,7 +144,8 @@ src: ./sections/demo-models.md#2-7
 text_classification_pipeline = pipeline(
     model="llm-book/bert-base-japanese-v3-marc_ja"
 )
-positive_text = "世界には言葉がわからなくても感動する音楽がある。"
+positive_text = (
+    "世界には言葉がわからなくても感動する音楽がある。")
 negative_text = "世界には言葉がでないほどひどい音楽がある。"
 print(text_classification_pipeline(positive_text)[0])
 print(text_classification_pipeline(negative_text)[0])
@@ -184,14 +185,16 @@ score は予測確率。どちらも 96% 以上。
 <div>
 
 ```py {monaco-run} {autorun:false}
-nli_pipeline = pipeline(model="llm-book/bert-base-japanese-v3-jnli")
+nli_pipeline = pipeline(
+    model="llm-book/bert-base-japanese-v3-jnli")
 text = "二人の男性がジェット機を見ています"
 for pair in [
     "ジェット機を見ている人が二人います",      # 含意
     "二人の男性が飛んでいます",                # 矛盾
     "2人の男性が、白い飛行機を眺めています",   # 中立
 ]:
-    print(pair, nli_pipeline({"text": text, "text_pair": pair}))
+    print(pair,
+          nli_pipeline({"text": text, "text_pair": pair}))
 ```
 
 <div class="text-xs opacity-70 mt-1">entailment＝含意（前提が成り立てば仮説も成り立つ）、contradiction＝矛盾、neutral＝中立</div>
@@ -233,8 +236,10 @@ text_sim_pipeline = pipeline(
 text = "川べりでサーフボードを持った人たちがいます"
 sim_text = "サーファーたちが川べりに立っています"
 dissim_text = "トイレの壁に黒いタオルがかけられています"
-print(text_sim_pipeline({"text": text, "text_pair": sim_text})["score"])
-print(text_sim_pipeline({"text": text, "text_pair": dissim_text})["score"])
+print(text_sim_pipeline(
+    {"text": text, "text_pair": sim_text})["score"])
+print(text_sim_pipeline(
+    {"text": text, "text_pair": dissim_text})["score"])
 ```
 
 </div>
@@ -268,13 +273,18 @@ function_to_apply="none" は回帰スコアをそのまま出すため（softmax
 
 ```py {monaco-run} {autorun:false}
 sim_enc_pipeline = pipeline(
-    model="llm-book/bert-base-japanese-v3-unsup-simcse-jawiki",
+    model="llm-book/"
+          "bert-base-japanese-v3-unsup-simcse-jawiki",
     task="feature-extraction",
 )
-emb = lambda s: sim_enc_pipeline(s, return_tensors=True)[0][0]
+# [0][0]：1文目の先頭トークン（[CLS]）のベクトル
+emb = lambda s: sim_enc_pipeline(
+    s, return_tensors=True)[0][0]
 text_emb = emb(text)
-print(cosine_similarity(text_emb, emb(sim_text), dim=0).item())
-print(cosine_similarity(text_emb, emb(dissim_text), dim=0).item())
+print(cosine_similarity(
+    text_emb, emb(sim_text), dim=0).item())
+print(cosine_similarity(
+    text_emb, emb(dissim_text), dim=0).item())
 ```
 
 </div>
@@ -308,10 +318,12 @@ print(cosine_similarity(text_emb, emb(dissim_text), dim=0).item())
 
 ```py {monaco-run} {autorun:false}
 ner_pipeline = pipeline(
-    model="llm-book/bert-base-japanese-v3-ner-wikipedia-dataset",
+    model="llm-book/"
+          "bert-base-japanese-v3-ner-wikipedia-dataset",
     aggregation_strategy="simple",
 )
-pprint(ner_pipeline("大谷翔平は岩手県水沢市出身のプロ野球選手"))
+pprint(ner_pipeline(
+    "大谷翔平は岩手県水沢市出身のプロ野球選手"))
 ```
 
 <div class="text-xs opacity-70 mt-1">start / end が None なのは日本語 BERT 実装の問題（正しく出すコードは6章）</div>
@@ -349,7 +361,9 @@ text2text_pipeline = pipeline(
     "text2text-generation",
     model="llm-book/t5-base-long-livedoor-news-corpus",
 )
-article = "ついに始まった３連休。テレビを見ながら過ごしている人も多いのではないだろうか？　今夜オススメなのは何と言っても、NHKスペシャル「世界を変えた男 スティーブ・ジョブズ」だ。実は知らない人も多いジョブズ氏の養子に出された生い立ちや、アップル社から一時追放されるなどの経験。そして、彼が追い求めた理想の未来とはなんだったのか、ファンならずとも気になる内容になっている。 今年、亡くなったジョブズ氏の伝記は日本でもベストセラーになっている。今後もアップル製品だけでなく、世界でのジョブズ氏の影響は大きいだろうと想像される。ジョブズ氏のことをあまり知らないという人もこの機会にぜひチェックしてみよう。 世界を変えた男　スティーブ・ジョブズ（NHKスペシャル）"
+# 本と同じニュース記事（全文は server/data/ にある）
+article = open("data/livedoor_article.txt").read().strip()
+print(article[:60], "…")
 print(text2text_pipeline(article)[0]["generated_text"])
 ```
 
@@ -455,14 +469,17 @@ input_ids の行は本にはない追加デモ。
 <div>
 
 ```py {monaco-run} {autorun:false}
-model = AutoModelForCausalLM.from_pretrained("abeja/gpt2-large-japanese")
-inputs = tokenizer("今日は天気が良いので", return_tensors="pt")
+model = AutoModelForCausalLM.from_pretrained(
+    "abeja/gpt2-large-japanese")
+inputs = tokenizer("今日は天気が良いので",
+                   return_tensors="pt")
 outputs = model.generate(
     **inputs,
-    max_length=15,                        # 生成する最大トークン数
-    pad_token_id=tokenizer.pad_token_id,  # パディングのトークン ID
+    max_length=15,  # 生成する最大トークン数
+    pad_token_id=tokenizer.pad_token_id,  # パディング
 )
-print(tokenizer.decode(outputs[0], skip_special_tokens=True))
+print(tokenizer.decode(outputs[0],
+                       skip_special_tokens=True))
 ```
 
 <div class="text-xs opacity-70 mt-1">入力文や max_length を変えて試してみましょう</div>

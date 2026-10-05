@@ -301,7 +301,8 @@ g_h = W_out.detach() @ delta                        # 手計算 ③: ∂L/∂h =
 g_in = torch.zeros(V, d); g_in[ctx] += g_h / len(ctx)  # 手計算 ④⑤: 文脈単語の行に (1/n)∂L/∂h
 print("loss =", round(loss.item(), 4), " δ =", delta.numpy().round(3))
 for name, hand, auto in [("W_out", g_out, W_out.grad), ("W_in ", g_in, W_in.grad)]:
-    print(name, "手計算と autograd が一致:", torch.allclose(hand, auto), "| 最大誤差", (hand - auto).abs().max().item())
+    print(name, "手計算と autograd が一致:", torch.allclose(hand, auto),
+          "| 最大誤差", (hand - auto).abs().max().item())
 ```
 
 <div class="text-sm opacity-70">

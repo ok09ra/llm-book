@@ -179,9 +179,6 @@ print(clf.config.id2label[probs.argmax().item()], probs.max().item())
 <div class="text-sm opacity-70">BERT 本体の上に「ヘッド」（線形層）が載って2クラスのスコアを出している → 1.4 の図1.4 につながる</div>
 
 
----
-src: ./sections/demo-models.md#8
----
 
 ---
 
@@ -233,9 +230,6 @@ print(" ".join(f"{t}/{s}" for t, s in zip(tokens, enc["token_type_ids"])))  # �
 </div>
 
 
----
-src: ./sections/demo-models.md#9
----
 
 ---
 
@@ -261,9 +255,6 @@ function_to_apply="none" は回帰スコアをそのまま出すため（softmax
 -->
 
 
----
-src: ./sections/demo-models.md#10
----
 
 ---
 
@@ -295,9 +286,6 @@ print(cosine_similarity(text_emb, emb(dissim_text), dim=0).item())
 -->
 
 
----
-src: ./sections/demo-models.md#11
----
 
 ---
 
@@ -345,9 +333,6 @@ for t in raw_ner("大谷翔平は岩手県水沢市出身のプロ野球選手")
 </div>
 
 
----
-src: ./sections/demo-models.md#12
----
 
 ---
 
@@ -369,9 +354,6 @@ print(text2text_pipeline(article)[0]["generated_text"])
 -->
 
 
----
-src: ./sections/demo-models.md#13
----
 
 ---
 
@@ -489,9 +471,6 @@ print(tokenizer.decode(ids[0], skip_special_tokens=True))
 <div class="text-sm opacity-70">最大を選ぶ代わりに確率に従ってサンプリングすると、毎回違う文章になる（<code>do_sample=True</code>）</div>
 
 
----
-src: ./sections/demo-models.md#14
----
 
 ---
 layout: section

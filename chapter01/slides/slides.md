@@ -128,7 +128,7 @@ print("torch", torch.__version__, "/ transformers", transformers.__version__)
 
 
 ---
-src: ./sections/demo-models.md#1-4
+src: ./sections/demo-models.md#1-5
 ---
 
 ---
@@ -180,7 +180,7 @@ print(clf.config.id2label[probs.argmax().item()], probs.max().item())
 
 
 ---
-src: ./sections/demo-models.md#5
+src: ./sections/demo-models.md#6
 ---
 
 ---
@@ -234,7 +234,7 @@ print(" ".join(f"{t}/{s}" for t, s in zip(tokens, enc["token_type_ids"])))  # �
 
 
 ---
-src: ./sections/demo-models.md#6
+src: ./sections/demo-models.md#7
 ---
 
 ---
@@ -262,7 +262,7 @@ function_to_apply="none" は回帰スコアをそのまま出すため（softmax
 
 
 ---
-src: ./sections/demo-models.md#7
+src: ./sections/demo-models.md#8
 ---
 
 ---
@@ -296,7 +296,7 @@ print(cosine_similarity(text_emb, emb(dissim_text), dim=0).item())
 
 
 ---
-src: ./sections/demo-models.md#8
+src: ./sections/demo-models.md#9
 ---
 
 ---
@@ -346,7 +346,7 @@ for t in raw_ner("大谷翔平は岩手県水沢市出身のプロ野球選手")
 
 
 ---
-src: ./sections/demo-models.md#9
+src: ./sections/demo-models.md#10
 ---
 
 ---
@@ -370,7 +370,7 @@ print(text2text_pipeline(article)[0]["generated_text"])
 
 
 ---
-src: ./sections/demo-models.md#10
+src: ./sections/demo-models.md#11
 ---
 
 ---
@@ -490,7 +490,7 @@ print(tokenizer.decode(ids[0], skip_special_tokens=True))
 
 
 ---
-src: ./sections/demo-models.md#11
+src: ./sections/demo-models.md#12
 ---
 
 ---

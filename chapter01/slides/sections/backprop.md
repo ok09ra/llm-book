@@ -217,34 +217,6 @@ $$
 
 ---
 
-# softmax ＋ 交差エントロピーの勾配（導出）
-
-$\hat{y}_j = \dfrac{\exp(s_j)}{Z}$、$Z = \sum_{k=1}^{V} \exp(s_k)$（式1.1）、$\mathcal{L} = -\sum_j y_j \log \hat{y}_j$（$\mathbf{y}$：正解 one-hot、$y_{w_t} = 1$）
-
-
-**① log を展開**：$\log \hat{y}_j = s_j - \log Z$、かつ $\sum_j y_j = 1$ なので
-
-$$
-\mathcal{L} = -\sum_j y_j (s_j - \log Z) = -s_{w_t} + \log Z
-$$
-
-
-
-**② $s_k$ で偏微分**：$\frac{\partial \log Z}{\partial s_k} = \frac{1}{Z} \cdot \exp(s_k) = \hat{y}_k$（ここも連鎖律：$\log$ の微分 × $Z$ の微分）
-
-$$
-\frac{\partial \mathcal{L}}{\partial s_k} = -y_k + \hat{y}_k \quad\Rightarrow\quad \boldsymbol{\delta} = \frac{\partial \mathcal{L}}{\partial \mathbf{s}} = \hat{\mathbf{y}} - \mathbf{y}
-$$
-
-
-<div class="text-sm opacity-70">
-
-$\mathbf{s}$：スコア（1×V）、$\hat{\mathbf{y}}$：予測確率、$Z$：正規化の分母、$w_t$：正解（中央単語）。$\frac{\partial s_{w_t}}{\partial s_k}$ は $k = w_t$ のとき 1、それ以外 0 ＝ $y_k$
-
-</div>
-
----
-
 # 勾配「予測確率 − 正解」の意味
 
 <img src="/figs/bp-softmax.svg" class="mx-auto h-60" />

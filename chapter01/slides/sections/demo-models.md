@@ -16,46 +16,25 @@
 
 # BERT の仕組み：文がベクトルになるまで
 
-<div class="grid grid-cols-2 gap-4">
-<div>
+<div class="grid grid-cols-5 gap-4">
+<div class="col-span-2">
 <img src="/figs/bert-flow.svg" class="w-full" />
 </div>
-<div class="text-sm leading-snug">
+<div class="col-span-3">
+<img src="/figs/bert-layer.svg" class="w-full" />
 
-**① トークン ＝ 単語とは限らない**<br>
-MeCab で単語に分け、語彙（32,768 種）にない語は部分語に分ける（WordPiece）。例：`輪` `##読`、`Ch` `##at` `##GP` `##T`
+<div class="text-xs leading-snug mt-1">
 
-**②③ ID → 埋め込み表の行を取り出す**<br>
-表は 32,768 × 768。word2vec の $W_{\text{in}}$ と同じ仕組みだが、**word2vec の結果ではなく BERT の事前学習で一緒に学習される**。位置（何番目か）とセグメント（1文目か2文目か）の埋め込みも足す
-
-**768 次元 ＝ 1トークンを表す数値の個数**<br>
-BERT-base の設計値（large は 1024）。各次元に決まった意味はない
-
-**④ エンコーダ 12 層**<br>
-各層の自己注意で周りのトークンを混ぜる → 出力は **文脈ごとに違うベクトル**（word2vec は1語1ベクトル）
+- **トークン**：単語とは限らない。語彙（32,768 種）にない語は部分語に分ける（例：`輪` `##読`）
+- **埋め込み**：ID の行を表（32,768 × 768）から取り出し、位置・セグメントの埋め込みを足す。表の中身は word2vec の結果ではなく **BERT の事前学習で一緒に学習** される。768 ＝ 1トークンを表す数値の個数
+- **1層の中身（右上の図）**：トークンは1本につなげず **「トークン数 × 768」の行列のまま** 扱う。① Self-Attention でトークンの **間** を混ぜ（各行＝全行の重み付き和）、② Feed-Forward で各トークンの **中** を変換（768→3072→768）。どちらも残差接続と LayerNorm 付き
+- **12層くり返しても形は同じ**：最後の各行が文脈を反映したベクトル（word2vec は1語1ベクトル）、先頭の行が `[CLS]`
 
 </div>
 </div>
-
-<Refs><a href="https://arxiv.org/abs/1810.04805" target="_blank">Devlin+ 2018（BERT）</a> ／ <a href="https://huggingface.co/tohoku-nlp/bert-base-japanese-v3" target="_blank">tohoku-nlp/bert-base-japanese-v3</a></Refs>
-
----
-
-# BERT の1層：トークンは行列のまま混ぜる
-
-<img src="/figs/bert-layer.svg" class="mx-auto h-56" />
-
-<div class="text-sm leading-snug">
-
-- 埋め込んだトークンは1本につなげない。**トークン数 × 768 の行列** のまま扱い、1行が1トークン
-- **① Self-Attention**：トークンの **間** で混ぜる。各行の新しいベクトル＝全トークンのベクトルの重み付き和（係数は、各トークンから重み $W_Q, W_K$ で作ったベクトル q・k の内積を softmax して、内容に応じて決める）
-- **② Feed-Forward**：各トークンの **中** で変換。全トークンに同じ2層の全結合（768→3072→768）を別々にかける
-- **残差・LayerNorm**：入力をそのまま足し戻して元の情報を残し、値の大きさを整える
-- 12層くり返しても形は同じ。最後の行列の各行が「文脈を反映したトークンのベクトル」、先頭の行が `[CLS]`
-
 </div>
 
-<Refs><a href="https://arxiv.org/abs/1706.03762" target="_blank">Vaswani+ 2017（Transformer）</a> ／ <a href="https://arxiv.org/abs/1810.04805" target="_blank">Devlin+ 2018（BERT）</a></Refs>
+<Refs><a href="https://arxiv.org/abs/1810.04805" target="_blank">Devlin+ 2018（BERT）</a> ／ <a href="https://arxiv.org/abs/1706.03762" target="_blank">Vaswani+ 2017（Transformer）</a> ／ <a href="https://huggingface.co/tohoku-nlp/bert-base-japanese-v3" target="_blank">tohoku-nlp/bert-base-japanese-v3</a></Refs>
 
 ---
 

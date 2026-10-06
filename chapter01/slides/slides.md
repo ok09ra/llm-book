@@ -408,37 +408,6 @@ print(text2text_pipeline(article)[0]["generated_text"])
 
 ---
 
-# T5：すべてを「テキスト → テキスト」で解く
-
-<div class="grid grid-cols-2 gap-5">
-<div>
-
-<img src="/figs/t5-arch.svg" class="w-full" />
-
-</div>
-<div class="text-xs leading-normal">
-
-**エンコーダ・デコーダ型**<br>
-エンコーダは BERT と同じく全トークンを前後とも見て入力を読む。デコーダは GPT と同じく左側だけを見て1トークンずつ生成する
-
-**クロスアテンション**<br>
-デコーダの各層は、自分の q とエンコーダ出力の k・v で Self-Attention と同じ計算をする → 生成中も入力（記事）全体を参照できる
-
-**事前学習：スパン穴埋め**<br>
-文中の連続した区間を `<X>` などに置き換え、消えた中身をデコーダで生成する
-
-**text-to-text**<br>
-翻訳・要約・分類もすべて「入力テキスト → 出力テキスト」の形にする（分類なら "positive" という文字列を生成）
-
-<div class="opacity-70 mt-2">デモのモデル：retrieva-jp/t5-base-long（エンコーダ・デコーダ各12層、768次元、約2.5億パラメータ）を livedoor ニュースの「記事 → 見出し」で追加学習</div>
-
-</div>
-</div>
-
-<Refs><a href="https://arxiv.org/abs/1910.10683" target="_blank">Raffel+ 2019（T5）</a> ／ <a href="https://arxiv.org/abs/1706.03762" target="_blank">Vaswani+ 2017（Transformer）</a> ／ <a href="https://huggingface.co/retrieva-jp/t5-base-long" target="_blank">retrieva-jp/t5-base-long</a></Refs>
-
----
-
 # 自然言語処理のその他のタスク
 
 <div class="grid grid-cols-2 gap-8">

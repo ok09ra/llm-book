@@ -14,58 +14,6 @@
 
 ---
 
-# BERT の仕組み：文がベクトルになるまで
-
-<div class="grid grid-cols-5 gap-4">
-<div class="col-span-2">
-<img src="/figs/bert-flow.svg" class="w-full" />
-</div>
-<div class="col-span-3">
-<img src="/figs/bert-layer.svg" class="w-full" />
-
-<div class="text-sm leading-snug mt-2">
-
-- トークンは1本につなげず **「トークン数 × 768」の行列のまま** 各層に通す
-- 各層は ① **Self-Attention**（トークンの **間** で混ぜる）→ ② **Feed-Forward**（各トークンの **中** で変換）。中身は次のページ
-- 12層くり返しても形は同じ。最後の各行が文脈を反映したベクトル、先頭の行が `[CLS]`
-
-</div>
-</div>
-</div>
-
-<Refs><a href="https://arxiv.org/abs/1810.04805" target="_blank">Devlin+ 2018（BERT）</a> ／ <a href="https://arxiv.org/abs/1706.03762" target="_blank">Vaswani+ 2017（Transformer）</a> ／ <a href="https://huggingface.co/tohoku-nlp/bert-base-japanese-v3" target="_blank">tohoku-nlp/bert-base-japanese-v3</a></Refs>
-
----
-
-# Self-Attention と Feed-Forward は何をしているか
-
-<img src="/figs/sa-ffn.svg" class="mx-auto w-full" />
-
-<div class="text-sm text-center opacity-80 mt-1">各層で ① 周りのトークンを見て混ぜる → ② 1語ずつ作り変える、を 12 回くり返す</div>
-
-<Refs><a href="https://arxiv.org/abs/1706.03762" target="_blank">Vaswani+ 2017（Transformer）</a> ／ <a href="https://arxiv.org/abs/1810.04805" target="_blank">Devlin+ 2018（BERT）</a> ／ <a href="https://arxiv.org/abs/2012.14913" target="_blank">Geva+ 2021（FFN は key-value メモリ）</a></Refs>
-
-<!--
-BERT-base：12ヘッド × 64次元 = 768、FFN 中間 3072、活性化は GELU（transformers の config で確認）。
--->
-
----
-
-# 具体的にどんな行列をかけているか（BERT-base の1層）
-
-<img src="/figs/sa-ffn-matrix.svg" class="mx-auto w-full" />
-
-<div class="text-xs text-center opacity-70">学習するのは W_Q, W_K, W_V（各ヘッド 768×64、12ヘッド分で 768×768）・W_O・W₁・W₂ とバイアス。1層で約 709 万、12層で約 8,500 万個</div>
-
-<Refs><a href="https://arxiv.org/abs/1706.03762" target="_blank">Vaswani+ 2017（Transformer）</a> ／ <a href="https://arxiv.org/abs/1810.04805" target="_blank">Devlin+ 2018（BERT）</a></Refs>
-
-<!--
-形は transformers 4.40.2 で bert-base-japanese-v3 の1層目の重みを確認（PyTorch の Linear は (出力, 入力) の向きで保存されるが、ここでは X W の向きで書いている）。
-1層のパラメータ数 7,087,872（LayerNorm 含む）。
--->
-
----
-
 # なぜ `[CLS]` に文全体の情報が集まるのか
 
 <div class="grid grid-cols-2 gap-6">

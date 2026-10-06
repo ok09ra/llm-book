@@ -10,25 +10,6 @@
 
 ---
 
-# 単語ベクトルの引き方：one-hot × $W_{\text{in}}$ は行を選ぶだけ
-
-<img src="/figs/w2v-onehot.svg" class="mx-auto h-40" />
-
-- 各単語はまず **語彙ID** として扱い、概念上は $V$ 次元（$V$＝語彙数）の **one-hot ベクトル** $\mathbf{x}_w \in \mathbb{R}^{1 \times V}$ で表す
-- $\mathbf{x}_w$ は意味を持たない。「語彙表の何番目か」だけを表す
-- $W_{\text{in}} \in \mathbb{R}^{V \times d}$（$d$＝埋め込みの次元）を掛ける $\mathbf{v}_w = \mathbf{x}_w W_{\text{in}}$ は、実質 **$W_{\text{in}}$ の $w$ 行目を取り出すだけ**
-- この $\mathbf{v}_w \in \mathbb{R}^{1 \times d}$ が単語の **埋め込みベクトル（分散表現）**
-
-<div class="text-sm mt-1 px-2 py-0 rounded bg-amber-50">
-
-⚠ **本書との記号の違い**：本書の $\mathbf{x}_w$ は **埋め込み**（ここでの $\mathbf{v}_w$）を指し、次元は $D$（ここでの $d$）。このパートでは $\mathbf{x}_w$ を **one-hot** の意味で使う
-
-</div>
-
-<Refs><a href="https://arxiv.org/abs/1301.3781" target="_blank">Mikolov+ 2013</a> ／ <a href="https://qiita.com/g-k/items/69afa87c73654af49d36" target="_blank">@g-k「Word2Vecを理解する」Qiita</a></Refs>
-
----
-
 # CBOW の全体像（窓幅 $p=1$, 中央語「みかん」）
 
 <img src="/figs/w2v-cbow.svg" class="mx-auto h-56" />
@@ -49,6 +30,25 @@ $$
 </div>
 
 <Refs><a href="https://arxiv.org/abs/1301.3781" target="_blank">Mikolov+ 2013</a> ／ <a href="https://qiita.com/g-k/items/69afa87c73654af49d36" target="_blank">@g-k「Word2Vecを理解する」Qiita</a> ／ <a href="https://gihyo.jp/book/2023/978-4-297-13633-8" target="_blank">山田ほか『大規模言語モデル入門』技術評論社（2023）</a></Refs>
+
+---
+
+# 単語ベクトルの引き方：one-hot × $W_{\text{in}}$ は行を選ぶだけ
+
+<img src="/figs/w2v-onehot.svg" class="mx-auto h-40" />
+
+- 各単語はまず **語彙ID** として扱い、概念上は $V$ 次元（$V$＝語彙数）の **one-hot ベクトル** $\mathbf{x}_w \in \mathbb{R}^{1 \times V}$ で表す
+- $\mathbf{x}_w$ は意味を持たない。「語彙表の何番目か」だけを表す
+- $W_{\text{in}} \in \mathbb{R}^{V \times d}$（$d$＝埋め込みの次元）を掛ける $\mathbf{v}_w = \mathbf{x}_w W_{\text{in}}$ は、実質 **$W_{\text{in}}$ の $w$ 行目を取り出すだけ**
+- この $\mathbf{v}_w \in \mathbb{R}^{1 \times d}$ が単語の **埋め込みベクトル（分散表現）**
+
+<div class="text-sm mt-1 px-2 py-0 rounded bg-amber-50">
+
+⚠ **本書との記号の違い**：本書の $\mathbf{x}_w$ は **埋め込み**（ここでの $\mathbf{v}_w$）を指し、次元は $D$（ここでの $d$）。このパートでは $\mathbf{x}_w$ を **one-hot** の意味で使う
+
+</div>
+
+<Refs><a href="https://arxiv.org/abs/1301.3781" target="_blank">Mikolov+ 2013</a> ／ <a href="https://qiita.com/g-k/items/69afa87c73654af49d36" target="_blank">@g-k「Word2Vecを理解する」Qiita</a></Refs>
 
 ---
 

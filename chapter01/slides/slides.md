@@ -674,28 +674,6 @@ for step in range(1001):
 
 ---
 
-# 実装を覗く：学習した単語埋め込みを見る
-
-```py {monaco-run} {autorun:false}
-E = nn.functional.normalize(X.weight.detach(), dim=1)   # 単語埋め込み x_w を長さ1に
-for w in ["みかん", "犬"]:
-    sims = E @ E[idx[w]]                                 # コサイン類似度
-    top = sims.argsort(descending=True)[1:4]
-    print(w, "→", [(words[i], round(sims[i].item(), 2)) for i in top])
-```
-
-
-- 「みかん」と「りんご」、「犬」と「猫」は **一度も同じ文に出ていない** のに近くなる
-- 周辺単語（こたつ・食べる・甘い／公園・散歩・鳴く）が共通だから → **分布仮説**
-- 本物の word2vec は、数十億語のコーパスと負例サンプリングで同じことをしている
-
-
-<!--
-手元での結果: みかん → りんご 0.61、犬 → 猫 0.55（seed=0）
--->
-
----
-
 # 事前学習と転移学習
 
 <div class="grid grid-cols-2 gap-6 items-center">

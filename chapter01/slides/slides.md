@@ -178,7 +178,7 @@ score は予測確率。どちらも 96% 以上。
 -->
 
 ---
-src: ./sections/demo-models.md#2-4
+src: ./sections/demo-models.md#2-3
 ---
 
 ---

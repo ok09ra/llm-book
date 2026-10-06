@@ -125,19 +125,7 @@ $$
 
 # なぜ掛け算になるのか：小さな変化の伝わり方
 
-<div class="p-3 rounded bg-amber-50 text-lg">
-
-**結論**：$u$ の変化量は「$x$ の変化量 × 3」。$y$ の変化量は「**$u$ の変化量** × 14」。2つ目の式の「$u$ の変化量」に1つ目を **代入する** と
-
-$$
-\Delta y \approx 14 \times \Delta u = 14 \times (3 \times \Delta x) = 42 \times \Delta x
-\qquad\Longrightarrow\qquad
-\frac{dy}{dx} = \frac{dy}{du} \times \frac{du}{dx}
-$$
-
-<div class="text-sm">前の段の「出力の変化」が、そのまま次の段の「入力の変化」になるので、倍率が掛け算で重なる（為替 円→ドル→ユーロ の換算レートを掛けるのと同じ）</div>
-
-</div>
+<div class="text-sm">
 
 **例**：$x$ を $2 \to 2.01$ と $\Delta x = 0.01$ だけ動かす
 
@@ -147,7 +135,21 @@ $$
 | $u = 3x+1$ | 7 | 7.03 | $\Delta u = 0.03$ | $\Delta u / \Delta x = 3$ |
 | $y = u^2$ | 49 | 49.4209 | $\Delta y \approx 0.42$ | $\Delta y / \Delta u \approx 14$ |
 
-→ $x$ の変化は $u$ で **3倍**、$y$ で さらに **約14倍** になるので、全体では $3 \times 14 = 42$ 倍（$\Delta y \approx 42 \times 0.01 = 0.42$）
+</div>
+
+<div class="p-3 rounded bg-amber-50 mt-3 text-sm">
+
+**結論**：$u$ の変化量は「$x$ の変化量 × 3」、$y$ の変化量は「**$u$ の変化量** × 14」。2つ目に1つ目を **代入する** と
+
+$$
+\Delta y \approx 14 \times \Delta u = 14 \times (3 \times \Delta x) = 42 \times \Delta x
+\qquad\Longrightarrow\qquad
+\frac{dy}{dx} = \frac{dy}{du} \times \frac{du}{dx}
+$$
+
+前の段の「出力の変化」がそのまま次の段の「入力の変化」になるので、倍率が掛け算で重なる（為替レート 円→ドル→ユーロ を掛けるのと同じ）
+
+</div>
 
 <!--
 Δy = 49.4209 − 49 = 0.4209。42 × 0.01 = 0.42 とほぼ一致（ずれ 0.0009 は Δx² の項）。
@@ -159,15 +161,15 @@ $$
 
 <div class="grid grid-cols-2 gap-4 items-center">
 <div>
-<img src="/figs/bp-multi.svg" class="w-full" />
+<img src="/figs/bp-multi.svg" class="mx-auto h-44" />
 <div class="text-xs mt-1">x を動かすと u₁ = x² と u₂ = 3x が <b>同時に</b> 動く</div>
 </div>
 <div>
-<img src="/figs/bp-area.svg" class="w-full" />
+<img src="/figs/bp-area.svg" class="mx-auto h-52" />
 </div>
 </div>
 
-<div class="p-3 rounded bg-amber-50 mt-2 text-sm">
+<div class="p-2 rounded bg-amber-50 mt-1 text-xs">
 
 **なぜ足し算？** $y = u_1 u_2$ を長方形の面積と見ると、増えた面積は「$u_1$ だけ増えた帯」＋「$u_2$ だけ増えた帯」＋「角の小さな四角」。角は **小さい × 小さい** なので、変化が小さいほど無視できる（x = 2→2.01 なら 0.24 ＋ 0.12、角は 0.0012）
 

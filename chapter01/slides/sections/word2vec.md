@@ -12,7 +12,7 @@
 
 # CBOW の全体像（窓幅 $p=1$, 中央語「みかん」）
 
-<img src="/figs/w2v-cbow.svg" class="mx-auto h-56" />
+<img src="/figs/w2v-cbow.svg" class="mx-auto h-50" />
 
 <div class="text-sm">
 
@@ -33,9 +33,9 @@ $$
 
 ---
 
-# 単語ベクトルの引き方：one-hot × $W_{\text{in}}$ は行を選ぶだけ
+# one-hot × $W_{\text{in}}$ は「行を選ぶ」だけ
 
-<img src="/figs/w2v-onehot.svg" class="mx-auto h-40" />
+<img src="/figs/w2v-onehot.svg" class="mx-auto h-36" />
 
 - 各単語はまず **語彙ID** として扱い、概念上は $V$ 次元（$V$＝語彙数）の **one-hot ベクトル** $\mathbf{x}_w \in \mathbb{R}^{1 \times V}$ で表す
 - $\mathbf{x}_w$ は意味を持たない。「語彙表の何番目か」だけを表す

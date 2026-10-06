@@ -47,7 +47,7 @@ q, k, v は各トークンのベクトルから線形変換で作るクエリ・
 
 ---
 
-# BERT 系5モデル：出力はどう計算される？
+# 出力はどう計算されるか
 
 <img src="/figs/model-heads.svg" class="mx-auto h-90" />
 

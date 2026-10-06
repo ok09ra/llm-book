@@ -39,43 +39,9 @@
 
 # Self-Attention と Feed-Forward は何をしているか
 
-<div class="grid grid-cols-2 gap-6 text-xs leading-normal">
-<div>
+<img src="/figs/sa-ffn.svg" class="mx-auto w-full" />
 
-### ① Self-Attention：トークンの **間** で情報をやりとり
-
-**1. 3つのベクトルを作る**（全トークン共通の重みで全結合）<br>
-$\mathbf{q}_i = \mathbf{x}_i W_Q$（何を探すか）、$\mathbf{k}_i = \mathbf{x}_i W_K$（自分は何か）、$\mathbf{v}_i = \mathbf{x}_i W_V$（渡す中身）
-
-**2. 誰をどれだけ見るかを決める**<br>
-$\alpha_{ij} = \operatorname{softmax}_j\big(\mathbf{q}_i \cdot \mathbf{k}_j / \sqrt{64}\big)$。探しているもの（q）と相手の特徴（k）が合うほど大きい。各行の合計は 1
-
-**3. 相手の中身を混ぜる**<br>
-$\mathbf{h}_i = \sum_j \alpha_{ij}\, \mathbf{v}_j$ ＝ 関係の強いトークンの中身ほど多く取り込んだ新しいベクトル
-
-**例**：「マウスをクリックした」の「マウス」は「クリック」を強く参照し、パソコンのマウス寄りのベクトルになる（1.4節の例）
-
-**マルチヘッド**：$W_Q, W_K, W_V$ を 12 組（各 64 次元）用意し、別々の見方で並行に混ぜてから、つなげて 768 に戻す
-
-</div>
-<div>
-
-### ② Feed-Forward：各トークンの **中** で変換
-
-**計算**：各行に同じ2層の全結合をかける<br>
-$\mathrm{FFN}(\mathbf{h}) = \mathrm{GELU}(\mathbf{h} W_1 + \mathbf{b}_1)\, W_2 + \mathbf{b}_2$　（768 → 3072 → 768）
-
-**トークン間のやりとりはない**：行ごとに独立。混ぜるのは Self-Attention だけの役割
-
-**何をしているか**：Self-Attention で集めた情報を、非線形な変換でそのトークンの新しい特徴に作り変える（一度 3072 次元に広げて多くのパターンを表す）
-
-**知識の置き場という見方**：$W_1$ が「こういう入力パターンなら」（キー）、$W_2$ が「この情報を足す」（値）のように働き、知識の多くがここに蓄えられるという分析がある
-
-**③ 残差接続と LayerNorm**（①②それぞれの後）<br>
-$\mathbf{x} \leftarrow \mathrm{LayerNorm}(\mathbf{x} + \mathrm{Block}(\mathbf{x}))$：元の情報を残して **差分だけ足す** ので、12層重ねても学習が安定する
-
-</div>
-</div>
+<div class="text-sm text-center opacity-80 mt-1">各層で ① 周りのトークンを見て混ぜる → ② 1語ずつ作り変える、を 12 回くり返す</div>
 
 <Refs><a href="https://arxiv.org/abs/1706.03762" target="_blank">Vaswani+ 2017（Transformer）</a> ／ <a href="https://arxiv.org/abs/1810.04805" target="_blank">Devlin+ 2018（BERT）</a> ／ <a href="https://arxiv.org/abs/2012.14913" target="_blank">Geva+ 2021（FFN は key-value メモリ）</a></Refs>
 

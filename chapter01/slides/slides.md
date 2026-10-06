@@ -98,14 +98,12 @@ pip install "transformers[ja,sentencepiece,torch]"   # 本書の Colab ノート
 from pprint import pprint
 
 import torch
-import torch.nn as nn
 from torch.nn.functional import cosine_similarity
 
 import transformers
 from transformers import (
     pipeline,                            # 1.1 節：タスクをまるごと実行
-    AutoTokenizer, AutoConfig, AutoModel,  # 1.2 節：部品ごとに読み込む
-    AutoModelForSequenceClassification,
+    AutoTokenizer, AutoModel,            # 1.2 節：部品ごとに読み込む
     AutoModelForCausalLM,
 )
 

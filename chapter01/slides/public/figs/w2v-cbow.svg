@@ -57,23 +57,24 @@
   <rect class="b" x="746" y="143" width="80" height="38" rx="19"/>
   <text class="t" x="786" y="167">softmax</text>
   <path class="ar" d="M828 162 L854 162"/>
-  <rect class="emb" x="858" y="174.2" width="13" height="2.8000000000000003"/>
-  <rect class="emb" x="874" y="172.8" width="13" height="4.2"/>
-  <rect class="emb" x="890" y="171.4" width="13" height="5.6000000000000005"/>
-  <rect class="on" x="906" y="138.5" width="13" height="38.5"/>
-  <rect class="emb" x="922" y="172.1" width="13" height="4.9"/>
-  <rect class="emb" x="938" y="163.0" width="13" height="14.0"/>
-  <path d="M855 177 h99" stroke="#333" stroke-width="1"/>
-  <text x="906" y="109" text-anchor="middle" font-size="18"><tspan class="s" font-weight="bold">ŷ</tspan></text>
-  <text class="cap" x="906" y="195">確率分布（1×<tspan font-style="italic">V</tspan>）</text>
-  <text font-size="10" x="864" y="211" text-anchor="middle" fill="#555">今</text>
-  <text font-size="10" x="880" y="211" text-anchor="middle" fill="#555">こ</text>
-  <text font-size="10" x="896" y="211" text-anchor="middle" fill="#555">で</text>
-  <text font-size="10" x="912" y="211" text-anchor="middle" fill="#555">み</text>
-  <text font-size="10" x="928" y="211" text-anchor="middle" fill="#555">を</text>
-  <text font-size="10" x="944" y="211" text-anchor="middle" fill="#555">食</text>
-  <rect class="c" x="866" y="250" width="80" height="30" rx="4"/><text class="t" x="906" y="271" font-weight="bold">みかん</text>
+  
+  <text x="906" y="112" text-anchor="middle" font-size="18"><tspan class="s" font-weight="bold">ŷ</tspan><tspan font-size="12" fill="#555">（確率分布, 1×<tspan font-style="italic">V</tspan>）</tspan></text>
+  
+              <rect class="c" x="866" y="250" width="80" height="30" rx="4"/><text class="t" x="906" y="271" font-weight="bold">みかん</text>
   <text class="cap" x="906" y="298">正解の中央語（one-hot <tspan font-style="italic" font-weight="bold">y</tspan>）</text>
-  <path class="dash" d="M906 248 V 216"/>
+  <path class="dash" d="M906 248 V 226"/>
   <text class="t sm" x="906" y="320" fill="#b91c1c">損失 <tspan font-style="italic">L</tspan> = −log <tspan font-style="italic" font-weight="bold">ŷ</tspan><tspan dy="4" font-size="80%">みかん</tspan><tspan dy="-4"> </tspan></text>
+  <rect class="emb" x="858" y="174.2" width="18" height="2.8000000000000003"/>
+  <text font-size="10" x="867" y="191" text-anchor="middle" fill="#555">今日</text>
+  <rect class="emb" x="882" y="172.8" width="18" height="4.2"/>
+  <text font-size="10" x="891" y="204" text-anchor="middle" fill="#555">こたつ</text>
+  <rect class="emb" x="906" y="171.4" width="18" height="5.6000000000000005"/>
+  <text font-size="10" x="915" y="191" text-anchor="middle" fill="#555">で</text>
+  <rect class="on" x="930" y="138.5" width="18" height="38.5"/>
+  <text font-size="10" x="939" y="204" text-anchor="middle" fill="#1d4ed8" font-weight="bold">みかん</text>
+  <rect class="emb" x="954" y="172.1" width="18" height="4.9"/>
+  <text font-size="10" x="963" y="191" text-anchor="middle" fill="#555">を</text>
+  <rect class="emb" x="978" y="163.0" width="18" height="14.0"/>
+  <text font-size="10" x="987" y="204" text-anchor="middle" fill="#555">食べる</text>
+  <path d="M855 177 h144" stroke="#333" stroke-width="1"/>
 </svg>

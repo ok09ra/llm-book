@@ -231,7 +231,7 @@ $$
 </div>
 <div>
 
-- ①：前ページ　②③：線形層の逆伝播
+- ①：softmax＋交差エントロピーの勾配は $\hat{\mathbf{y}} - \mathbf{y}$（予測確率 − 正解）　②③：線形層の逆伝播
 - ④：$\mathbf{h}$ は平均なので各 $\mathbf{v}_{w_i}$ に $\frac{1}{n}$ ずつ配る
 - ⑤：$\mathbf{v}_{w_i}$ は $\mathbf{W}_{\mathrm{in}}$ の $w_i$ 行そのもの → その行だけに勾配
 - 最後に式(1.4) で $\mathbf{W}_{\mathrm{in}}, \mathbf{W}_{\mathrm{out}}$ を更新

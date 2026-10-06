@@ -668,7 +668,7 @@ print("PC と PC  :", cosine_similarity(pc1, pc2, dim=0).item())
 print("PC と 動物:", cosine_similarity(pc1, animal, dim=0).item())
 ```
 
-<div class="text-sm opacity-70">word2vec なら「マウス」は常に同じベクトル（類似度 1.0）。1.1.3 の <code>[0][0]</code> はこの出力の先頭（[CLS]）を文埋め込みとして使っていた</div>
+<div class="text-sm opacity-70">word2vec なら「マウス」は常に同じベクトル（類似度 1.0）</div>
 
 
 ---

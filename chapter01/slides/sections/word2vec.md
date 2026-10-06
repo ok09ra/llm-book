@@ -54,12 +54,23 @@ print("Embedding=", emb(torch.tensor(3)))            # 中身は同じ「行の�
 
 # CBOW の全体像（窓幅 $p=1$, 中央語「みかん」）
 
-<img src="/figs/w2v-cbow.svg" class="mx-auto w-full" />
+<img src="/figs/w2v-cbow.svg" class="mx-auto h-56" />
 
-- 図では $W_{\text{in}}$ が 2 つ描かれているが **同じ 1 つの行列を共有**（別々の重みではない）
-- **単語の埋め込み** $\mathbf{v}_w$ と、それを平均した **文脈の中間表現** $\mathbf{h}$ は区別する
+<div class="text-sm">
 
-<Refs><a href="https://arxiv.org/abs/1301.3781" target="_blank">Mikolov+ 2013</a> ／ <a href="https://qiita.com/g-k/items/69afa87c73654af49d36" target="_blank">@g-k「Word2Vecを理解する」Qiita</a></Refs>
+**損失関数**：正解の中央語 $w_t$ に対する交差エントロピー（$\mathbf{y}_t$ は $w_t$ の位置だけ 1）を、$N$ 個の位置で平均する
+
+$$
+\ell_t = -\sum_{k=1}^{V} y_{t,k}\log \hat{y}_{t,k} = -\log \hat{y}_{t,\,w_t}
+\qquad
+\mathcal{L}_{\text{CBOW}}(\theta) = -\frac{1}{N}\sum_{t=1}^{N} \log P(w_t \mid \text{文脈};\ \theta)
+$$
+
+- 図の $W_{\text{in}}$ は2つ描いているが **同じ1つの行列を共有**。$\theta = \{W_{\text{in}}, W_{\text{out}}\}$ を勾配降下法（式1.4）で更新する
+
+</div>
+
+<Refs><a href="https://arxiv.org/abs/1301.3781" target="_blank">Mikolov+ 2013</a> ／ <a href="https://qiita.com/g-k/items/69afa87c73654af49d36" target="_blank">@g-k「Word2Vecを理解する」Qiita</a> ／ <a href="https://gihyo.jp/book/2023/978-4-297-13633-8" target="_blank">山田ほか『大規模言語モデル入門』技術評論社（2023）</a></Refs>
 
 ---
 
@@ -87,113 +98,22 @@ $$
 
 ---
 
-# なぜ CBOW は 2 つ以上の入力を使うのか
+# skip-gram の全体像（「みかん」→「で」「を」）
 
-
-- **1 語だけでは中央語が絞れない**：「で ＿」→ 何でも入る。「で ＿ を」→ 目的語の名詞。$p=2$ の「こたつ で ＿ を 食べる」→ ほぼ「みかん」
-- **分布仮説そのもの**：単語の意味は「周辺語の集まり」で決まる → 周辺語をまとめて 1 つの入力 $\mathbf{h}$ にする
-- **左右両方を見る**：左だけなら次単語予測。右の「を 食べる」が「食べ物」という手がかりになる → $p=1$ でも入力は **2 つ**
-- **平均するので語順は捨てる**（Bag-of-Words）。$n$ が何個でも $\mathbf{h}$ は $d$ 次元で固定 → 名前の由来
-- **効率が良い**：1 位置につき予測は 1 回（skip-gram は $n$ 回）→ 学習が速い
-
-
-<Refs><a href="https://arxiv.org/abs/1301.3781" target="_blank">Mikolov+ 2013</a></Refs>
-
----
-
-# CBOW の損失関数
-
-1 サンプルの損失 ＝ 正解 one-hot $\mathbf{y}_t$（中央語 $w_t$）と $\hat{\mathbf{y}}_t$ の **交差エントロピー**
-
-$$
-\ell_t = -\sum_{k=1}^{V} y_{t,k} \log \hat{y}_{t,k} = -\log \hat{y}_{t,\,w_t} \qquad (\mathbf{y}_t \text{ は } w_t \text{ の位置だけ } 1)
-$$
-
-コーパス全体（$N$＝単語の位置の数、本書と同じ）で平均した **負の対数尤度**
-
-$$
-\mathcal{L}_{\text{CBOW}}(\theta) = -\frac{1}{N}\sum_{t=1}^{N} \log P\bigl(w_t \mid w_{t-p}, \dots, w_{t-1}, w_{t+1}, \dots, w_{t+p};\ \theta\bigr)
-$$
-
-- $\theta = \{W_{\text{in}}, W_{\text{out}}\}$：学習するパラメータ（本書の $\theta$ と同じ）
-- 式(1.3) と比べると **条件と予測対象が入れ替わり**、$j$ についての和が消えている（1 位置 1 項）
-- 最小化は式(1.4) の勾配降下法（誤差逆伝播で $W_{\text{out}}$ → $\mathbf{h}$ → 平均 → $W_{\text{in}}$ の各行へ）
-
-<Refs><a href="https://arxiv.org/abs/1301.3781" target="_blank">Mikolov+ 2013</a> ／ <a href="https://gihyo.jp/book/2023/978-4-297-13633-8" target="_blank">山田ほか『大規模言語モデル入門』技術評論社（2023）</a></Refs>
-
----
-
-# skip-gram も同じ図式で
-
-<img src="/figs/w2v-skipgram.svg" class="mx-auto w-full" />
-
-- 入力は中央語 1 語だけ → 平均は不要で $\mathbf{h} = \mathbf{v}_{w_t}$（$n=1$ の CBOW の形）
-- 出力層が周辺語の数だけ描かれる図もあるが、**同じ $W_{\text{out}}$・同じ $\hat{\mathbf{y}}$ を $n$ 回使う** だけ（CBOW の $W_{\text{in}}$ 共有と対）
-
-<Refs><a href="https://arxiv.org/abs/1301.3781" target="_blank">Mikolov+ 2013</a> ／ <a href="https://qiita.com/g-k/items/69afa87c73654af49d36" target="_blank">@g-k「Word2Vecを理解する」Qiita</a></Refs>
-
----
-
-# skip-gram の計算と損失関数
-
-$$
-\mathbf{h}_t = \mathbf{v}_{w_t} = \mathbf{x}_{w_t} W_{\text{in}}, \qquad
-\hat{\mathbf{y}}_t = \mathrm{softmax}(\mathbf{h}_t W_{\text{out}}), \qquad
-P(w_{t+j} \mid w_t) = \hat{y}_{t,\,w_{t+j}}
-$$
-
-周辺語 $n$ 個それぞれとの交差エントロピーを **足し合わせる**
-
-$$
-\ell_t = \sum_{-p \le j \le p,\ j \ne 0} \Bigl( -\sum_{k=1}^{V} y^{(j)}_{t,k} \log \hat{y}_{t,k} \Bigr) = -\sum_{-p \le j \le p,\ j \ne 0} \log \hat{y}_{t,\,w_{t+j}}
-$$
-
-$$
-\mathcal{L}_{\text{SG}}(\theta) = -\frac{1}{N}\sum_{t=1}^{N}\ \sum_{-p \le j \le p,\ j \ne 0} \log P(w_{t+j} \mid w_t;\ \theta) \quad \text{＝ 本書 式(1.3)}
-$$
-
-<div class="text-sm opacity-80">
-
-本書 式(1.2) の $\mathbf{U}\mathbf{x}_{w_t}$ は、ここでの $(\mathbf{v}_{w_t} W_{\text{out}})^\top$ と同じ（列ベクトルか行ベクトルかの違いだけ）
-
-</div>
-
-<Refs><a href="https://arxiv.org/abs/1301.3781" target="_blank">Mikolov+ 2013</a> ／ <a href="https://gihyo.jp/book/2023/978-4-297-13633-8" target="_blank">山田ほか『大規模言語モデル入門』技術評論社（2023）</a></Refs>
-
----
-
-# 学習で何が起きるか・何を埋め込みに使うか
-
-
-- 正解の単語の確率を上げ、他の単語の確率を下げるように $W_{\text{in}}, W_{\text{out}}$ を更新（式1.4）
-- 大量の文章で繰り返すと、**似た文脈に現れる単語は似た埋め込み** を持つようになる
-  - 例：「みかん」「りんご」はどちらも「こたつ で ＿ を 食べる」に現れる → $\mathbf{v}$ が近づく
-- $W_{\text{out}}$ の各列 $\mathbf{u}_w$ にも単語ごとの表現があるが、通常は **$W_{\text{in}}$ の各行** を単語埋め込みとして使う（本書「基本的に $\mathbf{x}_w$ を単語埋め込みとする」と同じ）
-- 実用上は語彙全体の softmax が重い → **負例サンプリング**・階層的 softmax で近似
-
-
-<Refs><a href="https://arxiv.org/abs/1301.3781" target="_blank">Mikolov+ 2013</a> ／ <a href="https://arxiv.org/abs/1310.4546" target="_blank">Mikolov+ 2013b</a></Refs>
-
----
-
-# まとめ：CBOW と skip-gram の対応
+<img src="/figs/w2v-skipgram.svg" class="mx-auto h-64" />
 
 <div class="text-sm">
 
-| | CBOW | skip-gram |
-|---|---|---|
-| 入力 | 周辺語 $n$ 個（one-hot → $W_{\text{in}}$ → **平均**） | 中央語 1 個（one-hot → $W_{\text{in}}$） |
-| 中間表現 $\mathbf{h}$ | $\frac{1}{n}\sum_j \mathbf{v}_{w_{t+j}}$ | $\mathbf{v}_{w_t}$ |
-| 出力 | 中央語 1 個 | 周辺語 $n$ 個（同じ $\hat{\mathbf{y}}$ で） |
-| 1 位置の損失 | $-\log P(w_t \mid \text{文脈})$ | $-\sum_j \log P(w_{t+j} \mid w_t)$ |
-| 特徴 | 1 位置 1 予測で速い・頻出語に強い | 予測が $n$ 倍で遅いが低頻度語に強い |
-| 共通 | $W_{\text{in}}$（埋め込み）・$W_{\text{out}}$・softmax・交差エントロピー | ← 同じ |
+**損失関数**：周辺語 $n$ 個それぞれの交差エントロピーを **足し合わせ**、$N$ 個の位置で平均する（本書 式(1.3)）
+
+$$
+\ell_t = -\sum_{j \ne 0} \log \hat{y}_{t,\,w_{t+j}}
+\qquad
+\mathcal{L}_{\text{SG}}(\theta) = -\frac{1}{N}\sum_{t=1}^{N} \sum_{-p \le j \le p,\ j \ne 0} \log P(w_{t+j} \mid w_t;\ \theta)
+$$
+
+- 入力は1語なので $\mathbf{h} = \mathbf{v}_{w_t}$（平均なし）。出力層は周辺語の数だけあるが **同じ $W_{\text{out}}$ を共有** するので $\hat{\mathbf{y}}$ も同じ。違うのは正解だけ
 
 </div>
 
-<div class="mt-6 text-xs opacity-70">
-
-参考：@g-k「Word2Vecを理解する」Qiita（2020） https://qiita.com/g-k/items/69afa87c73654af49d36 （説明の流れと図の構成を参考に、図は本資料用に新規作成）／
-T. Mikolov et al., "Efficient Estimation of Word Representations in Vector Space", arXiv:1301.3781 (2013)
-
-</div>
+<Refs><a href="https://arxiv.org/abs/1301.3781" target="_blank">Mikolov+ 2013</a> ／ <a href="https://qiita.com/g-k/items/69afa87c73654af49d36" target="_blank">@g-k「Word2Vecを理解する」Qiita</a> ／ <a href="https://gihyo.jp/book/2023/978-4-297-13633-8" target="_blank">山田ほか『大規模言語モデル入門』技術評論社（2023）</a></Refs>

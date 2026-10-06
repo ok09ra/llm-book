@@ -454,6 +454,37 @@ print(text2text_pipeline(article)[0]["generated_text"])
 
 ---
 
+# T5：すべてを「テキスト → テキスト」で解く
+
+<div class="grid grid-cols-2 gap-5">
+<div>
+
+<img src="/figs/t5-arch.svg" class="w-full" />
+
+</div>
+<div class="text-xs leading-normal">
+
+**エンコーダ・デコーダ型**<br>
+エンコーダは BERT と同じく全トークンを前後とも見て入力を読む。デコーダは GPT と同じく左側だけを見て1トークンずつ生成する
+
+**クロスアテンション**<br>
+デコーダの各層は、自分の q とエンコーダ出力の k・v で Self-Attention と同じ計算をする → 生成中も入力（記事）全体を参照できる
+
+**事前学習：スパン穴埋め**<br>
+文中の連続した区間を `<X>` などに置き換え、消えた中身をデコーダで生成する
+
+**text-to-text**<br>
+翻訳・要約・分類もすべて「入力テキスト → 出力テキスト」の形にする（分類なら "positive" という文字列を生成）
+
+<div class="opacity-70 mt-2">デモのモデル：retrieva-jp/t5-base-long（エンコーダ・デコーダ各12層、768次元、約2.5億パラメータ）を livedoor ニュースの「記事 → 見出し」で追加学習</div>
+
+</div>
+</div>
+
+<Refs><a href="https://arxiv.org/abs/1910.10683" target="_blank">Raffel+ 2019（T5）</a> ／ <a href="https://arxiv.org/abs/1706.03762" target="_blank">Vaswani+ 2017（Transformer）</a> ／ <a href="https://huggingface.co/retrieva-jp/t5-base-long" target="_blank">retrieva-jp/t5-base-long</a></Refs>
+
+---
+
 # 自然言語処理のその他のタスク
 
 <div class="grid grid-cols-2 gap-8">
@@ -611,55 +642,6 @@ layout: section
 ---
 src: ./sections/word2vec.md
 ---
-
----
-
-# skip-gram の確率モデル
-
-単語 $w \in V$（$V$：**語彙**）に $D$ 次元の埋め込み $\mathbf{x}_w$ と $\mathbf{u}_w$ を割り当てる
-
-**ソフトマックス関数**：合計が 1 になるよう正規化 → 確率分布として扱える
-
-$$
-\mathrm{softmax}_m(\mathbf{c}) = \frac{\exp(c_m)}{\sum_{k=1}^{K}\exp(c_k)} \tag{1.1}
-$$
-
-中央単語 $w_t$ が与えられたときに周辺単語 $w_c$ が出る確率
-
-$$
-P(w_c \mid w_t) = \mathrm{softmax}_{w_c}(\mathbf{U}\mathbf{x}_{w_t}) = \frac{\exp(\mathbf{u}_{w_c}^\top \mathbf{x}_{w_t})}{\sum_{w' \in V}\exp(\mathbf{u}_{w'}^\top \mathbf{x}_{w_t})} \tag{1.2}
-$$
-
-<div class="text-sm opacity-70">
-
-$\mathbf{U}\mathbf{x}$ のような線形変換を行う層 ＝ **線形層**（全結合層）。使うときは基本的に $\mathbf{x}_w$ を単語埋め込みとする
-
-</div>
-
-<Refs><a href="https://arxiv.org/abs/1301.3781" target="_blank">Mikolov+ 2013</a> ／ <a href="https://arxiv.org/abs/1310.4546" target="_blank">Mikolov+ 2013b</a></Refs>
-
----
-
-# 学習：損失関数と勾配降下法
-
-**負の対数尤度**（交差エントロピー）を最小化する（$p$：窓幅、$\theta$：パラメータ）
-
-$$
-\mathcal{L}(\theta) = -\frac{1}{N}\sum_{t=1}^{N}\ \sum_{-p \le j \le p,\ j \ne 0} \log P(w_{t+j} \mid w_t, \theta) \tag{1.3}
-$$
-
-**勾配降下法**：$\alpha$ は **学習率**
-
-$$
-\theta^{(t+1)} = \theta^{(t)} - \alpha \nabla_\theta \mathcal{L}(\theta) \tag{1.4}
-$$
-
-
-- **ハイパーパラメータ**：窓幅 $p$、次元 $D$、学習率、バッチサイズなど
-- **確率的勾配降下法（SGD）**：ランダムに選んだ **ミニバッチ** で勾配を近似
-- **誤差逆伝播法**：前向き計算 → 連鎖律で損失を逆向きに伝えて勾配を計算
-
-<Refs><a href="https://gihyo.jp/book/2023/978-4-297-13633-8" target="_blank">山田ほか『大規模言語モデル入門』技術評論社（2023）</a></Refs>
 
 ---
 src: ./sections/backprop.md

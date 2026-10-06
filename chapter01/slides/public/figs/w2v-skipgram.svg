@@ -1,64 +1,86 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1010 335" font-family="Noto Sans JP, sans-serif" font-size="16" fill="#222">
-  <rect x="0" y="0" width="1010" height="335" fill="#fff"/>
-  <defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#444"/></marker></defs>
-  <style>.b{fill:#fff;stroke:#333;stroke-width:1.5}.c{fill:#dbeafe;stroke:#1d4ed8;stroke-width:2}.o{fill:#fde68a;stroke:#b45309;stroke-width:1.5}.g{fill:#f3f4f6;stroke:#333;stroke-width:1.5}.cell{fill:#fff;stroke:#555;stroke-width:1}.on{fill:#1d4ed8;stroke:#555;stroke-width:1}.emb{fill:#bfdbfe;stroke:#555;stroke-width:1}.t{text-anchor:middle}.s{font-style:italic}.sm{font-size:13px}.cap{font-size:13px;fill:#555;text-anchor:middle}.ar{fill:none;stroke:#444;stroke-width:1.6;marker-end:url(#a)}.dash{fill:none;stroke:#666;stroke-width:1.2;stroke-dasharray:5 4}.n{font-family:Fira Code,monospace;font-size:12px;text-anchor:middle}</style>
-
-  <text class="t" x="110" y="22" font-weight="bold" fill="#555">入力層（中央語 1 語）</text>
-  <text class="t" x="390" y="22" font-weight="bold" fill="#555">中間層</text>
-  <text class="t" x="720" y="22" font-weight="bold" fill="#555">出力層</text>
-  <rect class="c" x="14" y="121" width="72" height="28" rx="4"/><text class="t" x="50" y="141">みかん</text>
-  <rect class="cell" x="80" y="155" width="14" height="14"/><rect class="cell" x="94" y="155" width="14" height="14"/><rect class="cell" x="108" y="155" width="14" height="14"/><rect class="on" x="122" y="155" width="14" height="14"/><rect class="cell" x="136" y="155" width="14" height="14"/><rect class="cell" x="150" y="155" width="14" height="14"/>
-  <text x="122" y="141" text-anchor="middle" font-size="17"><tspan class="s" font-weight="bold">x</tspan><tspan dy="5" font-size="11">みかん</tspan></text>
-  <text class="cap" x="122" y="187">one-hot（1×<tspan font-style="italic">V</tspan>）</text>
-  <path class="ar" d="M168 162 L192 162"/>
-  <rect class="g" x="196" y="137" width="60" height="50" rx="4"/>
-  <text x="226" y="168" text-anchor="middle" font-size="18"><tspan class="s">W</tspan><tspan dy="5" font-size="12">in</tspan></text>
-  <text class="cap" x="226" y="205">（<tspan font-style="italic">V</tspan>×<tspan font-style="italic">d</tspan>）</text>
-  <path class="ar" d="M258 162 L280 162"/>
-  <rect class="emb" x="284" y="155" width="20" height="14"/><rect class="emb" x="304" y="155" width="20" height="14"/><rect class="emb" x="324" y="155" width="20" height="14"/>
-  <text x="314" y="141" text-anchor="middle" font-size="17"><tspan class="s" font-weight="bold">v</tspan><tspan dy="5" font-size="11">みかん</tspan></text>
-  <text class="cap" x="314" y="187">単語埋め込み</text>
-  <text class="cap" x="314" y="203">（1×<tspan font-style="italic">d</tspan>）</text>
-  <text class="cap" x="392" y="149">平均なし</text>
-  <path class="ar" d="M346 162 L438 162"/>
-  <rect class="emb" x="442" y="155" width="20" height="14"/><rect class="emb" x="462" y="155" width="20" height="14"/><rect class="emb" x="482" y="155" width="20" height="14"/>
-  <text x="472" y="141" text-anchor="middle" font-size="18"><tspan class="s" font-weight="bold">h</tspan></text>
-  <text class="cap" x="472" y="191"><tspan font-style="italic" font-weight="bold">h</tspan> = <tspan font-style="italic" font-weight="bold">v</tspan><tspan dy="4" font-size="80%">みかん</tspan><tspan dy="-4"> </tspan></text>
-  <text class="cap" x="472" y="209">（1×<tspan font-style="italic">d</tspan>）</text>
-  <path class="ar" d="M504 162 L528 162"/>
-  <rect class="g" x="532" y="137" width="64" height="50" rx="4"/>
-  <text x="564" y="168" text-anchor="middle" font-size="18"><tspan class="s">W</tspan><tspan dy="5" font-size="12">out</tspan></text>
-  <text class="cap" x="564" y="205">（<tspan font-style="italic">d</tspan>×<tspan font-style="italic">V</tspan>）</text>
-  <path class="ar" d="M598 162 L624 162"/>
-  <rect class="cell" x="628" y="155" width="14" height="14"/><rect class="cell" x="642" y="155" width="14" height="14"/><rect class="cell" x="656" y="155" width="14" height="14"/><rect class="cell" x="670" y="155" width="14" height="14"/><rect class="cell" x="684" y="155" width="14" height="14"/><rect class="cell" x="698" y="155" width="14" height="14"/>
-  <text x="670" y="141" text-anchor="middle" font-size="18"><tspan class="s" font-weight="bold">s</tspan></text>
-  <text class="cap" x="670" y="191">スコア（1×<tspan font-style="italic">V</tspan>）</text>
-  <text class="cap" x="670" y="207"><tspan font-style="italic" font-weight="bold">s</tspan> = <tspan font-style="italic" font-weight="bold">h</tspan><tspan font-style="italic">W</tspan><tspan dy="4" font-size="80%">out</tspan><tspan dy="-4"> </tspan></text>
-  <path class="ar" d="M714 162 L742 162"/>
-  <rect class="b" x="746" y="143" width="80" height="38" rx="19"/>
-  <text class="t" x="786" y="167">softmax</text>
-  <path class="ar" d="M828 162 L854 162"/>
-  <rect class="emb" x="858" y="173.5" width="13" height="3.5"/>
-  <rect class="emb" x="874" y="168.6" width="13" height="8.4"/>
-  <rect class="on" x="890" y="156.0" width="13" height="21.0"/>
-  <rect class="emb" x="906" y="173.5" width="13" height="3.5"/>
-  <rect class="on" x="922" y="153.9" width="13" height="23.1"/>
-  <rect class="emb" x="938" y="166.5" width="13" height="10.5"/>
-  <path d="M855 177 h99" stroke="#333" stroke-width="1"/>
-  <text x="906" y="109" text-anchor="middle" font-size="18"><tspan class="s" font-weight="bold">ŷ</tspan></text>
-  <text class="cap" x="906" y="195">確率分布（1×<tspan font-style="italic">V</tspan>）</text>
-  <text font-size="10" x="864" y="211" text-anchor="middle" fill="#555">今</text>
-  <text font-size="10" x="880" y="211" text-anchor="middle" fill="#555">こ</text>
-  <text font-size="10" x="896" y="211" text-anchor="middle" fill="#555">で</text>
-  <text font-size="10" x="912" y="211" text-anchor="middle" fill="#555">み</text>
-  <text font-size="10" x="928" y="211" text-anchor="middle" fill="#555">を</text>
-  <text font-size="10" x="944" y="211" text-anchor="middle" fill="#555">食</text>
-  <rect class="o" x="842" y="255" width="56" height="30" rx="4"/><text class="t" x="870" y="276">で</text>
-  <path class="dash" d="M870 253 L 906 223"/>
-  <rect class="o" x="914" y="255" width="56" height="30" rx="4"/><text class="t" x="942" y="276">を</text>
-  <path class="dash" d="M942 253 L 906 223"/>
-  <text class="cap" x="906" y="303">正解の周辺語（各 one-hot <tspan font-style="italic" font-weight="bold">y</tspan>）</text>
-  <text class="t sm" x="886" y="325" fill="#b91c1c">損失 <tspan font-style="italic">L</tspan> = −log <tspan font-style="italic" font-weight="bold">ŷ</tspan><tspan dy="4" font-size="80%">で</tspan><tspan dy="-4"> </tspan> − log <tspan font-style="italic" font-weight="bold">ŷ</tspan><tspan dy="4" font-size="80%">を</tspan><tspan dy="-4"> </tspan></text>
-  <text class="cap" x="906" y="64">1 つの <tspan font-style="italic" font-weight="bold">ŷ</tspan> で</text>
-  <text class="cap" x="906" y="80">周辺語 <tspan font-style="italic">n</tspan> 個をそれぞれ当てる</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1010 430" font-family="Noto Sans JP, sans-serif" font-size="16" fill="#222"><rect width="1010" height="430" fill="#fff"/>
+<defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#444"/></marker></defs>
+<style>.t{text-anchor:middle}.cap{font-size:13px;fill:#555;text-anchor:middle}.ar{fill:none;stroke:#444;stroke-width:1.6;marker-end:url(#a)}.cell{fill:#fff;stroke:#555}.on{fill:#1d4ed8;stroke:#555}.emb{fill:#bfdbfe;stroke:#555}.b{fill:#fff;stroke:#333;stroke-width:1.5}.c{fill:#dbeafe;stroke:#1d4ed8;stroke-width:2}.o{fill:#fde68a;stroke:#b45309;stroke-width:1.5}.g{fill:#f3f4f6;stroke:#333;stroke-width:1.5}</style>
+<text class="t" x="100" y="24" font-weight="bold" fill="#555">入力層（中央語 1 語）</text>
+<text class="t" x="330" y="24" font-weight="bold" fill="#555">中間層</text>
+<text class="t" x="700" y="24" font-weight="bold" fill="#555">出力層（周辺語の数だけ）</text>
+<rect class="c" x="14" y="165" width="72" height="28" rx="4"/>
+<text class="t" x="50" y="185" >みかん</text>
+<rect class="cell" x="14" y="209" width="14" height="14"/>
+<rect class="cell" x="28" y="209" width="14" height="14"/>
+<rect class="cell" x="42" y="209" width="14" height="14"/>
+<rect class="on" x="56" y="209" width="14" height="14"/>
+<rect class="cell" x="70" y="209" width="14" height="14"/>
+<rect class="cell" x="84" y="209" width="14" height="14"/>
+<text class="cap" x="62" y="243" >x（one-hot, 1×V）</text>
+<line class="ar" x1="102" y1="216" x2="150" y2="216"/>
+<rect class="g" x="152" y="191" width="64" height="50" rx="6"/>
+<text class="t" x="184" y="221" font-style="italic">W<tspan dy="5" font-size="11">in</tspan><tspan dy="-5"> </tspan></text>
+<text class="cap" x="184" y="259" >（V×d）</text>
+<line class="ar" x1="218" y1="216" x2="268" y2="216"/>
+<rect class="emb" x="272" y="208" width="16" height="16"/>
+<rect class="emb" x="288" y="208" width="16" height="16"/>
+<rect class="emb" x="304" y="208" width="16" height="16"/>
+<text class="t" x="296" y="197" font-size="14">h = v<tspan dy="5" font-size="11">みかん</tspan><tspan dy="-5"> </tspan></text>
+<text class="cap" x="296" y="245" >（1×d）平均なし</text>
+<path class="ar" d="M322 216 C 360 216, 360 110, 400 110"/>
+<rect class="g" x="402" y="86" width="70" height="50" rx="6"/>
+<text class="t" x="437" y="116" font-style="italic">W<tspan dy="5" font-size="11">out</tspan><tspan dy="-5"> </tspan></text>
+<text class="cap" x="437" y="152" >（d×V）</text>
+<line class="ar" x1="474" y1="110" x2="514" y2="110"/>
+<rect class="cell" x="518" y="104" width="12" height="12"/>
+<rect class="cell" x="530" y="104" width="12" height="12"/>
+<rect class="cell" x="542" y="104" width="12" height="12"/>
+<rect class="cell" x="554" y="104" width="12" height="12"/>
+<rect class="cell" x="566" y="104" width="12" height="12"/>
+<rect class="cell" x="578" y="104" width="12" height="12"/>
+<text class="cap" x="554" y="96" >s（1×V）</text>
+<line class="ar" x1="592" y1="110" x2="622" y2="110"/>
+<rect class="b" x="624" y="94" width="78" height="32" rx="16"/>
+<text class="t" x="663" y="115" font-size="14">softmax</text>
+<line class="ar" x1="704" y1="110" x2="734" y2="110"/>
+<rect x="738" y="118" width="10" height="6" fill="#1d4ed8" opacity="0.75"/>
+<rect x="750" y="115" width="10" height="9" fill="#1d4ed8" opacity="0.75"/>
+<rect x="762" y="94" width="10" height="30" fill="#1d4ed8" opacity="0.75"/>
+<rect x="774" y="116" width="10" height="8" fill="#1d4ed8" opacity="0.75"/>
+<rect x="786" y="98" width="10" height="26" fill="#1d4ed8" opacity="0.75"/>
+<rect x="798" y="119" width="10" height="5" fill="#1d4ed8" opacity="0.75"/>
+<text class="cap" x="774" y="140" >ŷ（同じ分布）</text>
+<rect class="o" x="836" y="94" width="44" height="30" rx="4"/>
+<text class="t" x="858" y="115" >で</text>
+<text class="cap" x="858" y="86" >正解 1つ前（j = −1）</text>
+<text class="t" x="940" y="115" font-size="14" fill="#b91c1c">−log ŷ<tspan dy="5" font-size="11">で</tspan><tspan dy="-5"> </tspan></text>
+<path class="ar" d="M322 216 C 360 216, 360 330, 400 330"/>
+<rect class="g" x="402" y="306" width="70" height="50" rx="6"/>
+<text class="t" x="437" y="336" font-style="italic">W<tspan dy="5" font-size="11">out</tspan><tspan dy="-5"> </tspan></text>
+<text class="cap" x="437" y="372" >（d×V）</text>
+<line class="ar" x1="474" y1="330" x2="514" y2="330"/>
+<rect class="cell" x="518" y="324" width="12" height="12"/>
+<rect class="cell" x="530" y="324" width="12" height="12"/>
+<rect class="cell" x="542" y="324" width="12" height="12"/>
+<rect class="cell" x="554" y="324" width="12" height="12"/>
+<rect class="cell" x="566" y="324" width="12" height="12"/>
+<rect class="cell" x="578" y="324" width="12" height="12"/>
+<text class="cap" x="554" y="316" >s（1×V）</text>
+<line class="ar" x1="592" y1="330" x2="622" y2="330"/>
+<rect class="b" x="624" y="314" width="78" height="32" rx="16"/>
+<text class="t" x="663" y="335" font-size="14">softmax</text>
+<line class="ar" x1="704" y1="330" x2="734" y2="330"/>
+<rect x="738" y="338" width="10" height="6" fill="#1d4ed8" opacity="0.75"/>
+<rect x="750" y="335" width="10" height="9" fill="#1d4ed8" opacity="0.75"/>
+<rect x="762" y="314" width="10" height="30" fill="#1d4ed8" opacity="0.75"/>
+<rect x="774" y="336" width="10" height="8" fill="#1d4ed8" opacity="0.75"/>
+<rect x="786" y="318" width="10" height="26" fill="#1d4ed8" opacity="0.75"/>
+<rect x="798" y="339" width="10" height="5" fill="#1d4ed8" opacity="0.75"/>
+<text class="cap" x="774" y="360" >ŷ（同じ分布）</text>
+<rect class="o" x="836" y="314" width="44" height="30" rx="4"/>
+<text class="t" x="858" y="335" >を</text>
+<text class="cap" x="858" y="306" >正解 1つ後（j = +1）</text>
+<text class="t" x="940" y="335" font-size="14" fill="#b91c1c">−log ŷ<tspan dy="5" font-size="11">を</tspan><tspan dy="-5"> </tspan></text>
+<path d="M437 140 L437 300" stroke="#7c3aed" stroke-width="1.5" stroke-dasharray="5 4" fill="none"/>
+<text class="t" x="500" y="226" font-size="13" fill="#7c3aed">同じ W<tspan dy="5" font-size="11">out</tspan><tspan dy="-5"> </tspan> を共有</text>
+<text class="cap" x="774" y="226" >→ 中間層が同じなので ŷ も同じ</text>
+<path d="M940 130 L940 310" stroke="#b91c1c" stroke-width="1.2" fill="none"/>
+<text class="t" x="950" y="226" font-size="22" fill="#b91c1c">＋</text>
+<text class="t" x="505" y="410" font-size="15" fill="#b91c1c">損失 ℓ = −log ŷ<tspan dy="5" font-size="11">で</tspan><tspan dy="-5"> </tspan> − log ŷ<tspan dy="5" font-size="11">を</tspan><tspan dy="-5"> </tspan>（周辺語ごとの交差エントロピーの和）</text>
 </svg>

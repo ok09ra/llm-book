@@ -11,7 +11,7 @@ $$
 
 <div class="text-sm opacity-70">
 
-$\mathcal{L}(\theta)$：損失（式1.3）、$\theta$：パラメータ全体、$K$：パラメータの個数、$\frac{\partial \mathcal{L}}{\partial \theta_k}$：他を固定して $\theta_k$ だけ動かしたときの傾き
+$\mathcal{L}(\theta)$：損失（式1.3）、$\theta$：パラメータ全体（学習で動かす値。word2vec なら重み行列 $W_{\text{in}}, W_{\text{out}}$ の全要素、BERT なら全層の重みとバイアス）、$K$：パラメータの個数、$\frac{\partial \mathcal{L}}{\partial \theta_k}$：他を固定して $\theta_k$ だけ動かしたときの傾き
 
 </div>
 

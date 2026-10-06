@@ -51,6 +51,21 @@ BERT-base：12ヘッド × 64次元 = 768、FFN 中間 3072、活性化は GELU�
 
 ---
 
+# 具体的にどんな行列をかけているか（BERT-base の1層）
+
+<img src="/figs/sa-ffn-matrix.svg" class="mx-auto w-full" />
+
+<div class="text-xs text-center opacity-70">学習するのは W_Q, W_K, W_V（各ヘッド 768×64、12ヘッド分で 768×768）・W_O・W₁・W₂ とバイアス。1層で約 709 万、12層で約 8,500 万個</div>
+
+<Refs><a href="https://arxiv.org/abs/1706.03762" target="_blank">Vaswani+ 2017（Transformer）</a> ／ <a href="https://arxiv.org/abs/1810.04805" target="_blank">Devlin+ 2018（BERT）</a></Refs>
+
+<!--
+形は transformers 4.40.2 で bert-base-japanese-v3 の1層目の重みを確認（PyTorch の Linear は (出力, 入力) の向きで保存されるが、ここでは X W の向きで書いている）。
+1層のパラメータ数 7,087,872（LayerNorm 含む）。
+-->
+
+---
+
 # なぜ `[CLS]` に文全体の情報が集まるのか
 
 <div class="grid grid-cols-2 gap-6">

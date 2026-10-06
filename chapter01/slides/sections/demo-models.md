@@ -41,6 +41,24 @@ BERT-base の設計値（large は 1024）。各次元に決まった意味は�
 
 ---
 
+# BERT の1層：トークンは行列のまま混ぜる
+
+<img src="/figs/bert-layer.svg" class="mx-auto h-56" />
+
+<div class="text-sm leading-snug">
+
+- 埋め込んだトークンは1本につなげない。**トークン数 × 768 の行列** のまま扱い、1行が1トークン
+- **① Self-Attention**：トークンの **間** で混ぜる。各行の新しいベクトル＝全トークンのベクトルの重み付き和（係数は内容から計算 → Self-Attention のページ）
+- **② Feed-Forward**：各トークンの **中** で変換。全トークンに同じ2層の全結合（768→3072→768）を別々にかける
+- **残差・LayerNorm**：入力をそのまま足し戻して元の情報を残し、値の大きさを整える
+- 12層くり返しても形は同じ。最後の行列の各行が「文脈を反映したトークンのベクトル」、先頭の行が `[CLS]`
+
+</div>
+
+<Refs><a href="https://arxiv.org/abs/1706.03762" target="_blank">Vaswani+ 2017（Transformer）</a> ／ <a href="https://arxiv.org/abs/1810.04805" target="_blank">Devlin+ 2018（BERT）</a></Refs>
+
+---
+
 # BERT はどう学習するか・手で確かめる
 
 <div class="grid grid-cols-2 gap-6">

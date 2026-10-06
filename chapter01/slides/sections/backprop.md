@@ -157,30 +157,23 @@ $$
 
 # 多変数の連鎖律：経路ごとに掛けて、足す
 
-<div class="grid grid-cols-5 gap-4 items-center">
-<div class="col-span-2">
+<div class="grid grid-cols-2 gap-4 items-center">
+<div>
 <img src="/figs/bp-multi.svg" class="w-full" />
+<div class="text-xs mt-1">x を動かすと u₁ = x² と u₂ = 3x が <b>同時に</b> 動く</div>
 </div>
-<div class="col-span-3 text-sm">
-
-$x$ を少し動かすと、$u_1 = x^2$ と $u_2 = 3x$ が **同時に** 動き、**それぞれが** $y = u_1 u_2$ を動かす
-
-| $x = 2 \to 2.01$ | $y$ の増え方 |
-|---|---|
-| $u_1$ だけ動いた分（$+0.0401$） | $6 \times 0.0401 \approx 0.24$ |
-| $u_2$ だけ動いた分（$+0.03$） | $4 \times 0.03 = 0.12$ |
-| 両方動いた実際の値 | $0.3618 \approx 0.24 + 0.12$ |
-
+<div>
+<img src="/figs/bp-area.svg" class="w-full" />
 </div>
 </div>
 
-<div class="p-3 rounded bg-amber-50 mt-2">
+<div class="p-3 rounded bg-amber-50 mt-2 text-sm">
 
-**結論**：小さな変化では、各経路から来る影響は **重ならずに足し合わせられる**（ずれは $\Delta u_1 \times \Delta u_2$ の小さな項だけ）。各経路の中は前ページと同じく **掛け算**
+**なぜ足し算？** $y = u_1 u_2$ を長方形の面積と見ると、増えた面積は「$u_1$ だけ増えた帯」＋「$u_2$ だけ増えた帯」＋「角の小さな四角」。角は **小さい × 小さい** なので、変化が小さいほど無視できる（x = 2→2.01 なら 0.24 ＋ 0.12、角は 0.0012）
 
 $$
 \Delta y \approx 6\,\Delta u_1 + 4\,\Delta u_2 = 6\,(4\,\Delta x) + 4\,(3\,\Delta x) = 36\,\Delta x
-\qquad\Longrightarrow\qquad
+\quad\Longrightarrow\quad
 \frac{dy}{dx} = \frac{\partial y}{\partial u_1}\frac{\partial u_1}{\partial x} + \frac{\partial y}{\partial u_2}\frac{\partial u_2}{\partial x}
 $$
 

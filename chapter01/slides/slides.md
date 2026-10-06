@@ -812,47 +812,58 @@ src: ./sections/model-map.md
 
 ---
 
-# 参考文献
+# 参考文献（1/2）書籍・記事・モデル
 
-<div class="grid grid-cols-2 gap-6 text-xs leading-snug">
+<div class="grid grid-cols-2 gap-8 text-sm leading-relaxed">
 <div>
 
 **書籍・記事**
 
-- 山田育矢 監修／鈴木正敏・山田康輔・李凌寒 著『大規模言語モデル入門』技術評論社（2023） https://gihyo.jp/book/2023/978-4-297-13633-8
-- 書籍のサンプルコード ghmagazine/llm-book https://github.com/ghmagazine/llm-book
-- @g-k「Word2Vecを理解する」Qiita（2020） https://qiita.com/g-k/items/69afa87c73654af49d36
-- Hugging Face transformers ドキュメント https://huggingface.co/docs/transformers/ja/index
-
-**モデル・データセット**
-
-- 本章のデモモデル（llm-book/…）https://huggingface.co/llm-book
-- tohoku-nlp/bert-base-japanese-v3 https://huggingface.co/tohoku-nlp/bert-base-japanese-v3
-- retrieva-jp/t5-base-long https://huggingface.co/retrieva-jp/t5-base-long
-- abeja/gpt2-large-japanese https://huggingface.co/abeja/gpt2-large-japanese
-- JGLUE（MARC-ja / JNLI / JSTS）https://github.com/yahoojapan/JGLUE
-- ner-wikipedia-dataset https://github.com/stockmarkteam/ner-wikipedia-dataset
-- livedoor ニュースコーパス https://www.rondhuit.com/download.html
+- 山田育矢 監修／鈴木正敏・山田康輔・李凌寒 著 [『大規模言語モデル入門』](https://gihyo.jp/book/2023/978-4-297-13633-8) 技術評論社（2023）
+- 書籍のサンプルコード [ghmagazine/llm-book](https://github.com/ghmagazine/llm-book)
+- @g-k [「Word2Vecを理解する」](https://qiita.com/g-k/items/69afa87c73654af49d36) Qiita（2020）
+- [Hugging Face transformers ドキュメント](https://huggingface.co/docs/transformers/ja/index)
 
 </div>
 <div>
 
-**論文**
+**モデル・データセット**
 
-- Rumelhart+ (1986) Learning representations by back-propagating errors. https://www.nature.com/articles/323533a0
-- Mikolov+ (2013) Efficient Estimation of Word Representations in Vector Space. https://arxiv.org/abs/1301.3781
-- Mikolov+ (2013) Distributed Representations of Words and Phrases and their Compositionality. https://arxiv.org/abs/1310.4546
-- Vaswani+ (2017) Attention Is All You Need. https://arxiv.org/abs/1706.03762
-- Peters+ (2018) Deep contextualized word representations（ELMo）. https://arxiv.org/abs/1802.05365
-- Radford+ (2018) Improving Language Understanding by Generative Pre-Training（GPT）. https://cdn.openai.com/research-covers/language-unsupervised/language_understanding_paper.pdf
-- Radford+ (2019) Language Models are Unsupervised Multitask Learners（GPT-2）. https://cdn.openai.com/better-language-models/language_models_are_unsupervised_multitask_learners.pdf
-- Devlin+ (2019) BERT. https://arxiv.org/abs/1810.04805
-- Liu+ (2019) RoBERTa. https://arxiv.org/abs/1907.11692
-- Raffel+ (2020) T5. https://arxiv.org/abs/1910.10683
-- Keung+ (2020) The Multilingual Amazon Reviews Corpus. https://arxiv.org/abs/2010.02573
-- Gao+ (2021) SimCSE. https://arxiv.org/abs/2104.08821
-- Kurihara+ (2022) JGLUE. https://aclanthology.org/2022.lrec-1.317/
+- 本章のデモモデル [llm-book](https://huggingface.co/llm-book)（Hugging Face）
+- [tohoku-nlp/bert-base-japanese-v3](https://huggingface.co/tohoku-nlp/bert-base-japanese-v3)
+- [retrieva-jp/t5-base-long](https://huggingface.co/retrieva-jp/t5-base-long)
+- [abeja/gpt2-large-japanese](https://huggingface.co/abeja/gpt2-large-japanese)
+- [JGLUE](https://github.com/yahoojapan/JGLUE)（MARC-ja / JNLI / JSTS）
+- [ner-wikipedia-dataset](https://github.com/stockmarkteam/ner-wikipedia-dataset)
+- [livedoor ニュースコーパス](https://www.rondhuit.com/download.html)
 
 </div>
 </div>
 
+---
+
+# 参考文献（2/2）論文
+
+<div class="grid grid-cols-2 gap-8 text-sm leading-relaxed">
+<div>
+
+- Rumelhart+ (1986) [Learning representations by back-propagating errors](https://www.nature.com/articles/323533a0)
+- Mikolov+ (2013) [Efficient Estimation of Word Representations in Vector Space](https://arxiv.org/abs/1301.3781)
+- Mikolov+ (2013) [Distributed Representations of Words and Phrases and their Compositionality](https://arxiv.org/abs/1310.4546)
+- Vaswani+ (2017) [Attention Is All You Need](https://arxiv.org/abs/1706.03762)
+- Peters+ (2018) [Deep contextualized word representations](https://arxiv.org/abs/1802.05365)（ELMo）
+- Radford+ (2018) [Improving Language Understanding by Generative Pre-Training](https://cdn.openai.com/research-covers/language-unsupervised/language_understanding_paper.pdf)（GPT）
+
+</div>
+<div>
+
+- Radford+ (2019) [Language Models are Unsupervised Multitask Learners](https://cdn.openai.com/better-language-models/language_models_are_unsupervised_multitask_learners.pdf)（GPT-2）
+- Devlin+ (2019) [BERT](https://arxiv.org/abs/1810.04805)
+- Liu+ (2019) [RoBERTa](https://arxiv.org/abs/1907.11692)
+- Raffel+ (2020) [T5](https://arxiv.org/abs/1910.10683)
+- Keung+ (2020) [The Multilingual Amazon Reviews Corpus](https://arxiv.org/abs/2010.02573)
+- Gao+ (2021) [SimCSE](https://arxiv.org/abs/2104.08821)
+- Kurihara+ (2022) [JGLUE](https://aclanthology.org/2022.lrec-1.317/)
+
+</div>
+</div>

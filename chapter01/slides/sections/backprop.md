@@ -125,7 +125,7 @@ $$
 
 # なぜ掛け算になるのか：小さな変化の伝わり方
 
-<div class="text-sm">
+<div class="text-xs">
 
 **例**：$x$ を $2 \to 2.01$ と $\Delta x = 0.01$ だけ動かす
 
@@ -137,7 +137,7 @@ $$
 
 </div>
 
-<div class="p-3 rounded bg-amber-50 mt-3 text-sm">
+<div class="p-2 rounded bg-amber-50 mt-2 text-sm">
 
 **結論**：$u$ の変化量は「$x$ の変化量 × 3」、$y$ の変化量は「**$u$ の変化量** × 14」。2つ目に1つ目を **代入する** と
 
@@ -204,64 +204,4 @@ CBOW の「平均」や重み行列の各成分でこの足し合わせが起き
 <!--
 前向きで全ノードの値を保存 → 逆向きで1回なぞるだけで全パラメータの勾配がそろう。
 パラメータ数が多くても、計算量は前向き計算と同程度で済むのがポイント。
--->
-
----
-
-# 線形層の逆伝播：行列の形に注意
-
-CBOW の出力層 $\mathbf{s} = \mathbf{h}\,\mathbf{W}_{\mathrm{out}}$（成分で書くと $s_j = \sum_{i=1}^{d} h_i W_{ij}$）
-
-<div class="text-sm opacity-80">
-
-$\mathbf{h}$：1×d、$\mathbf{W}_{\mathrm{out}}$：d×V、$\mathbf{s}$：1×V、$\boldsymbol{\delta} = \frac{\partial \mathcal{L}}{\partial \mathbf{s}}$（1×V、上流から届いた勾配）
-
-</div>
-
-$$
-\frac{\partial \mathcal{L}}{\partial W_{ij}} = \frac{\partial \mathcal{L}}{\partial s_j}\frac{\partial s_j}{\partial W_{ij}} = \delta_j\, h_i
-\quad\Rightarrow\quad
-\frac{\partial \mathcal{L}}{\partial \mathbf{W}_{\mathrm{out}}} = \mathbf{h}^\top \boldsymbol{\delta}\ \ (d \times V)
-$$
-
-$$
-\frac{\partial \mathcal{L}}{\partial h_i} = \sum_{j=1}^{V} \frac{\partial \mathcal{L}}{\partial s_j}\frac{\partial s_j}{\partial h_i} = \sum_{j} \delta_j W_{ij}
-\quad\Rightarrow\quad
-\frac{\partial \mathcal{L}}{\partial \mathbf{h}} = \boldsymbol{\delta}\, \mathbf{W}_{\mathrm{out}}^\top\ \ (1 \times d)
-$$
-
-- $W_{ij}$ は $s_j$ にしか効かない → 経路は1本
-- $h_i$ はすべての $s_j$ に効く → **経路を $V$ 本足し合わせる**（前ページの多変数の連鎖律）
-- 勾配の形は **元の変数と同じ形**（形が合わないなら転置を疑う）
-
----
-
-# CBOW の誤差逆伝播：①〜⑤の順に戻る
-
-<img src="/figs/bp-cbow.svg" class="mx-auto h-68" />
-
-<div class="text-xs opacity-80 grid grid-cols-2 gap-x-6">
-<div>
-
-- $V$：語彙数、$d$：埋め込み次元、$n$：文脈単語の数
-- $\mathbf{x}_{w_i}$：文脈単語 $w_i$ の one-hot（1×V）、$\mathbf{v}_{w_i} = \mathbf{x}_{w_i}\mathbf{W}_{\mathrm{in}}$
-- $\mathbf{h} = \frac{1}{n}\sum_{i=1}^{n} \mathbf{v}_{w_i}$、$\mathbf{s} = \mathbf{h}\mathbf{W}_{\mathrm{out}}$、$\hat{\mathbf{y}} = \mathrm{softmax}(\mathbf{s})$
-
-</div>
-<div>
-
-- ①：softmax＋交差エントロピーの勾配は $\hat{\mathbf{y}} - \mathbf{y}$（予測確率 − 正解）　②③：線形層の逆伝播
-- ④：$\mathbf{h}$ は平均なので各 $\mathbf{v}_{w_i}$ に $\frac{1}{n}$ ずつ配る
-- ⑤：$\mathbf{v}_{w_i}$ は $\mathbf{W}_{\mathrm{in}}$ の $w_i$ 行そのもの → その行だけに勾配
-- 最後に式(1.4) で $\mathbf{W}_{\mathrm{in}}, \mathbf{W}_{\mathrm{out}}$ を更新
-
-</div>
-</div>
-
-
-<Refs><a href="https://www.nature.com/articles/323533a0" target="_blank">Rumelhart+ 1986（誤差逆伝播法）</a> ／ <a href="https://arxiv.org/abs/1301.3781" target="_blank">Mikolov+ 2013</a></Refs>
-
-<!--
-x_w が one-hot なので v_w = x_w W_in は「W_in の w 行を取り出す」だけ。だから勾配も W_in のその行にしか入らない（nn.Embedding が行の取り出しで実装されている理由）。
-W_out の第 j 列が式(1.2) の u_j に当たる。
 -->

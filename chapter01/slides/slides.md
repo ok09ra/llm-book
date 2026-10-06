@@ -178,7 +178,7 @@ score は予測確率。どちらも 96% 以上。
 -->
 
 ---
-src: ./sections/demo-models.md#2-4
+src: ./sections/demo-models.md#2-3
 ---
 
 ---
@@ -228,7 +228,7 @@ $\mathbf{h}_i = \sum_j \alpha_{ij}\, \mathbf{v}_j$
 
 
 ---
-src: ./sections/demo-models.md#5-8
+src: ./sections/demo-models.md#4-7
 ---
 
 ---

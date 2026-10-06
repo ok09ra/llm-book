@@ -59,58 +59,6 @@ BERT-base の設計値（large は 1024）。各次元に決まった意味は�
 
 ---
 
-# BERT はどう学習するか・手で確かめる
-
-<div class="grid grid-cols-2 gap-6">
-<div class="text-sm leading-snug">
-
-**事前学習（大量のテキストで、正解ラベルなし）**
-
-- **マスク言語モデル**：入力の 15% を `[MASK]` などに置き換え、元のトークンを当てる
-  - 例：`今日 は [MASK] 天気 です` → 「良い」
-  - 前後 **両方** の文脈を使える（GPT は左側だけ）
-- **次文予測（NSP）**：文B が文A の続きかを `[CLS]` で当てる（元の BERT）
-
-**ファインチューニング**
-
-- 事前学習した本体に小さな出力層を足し、タスクのデータで学習（感情分析・NLI・NER…）
-
-<div class="text-xs opacity-60 mt-3">パラメータは約 1.1 億個（うち埋め込み表など約 2,600 万）。詳しくは 3.3 節</div>
-
-</div>
-<div>
-
-```py {monaco-run} {autorun:false}
-name = "llm-book/bert-base-japanese-v3-marc_ja"
-tok = AutoTokenizer.from_pretrained(name)
-bert = AutoModel.from_pretrained(name)
-
-print(tok.tokenize("大規模言語モデルを輪読する"))
-print(tok.tokenize("ChatGPTの登場"))
-
-c = bert.config
-print("語彙", c.vocab_size, "/ 次元", c.hidden_size,
-      "/ 層", c.num_hidden_layers)
-W = bert.embeddings.word_embeddings.weight
-print("埋め込み表", tuple(W.shape))
-```
-
-</div>
-</div>
-
-
-<Refs><a href="https://arxiv.org/abs/1810.04805" target="_blank">Devlin+ 2018（BERT）</a> ／ <a href="https://huggingface.co/tohoku-nlp/bert-base-japanese-v3" target="_blank">tohoku-nlp/bert-base-japanese-v3</a></Refs>
-
-<!--
-実行結果の例：
-['大', '規模', '言語', 'モデル', 'を', '輪', '##読', 'する']
-['Ch', '##at', '##GP', '##T', 'の', '登場']
-語彙 32768 / 次元 768 / 層 12
-埋め込み表 (32768, 768)
--->
-
----
-
 # `[CLS]` とは：文全体を表す「先頭の席」
 
 <div class="grid grid-cols-5 gap-6">

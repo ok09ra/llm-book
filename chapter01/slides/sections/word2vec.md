@@ -10,7 +10,7 @@
 
 ---
 
-# 埋め込み表現とは：one-hot から $W_{\text{in}}$ の行を取り出す
+# 単語ベクトルの引き方：one-hot × $W_{\text{in}}$ は行を選ぶだけ
 
 <img src="/figs/w2v-onehot.svg" class="mx-auto h-40" />
 

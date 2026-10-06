@@ -217,22 +217,6 @@ $$
 
 ---
 
-# 勾配「予測確率 − 正解」の意味
-
-softmax ＋ 交差エントロピーの損失をスコア $\mathbf{s}$ で微分すると、$\dfrac{\partial \ell}{\partial \mathbf{s}} = \hat{\mathbf{y}} - \mathbf{y}$（予測確率 − 正解）というシンプルな形になる
-
-<img src="/figs/bp-softmax.svg" class="mx-auto h-56" />
-
-- **正解の単語**：$\hat{y} - 1 < 0$ → 更新でスコア $s$ が **上がる**（確率を 1 に近づける）
-- **それ以外**：$\hat{y} - 0 > 0$ → スコアが **下がる**（自信をもって間違えた単語ほど強く）
-- 予測が完璧（$\hat{\mathbf{y}} = \mathbf{y}$）なら勾配 0 → もう動かない
-
-<!--
-図の数値は例（seed=0 の乱数で作った δ）。「りんご」を 0.46 で予測してしまっているので強く下げられる。
--->
-
----
-
 # CBOW の誤差逆伝播：①〜⑤の順に戻る
 
 <img src="/figs/bp-cbow.svg" class="mx-auto h-68" />
@@ -262,41 +246,3 @@ softmax ＋ 交差エントロピーの損失をスコア $\mathbf{s}$ で微分
 x_w が one-hot なので v_w = x_w W_in は「W_in の w 行を取り出す」だけ。だから勾配も W_in のその行にしか入らない（nn.Embedding が行の取り出しで実装されている理由）。
 W_out の第 j 列が式(1.2) の u_j に当たる。
 -->
-
----
-
-# まとめ：学習の1ステップ ＝ 3つの計算
-
-<div class="grid grid-cols-3 gap-4 mt-6 text-center">
-<div class="p-4 rounded-lg border-2 border-blue-500">
-
-**① 前向き計算**
-
-入力 → $\mathbf{h}$ → $\mathbf{s}$ → $\hat{\mathbf{y}}$ → $\mathcal{L}$
-
-途中の値を覚えておく
-
-</div>
-<div class="p-4 rounded-lg border-2 border-red-500">
-
-**② 逆向き計算**
-
-$\boldsymbol{\delta} = \hat{\mathbf{y}} - \mathbf{y}$ から出発し
-
-連鎖律で局所微分を掛けて戻る
-
-</div>
-<div class="p-4 rounded-lg border-2 border-green-600">
-
-**③ 更新**
-
-$\theta \leftarrow \theta - \alpha \nabla_\theta \mathcal{L}$
-
-（式1.4、ミニバッチで SGD）
-
-</div>
-</div>
-
-- 連鎖律：**縦につながれば掛け算、経路が分かれれば足し算**
-- 勾配の形は元の変数と同じ（$\mathbf{h}^\top \boldsymbol{\delta}$、$\boldsymbol{\delta}\mathbf{W}^\top$）
-- PyTorch では ① `model(x)` → ② `loss.backward()` → ③ `opt.step()`

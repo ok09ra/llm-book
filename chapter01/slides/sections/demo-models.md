@@ -87,31 +87,25 @@ BERT-base：12ヘッド × 64次元 = 768、FFN 中間 3072、活性化は GELU�
 
 # なぜ `[CLS]` に文全体の情報が集まるのか
 
-<div class="grid grid-cols-2 gap-4">
+<div class="grid grid-cols-2 gap-6">
 <div>
 <img src="/figs/cls-attention.svg" class="w-full" />
+</div>
+<div class="flex flex-col justify-center">
 
-<div class="text-xs mt-2 p-2 rounded bg-amber-50">
+<div class="text-xl leading-relaxed p-4 rounded bg-amber-50">
 
-**結論**：`[CLS]` に情報は **自然には集まらない**。`[CLS]` の出力から損失を計算する学習をしたときに、**集めるように重みが調整される**
+**`[CLS]` の出力から損失を計算して学習する**
+
+→ 誤差逆伝播で、**`[CLS]` に必要な情報が集まるように** 全層の重みが調整される
 
 </div>
+
+<div class="text-sm opacity-70 mt-4">
+
+自然に集まるわけではない（穴埋めの事前学習だけでは集まらない）
+
 </div>
-<div class="text-xs leading-normal">
-
-**穴埋め（MLM）だけでは集まらない**<br>
-MLM の損失は隠した位置（`[MASK]`）の出力からしか計算しない。`[CLS]` の出力は損失に使われないので、そこに何を集めるかは学習されない
-
-**① 集める「仕組み」は自己注意**<br>
-どの位置の出力も全トークンの重み付き和なので、`[CLS]` の位置にも文全体の情報を集めることは **できる**（どの位置でも条件は同じ）
-
-**② 実際に集めさせるのは「`[CLS]` から損失を計算する学習」**
-- 元の BERT の事前学習：次文予測（NSP）を `[CLS]` で解く
-- ファインチューニング：`[CLS]` → 分類層 → 正解との損失。誤差逆伝播で「`[CLS]` に分類に必要な情報が集まる」よう全層の重み（$W_Q, W_K, W_V$ など）が更新される
-- 文埋め込み（SimCSE）：`[CLS]` のベクトルどうしで対照学習する
-
-**なぜ先頭の `[CLS]` なのか**<br>
-単語の意味を持たず、どの文でも必ず同じ位置にある「空席」なので、集約用と決めておくと扱いやすい。全トークンの平均（mean pooling）を使う方法もある
 
 </div>
 </div>

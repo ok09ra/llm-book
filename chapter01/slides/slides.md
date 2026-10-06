@@ -131,10 +131,6 @@ print("torch", torch.__version__, "/ transformers", transformers.__version__)
 <Refs><a href="https://huggingface.co/docs/transformers/ja/index" target="_blank">Hugging Face transformers ドキュメント</a> ／ <a href="https://gihyo.jp/book/2023/978-4-297-13633-8" target="_blank">山田ほか『大規模言語モデル入門』技術評論社（2023）</a></Refs>
 
 ---
-src: ./sections/demo-models.md#2-7
----
-
----
 
 # 1.1.1 文書分類（感情分析）
 
@@ -182,6 +178,10 @@ score は予測確率。どちらも 96% 以上。
 -->
 
 ---
+src: ./sections/demo-models.md#2-3
+---
+
+---
 
 # Self-Attention：全トークンを見て混ぜる
 
@@ -225,6 +225,11 @@ $\mathbf{h}_i = \sum_j \alpha_{ij}\, \mathbf{v}_j$
 図の係数はイメージ（実際の値ではない）。d は q, k の次元（BERT-base では 768/12 = 64）。
 詳しくは2章（Transformer）。
 -->
+
+
+---
+src: ./sections/demo-models.md#4-7
+---
 
 ---
 

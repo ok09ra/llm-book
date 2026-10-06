@@ -649,31 +649,6 @@ src: ./sections/backprop.md
 
 ---
 
-# 実装を覗く：skip-gram を PyTorch で書く
-
-式 (1.2)〜(1.4) をそのままコードにする（おもちゃのコーパスで数秒）
-
-```py {monaco-run} {autorun:false}
-torch.manual_seed(0)
-corpus = ["今日 こたつ で みかん を 食べる", "今日 こたつ で りんご を 食べる",
-          "冬 は みかん が 甘い", "冬 は りんご が 甘い",
-          "公園 で 犬 と 散歩 する", "公園 で 猫 と 散歩 する",
-          "犬 が ワン と 鳴く", "猫 が ニャー と 鳴く"]
-words = sorted({w for s in corpus for w in s.split()}); idx = {w: i for i, w in enumerate(words)}
-pairs = [(idx[s[t]], idx[s[t + j]]) for s in map(str.split, corpus)       # (中央, 周辺) の組
-         for t in range(len(s)) for j in (-2, -1, 1, 2) if 0 <= t + j < len(s)]  # 窓幅 2
-center, context = torch.tensor(pairs).T
-X = nn.Embedding(len(words), 10)              # 中央単語の埋め込み x_w（D = 10）
-U = nn.Linear(10, len(words), bias=False)     # 周辺単語の埋め込み u_w（線形層）
-opt = torch.optim.SGD([*X.parameters(), *U.parameters()], lr=1.0)  # 学習率 α
-for step in range(1001):
-    loss = nn.functional.cross_entropy(U(X(center)), context)  # 式(1.2)+(1.3)
-    opt.zero_grad(); loss.backward(); opt.step()               # 誤差逆伝播 → 式(1.4)
-    if step % 250 == 0: print(step, round(loss.item(), 3))
-```
-
----
-
 # 事前学習と転移学習
 
 <div class="grid grid-cols-2 gap-6 items-center">

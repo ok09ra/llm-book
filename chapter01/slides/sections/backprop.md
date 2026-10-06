@@ -285,44 +285,6 @@ W_out の第 j 列が式(1.2) の u_j に当たる。
 
 ---
 
-# 実装を覗く：手計算の勾配 ＝ autograd の勾配？
-
-①〜⑤ の式で計算した勾配と、PyTorch の `loss.backward()` が求めた `.grad` を比べる
-
-```py {monaco-run} {autorun:false}
-torch.manual_seed(0)
-V, d, ctx, tgt = 5, 3, [0, 2], 1                    # 語彙数 V, 次元 d, 文脈単語の ID, 中央単語の ID
-W_in = torch.randn(V, d, requires_grad=True)        # W_in  (Vxd)
-W_out = torch.randn(d, V, requires_grad=True)       # W_out (dxV)
-h = W_in[ctx].mean(0)                               # 前向き: h = v_w の平均 (1xd)
-y_hat = torch.softmax(h @ W_out, dim=0)             # 前向き: ŷ = softmax(s) (1xV)
-loss = -torch.log(y_hat[tgt]); loss.backward()      # autograd で逆伝播 → .grad に勾配
-delta = (y_hat - torch.eye(V)[tgt]).detach()        # 手計算 ①: δ = ŷ - y
-g_out = torch.outer(h.detach(), delta)              # 手計算 ②: ∂L/∂W_out = hᵀδ (dxV)
-g_h = W_out.detach() @ delta                        # 手計算 ③: ∂L/∂h = δ W_outᵀ (1xd)
-g_in = torch.zeros(V, d); g_in[ctx] += g_h / len(ctx)  # 手計算 ④⑤: 文脈単語の行に (1/n)∂L/∂h
-print("loss =", round(loss.item(), 4), " δ =", delta.numpy().round(3))
-for name, hand, auto in [("W_out", g_out, W_out.grad), ("W_in ", g_in, W_in.grad)]:
-    print(name, "手計算と autograd が一致:", torch.allclose(hand, auto),
-          "| 最大誤差", (hand - auto).abs().max().item())
-```
-
-<div class="text-sm opacity-70">
-
-PyTorch は前向き計算で計算グラフを記録し、<code>backward()</code> で同じ連鎖律を自動で適用している
-
-</div>
-
-<!--
-手元での結果:
-loss = 0.8355  δ = [ 0.016 -0.566  0.455  0.042  0.054]
-W_out 手計算と autograd が一致: True | 最大誤差 0.0
-W_in  手計算と autograd が一致: True | 最大誤差 0.0
-ctx を [0, 0] にすると同じ行に 2 回足されることも確認できる。
--->
-
----
-
 # まとめ：学習の1ステップ ＝ 3つの計算
 
 <div class="grid grid-cols-3 gap-4 mt-6 text-center">

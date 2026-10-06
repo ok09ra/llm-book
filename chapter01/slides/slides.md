@@ -610,6 +610,38 @@ generate はデフォルトで greedy なので毎回同じ結果。do_sample=Tr
 -->
 
 ---
+
+# GPT：次のトークンを当て続けるモデル
+
+<div class="grid grid-cols-2 gap-5">
+<div>
+
+<img src="/figs/gpt-arch.svg" class="w-full" />
+
+</div>
+<div class="text-xs leading-normal">
+
+**デコーダ型**<br>
+Transformer のデコーダだけを積んだモデル。デモのモデルは 36層・1280次元・約7.5億パラメータ
+
+**事前学習：次の単語予測（言語モデル）**<br>
+各位置で次のトークンの確率分布を出し、正解との交差エントロピーの平均を小さくする（word2vec の損失と同じ形）。テキストだけで学習できる
+
+**マスク付き自己注意**<br>
+後ろを見ると答えが見えるので、自分より左だけを参照する（BERT は両側を見る）
+
+**生成**<br>
+最後の位置の分布から1つ選んで末尾に足す、をくり返す（最大を選ぶ＝貪欲法、確率に従う＝サンプリング）
+
+**GPT → GPT-2 → 現在の LLM**<br>
+GPT（2018）はタスクごとにファインチューニングした。GPT-2（2019）は大規模化し、追加学習なしでも色々なタスクを解けることを示した（3.2節・4章）
+
+</div>
+</div>
+
+<Refs><a href="https://cdn.openai.com/research-covers/language-unsupervised/language_understanding_paper.pdf" target="_blank">Radford+ 2018（GPT）</a> ／ <a href="https://cdn.openai.com/better-language-models/language_models_are_unsupervised_multitask_learners.pdf" target="_blank">Radford+ 2019（GPT-2）</a> ／ <a href="https://huggingface.co/abeja/gpt2-large-japanese" target="_blank">abeja/gpt2-large-japanese</a></Refs>
+
+---
 layout: section
 ---
 

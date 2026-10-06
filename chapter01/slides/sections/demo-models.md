@@ -23,18 +23,65 @@
 <div class="col-span-3">
 <img src="/figs/bert-layer.svg" class="w-full" />
 
-<div class="text-xs leading-snug mt-1">
+<div class="text-sm leading-snug mt-2">
 
-- **トークン**：単語とは限らない。語彙（32,768 種）にない語は部分語に分ける（例：`輪` `##読`）
-- **埋め込み**：ID の行を表（32,768 × 768）から取り出し、位置・セグメントの埋め込みを足す。表の中身は word2vec の結果ではなく **BERT の事前学習で一緒に学習** される。768 ＝ 1トークンを表す数値の個数
-- **1層の中身（右上の図）**：トークンは1本につなげず **「トークン数 × 768」の行列のまま** 扱う。① Self-Attention でトークンの **間** を混ぜ（各行＝全行の重み付き和）、② Feed-Forward で各トークンの **中** を変換（768→3072→768）。どちらも残差接続と LayerNorm 付き
-- **12層くり返しても形は同じ**：最後の各行が文脈を反映したベクトル（word2vec は1語1ベクトル）、先頭の行が `[CLS]`
+- トークンは1本につなげず **「トークン数 × 768」の行列のまま** 各層に通す
+- 各層は ① **Self-Attention**（トークンの **間** で混ぜる）→ ② **Feed-Forward**（各トークンの **中** で変換）。中身は次のページ
+- 12層くり返しても形は同じ。最後の各行が文脈を反映したベクトル、先頭の行が `[CLS]`
 
 </div>
 </div>
 </div>
 
 <Refs><a href="https://arxiv.org/abs/1810.04805" target="_blank">Devlin+ 2018（BERT）</a> ／ <a href="https://arxiv.org/abs/1706.03762" target="_blank">Vaswani+ 2017（Transformer）</a> ／ <a href="https://huggingface.co/tohoku-nlp/bert-base-japanese-v3" target="_blank">tohoku-nlp/bert-base-japanese-v3</a></Refs>
+
+---
+
+# Self-Attention と Feed-Forward は何をしているか
+
+<div class="grid grid-cols-2 gap-6 text-xs leading-normal">
+<div>
+
+### ① Self-Attention：トークンの **間** で情報をやりとり
+
+**1. 3つのベクトルを作る**（全トークン共通の重みで全結合）<br>
+$\mathbf{q}_i = \mathbf{x}_i W_Q$（何を探すか）、$\mathbf{k}_i = \mathbf{x}_i W_K$（自分は何か）、$\mathbf{v}_i = \mathbf{x}_i W_V$（渡す中身）
+
+**2. 誰をどれだけ見るかを決める**<br>
+$\alpha_{ij} = \operatorname{softmax}_j\big(\mathbf{q}_i \cdot \mathbf{k}_j / \sqrt{64}\big)$。探しているもの（q）と相手の特徴（k）が合うほど大きい。各行の合計は 1
+
+**3. 相手の中身を混ぜる**<br>
+$\mathbf{h}_i = \sum_j \alpha_{ij}\, \mathbf{v}_j$ ＝ 関係の強いトークンの中身ほど多く取り込んだ新しいベクトル
+
+**例**：「マウスをクリックした」の「マウス」は「クリック」を強く参照し、パソコンのマウス寄りのベクトルになる（1.4節の例）
+
+**マルチヘッド**：$W_Q, W_K, W_V$ を 12 組（各 64 次元）用意し、別々の見方で並行に混ぜてから、つなげて 768 に戻す
+
+</div>
+<div>
+
+### ② Feed-Forward：各トークンの **中** で変換
+
+**計算**：各行に同じ2層の全結合をかける<br>
+$\mathrm{FFN}(\mathbf{h}) = \mathrm{GELU}(\mathbf{h} W_1 + \mathbf{b}_1)\, W_2 + \mathbf{b}_2$　（768 → 3072 → 768）
+
+**トークン間のやりとりはない**：行ごとに独立。混ぜるのは Self-Attention だけの役割
+
+**何をしているか**：Self-Attention で集めた情報を、非線形な変換でそのトークンの新しい特徴に作り変える（一度 3072 次元に広げて多くのパターンを表す）
+
+**知識の置き場という見方**：$W_1$ が「こういう入力パターンなら」（キー）、$W_2$ が「この情報を足す」（値）のように働き、知識の多くがここに蓄えられるという分析がある
+
+**③ 残差接続と LayerNorm**（①②それぞれの後）<br>
+$\mathbf{x} \leftarrow \mathrm{LayerNorm}(\mathbf{x} + \mathrm{Block}(\mathbf{x}))$：元の情報を残して **差分だけ足す** ので、12層重ねても学習が安定する
+
+</div>
+</div>
+
+<Refs><a href="https://arxiv.org/abs/1706.03762" target="_blank">Vaswani+ 2017（Transformer）</a> ／ <a href="https://arxiv.org/abs/1810.04805" target="_blank">Devlin+ 2018（BERT）</a> ／ <a href="https://arxiv.org/abs/2012.14913" target="_blank">Geva+ 2021（FFN は key-value メモリ）</a></Refs>
+
+<!--
+BERT-base：12ヘッド × 64次元 = 768、FFN 中間 3072、活性化は GELU（transformers の config で確認）。
+-->
 
 ---
 

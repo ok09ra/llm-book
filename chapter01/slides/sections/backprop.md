@@ -127,11 +127,15 @@ $$
 
 <div class="p-3 rounded bg-amber-50 text-lg">
 
-**結論**：微分は「入力を少し動かすと、出力が **何倍** 動くか」という **倍率**。合成関数では変化が段ごとに増幅されて伝わるので、全体の倍率は **各段の倍率の掛け算** になる
+**結論**：$u$ の変化量は「$x$ の変化量 × 3」。$y$ の変化量は「**$u$ の変化量** × 14」。2つ目の式の「$u$ の変化量」に1つ目を **代入する** と
 
 $$
+\Delta y \approx 14 \times \Delta u = 14 \times (3 \times \Delta x) = 42 \times \Delta x
+\qquad\Longrightarrow\qquad
 \frac{dy}{dx} = \frac{dy}{du} \times \frac{du}{dx}
 $$
+
+<div class="text-sm">前の段の「出力の変化」が、そのまま次の段の「入力の変化」になるので、倍率が掛け算で重なる（為替 円→ドル→ユーロ の換算レートを掛けるのと同じ）</div>
 
 </div>
 

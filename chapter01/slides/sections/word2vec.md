@@ -6,6 +6,8 @@
 - 位置 $t$ の単語を **中央語** $w_t$ と呼ぶ。文脈語の数は $n = 2p$（文頭・文末では窓がはみ出すぶん少なくなる）
 - 本書 式(1.3) の $p$ と同じもの。小さいと文法的、大きいと意味的な関係を拾いやすい
 
+<Refs><a href="https://arxiv.org/abs/1301.3781" target="_blank">Mikolov+ 2013</a> ／ <a href="https://qiita.com/g-k/items/69afa87c73654af49d36" target="_blank">@g-k「Word2Vecを理解する」Qiita</a></Refs>
+
 ---
 
 # 単語を one-hot ベクトルで表す
@@ -22,6 +24,8 @@
 ⚠ **本書との記号の違い**：本書の $\mathbf{x}_w$ は **埋め込み**（ここでの $\mathbf{v}_w$）を指し、次元は $D$（ここでの $d$）。このパートでは $\mathbf{x}_w$ を **one-hot** の意味で使う
 
 </div>
+
+<Refs><a href="https://arxiv.org/abs/1301.3781" target="_blank">Mikolov+ 2013</a> ／ <a href="https://qiita.com/g-k/items/69afa87c73654af49d36" target="_blank">@g-k「Word2Vecを理解する」Qiita</a></Refs>
 
 ---
 
@@ -55,6 +59,8 @@ print("Embedding=", emb(torch.tensor(3)))            # 中身は同じ「行の�
 - 図では $W_{\text{in}}$ が 2 つ描かれているが **同じ 1 つの行列を共有**（別々の重みではない）
 - **単語の埋め込み** $\mathbf{v}_w$ と、それを平均した **文脈の中間表現** $\mathbf{h}$ は区別する
 
+<Refs><a href="https://arxiv.org/abs/1301.3781" target="_blank">Mikolov+ 2013</a> ／ <a href="https://qiita.com/g-k/items/69afa87c73654af49d36" target="_blank">@g-k「Word2Vecを理解する」Qiita</a></Refs>
+
 ---
 
 # CBOW の計算を式で追う
@@ -77,11 +83,12 @@ $$
 - 学習では正解の中央語 $w_t$ の確率 $\hat{y}_{t,w_t}$ が高くなるよう $W_{\text{in}}, W_{\text{out}}$ を動かす
 - 本書との対応：$W_{\text{out}} = \mathbf{U}^\top$（本書の行 $\mathbf{u}_w$ がここでは列）、$\mathbf{h}_t$ は本書の $\mathbf{x}_{w_t}^\top$ に当たる
 
+<Refs><a href="https://arxiv.org/abs/1301.3781" target="_blank">Mikolov+ 2013</a> ／ <a href="https://qiita.com/g-k/items/69afa87c73654af49d36" target="_blank">@g-k「Word2Vecを理解する」Qiita</a></Refs>
+
 ---
 
 # なぜ CBOW は 2 つ以上の入力を使うのか
 
-<v-clicks>
 
 - **1 語だけでは中央語が絞れない**：「で ＿」→ 何でも入る。「で ＿ を」→ 目的語の名詞。$p=2$ の「こたつ で ＿ を 食べる」→ ほぼ「みかん」
 - **分布仮説そのもの**：単語の意味は「周辺語の集まり」で決まる → 周辺語をまとめて 1 つの入力 $\mathbf{h}$ にする
@@ -89,7 +96,8 @@ $$
 - **平均するので語順は捨てる**（Bag-of-Words）。$n$ が何個でも $\mathbf{h}$ は $d$ 次元で固定 → 名前の由来
 - **効率が良い**：1 位置につき予測は 1 回（skip-gram は $n$ 回）→ 学習が速い
 
-</v-clicks>
+
+<Refs><a href="https://arxiv.org/abs/1301.3781" target="_blank">Mikolov+ 2013</a></Refs>
 
 ---
 
@@ -111,6 +119,8 @@ $$
 - 式(1.3) と比べると **条件と予測対象が入れ替わり**、$j$ についての和が消えている（1 位置 1 項）
 - 最小化は式(1.4) の勾配降下法（誤差逆伝播で $W_{\text{out}}$ → $\mathbf{h}$ → 平均 → $W_{\text{in}}$ の各行へ）
 
+<Refs><a href="https://arxiv.org/abs/1301.3781" target="_blank">Mikolov+ 2013</a> ／ <a href="https://gihyo.jp/book/2023/978-4-297-13633-8" target="_blank">山田ほか『大規模言語モデル入門』技術評論社（2023）</a></Refs>
+
 ---
 
 # skip-gram も同じ図式で
@@ -119,6 +129,8 @@ $$
 
 - 入力は中央語 1 語だけ → 平均は不要で $\mathbf{h} = \mathbf{v}_{w_t}$（$n=1$ の CBOW の形）
 - 出力層が周辺語の数だけ描かれる図もあるが、**同じ $W_{\text{out}}$・同じ $\hat{\mathbf{y}}$ を $n$ 回使う** だけ（CBOW の $W_{\text{in}}$ 共有と対）
+
+<Refs><a href="https://arxiv.org/abs/1301.3781" target="_blank">Mikolov+ 2013</a> ／ <a href="https://qiita.com/g-k/items/69afa87c73654af49d36" target="_blank">@g-k「Word2Vecを理解する」Qiita</a></Refs>
 
 ---
 
@@ -146,11 +158,12 @@ $$
 
 </div>
 
+<Refs><a href="https://arxiv.org/abs/1301.3781" target="_blank">Mikolov+ 2013</a> ／ <a href="https://gihyo.jp/book/2023/978-4-297-13633-8" target="_blank">山田ほか『大規模言語モデル入門』技術評論社（2023）</a></Refs>
+
 ---
 
 # 学習で何が起きるか・何を埋め込みに使うか
 
-<v-clicks>
 
 - 正解の単語の確率を上げ、他の単語の確率を下げるように $W_{\text{in}}, W_{\text{out}}$ を更新（式1.4）
 - 大量の文章で繰り返すと、**似た文脈に現れる単語は似た埋め込み** を持つようになる
@@ -158,7 +171,8 @@ $$
 - $W_{\text{out}}$ の各列 $\mathbf{u}_w$ にも単語ごとの表現があるが、通常は **$W_{\text{in}}$ の各行** を単語埋め込みとして使う（本書「基本的に $\mathbf{x}_w$ を単語埋め込みとする」と同じ）
 - 実用上は語彙全体の softmax が重い → **負例サンプリング**・階層的 softmax で近似
 
-</v-clicks>
+
+<Refs><a href="https://arxiv.org/abs/1301.3781" target="_blank">Mikolov+ 2013</a> ／ <a href="https://arxiv.org/abs/1310.4546" target="_blank">Mikolov+ 2013b</a></Refs>
 
 ---
 

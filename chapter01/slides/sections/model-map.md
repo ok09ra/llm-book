@@ -6,6 +6,9 @@
 色はアーキテクチャの型。word2vec は1.3節、ELMo は1.4節、Transformer は2章、GPT・BERT・RoBERTa・T5 は書籍3章（3.2〜3.4節）で詳しく扱う
 </div>
 
+
+<Refs><a href="https://arxiv.org/abs/1301.3781" target="_blank">Mikolov+ 2013</a> ／ <a href="https://arxiv.org/abs/1802.05365" target="_blank">Peters+ 2018（ELMo）</a> ／ <a href="https://arxiv.org/abs/1706.03762" target="_blank">Vaswani+ 2017（Transformer）</a> ／ <a href="https://cdn.openai.com/research-covers/language-unsupervised/language_understanding_paper.pdf" target="_blank">Radford+ 2018（GPT）</a> ／ <a href="https://arxiv.org/abs/1810.04805" target="_blank">Devlin+ 2018（BERT）</a> ／ <a href="https://arxiv.org/abs/1907.11692" target="_blank">Liu+ 2019（RoBERTa）</a> ／ <a href="https://arxiv.org/abs/1910.10683" target="_blank">Raffel+ 2019（T5）</a></Refs>
+
 <!--
 読み方：横が時間、縦の帯が「型」。
 - word2vec（単語ごとに1つの固定ベクトル）→ ELMo（文脈ごとにベクトルが変わる）
@@ -40,6 +43,9 @@
 どれも「正解ラベルを人が付けなくてよい」＝ 大量のテキストだけで学習できる（自己教師あり学習）
 </div>
 
+
+<Refs><a href="https://cdn.openai.com/research-covers/language-unsupervised/language_understanding_paper.pdf" target="_blank">Radford+ 2018（GPT）</a> ／ <a href="https://arxiv.org/abs/1802.05365" target="_blank">Peters+ 2018（ELMo）</a> ／ <a href="https://arxiv.org/abs/1810.04805" target="_blank">Devlin+ 2018（BERT）</a> ／ <a href="https://arxiv.org/abs/1910.10683" target="_blank">Raffel+ 2019（T5）</a></Refs>
+
 <!--
 例文はスライド用に作ったもの（論文の例ではない）。
 - GPT：左側だけを見て次を当てる
@@ -62,6 +68,8 @@
 出典：Peters et al., "Deep contextualized word representations", NAACL 2018 ／ 本書：1.4節
 </div>
 
+<Refs><a href="https://arxiv.org/abs/1802.05365" target="_blank">Peters+ 2018（ELMo）</a></Refs>
+
 ---
 
 # Transformer（2017）— すべての土台
@@ -75,6 +83,8 @@
 出典：Vaswani et al., "Attention Is All You Need", NeurIPS 2017 ／ 本書：2章
 </div>
 
+<Refs><a href="https://arxiv.org/abs/1706.03762" target="_blank">Vaswani+ 2017（Transformer）</a></Refs>
+
 ---
 
 # GPT（2018）・GPT-2（2019）— デコーダ × 次単語予測
@@ -87,6 +97,8 @@
 <div class="text-xs opacity-60 mt-8">
 出典：Radford et al., "Improving Language Understanding by Generative Pre-Training", 2018 ／ Radford et al., "Language Models are Unsupervised Multitask Learners", 2019 ／ 本書：3.2節
 </div>
+
+<Refs><a href="https://cdn.openai.com/research-covers/language-unsupervised/language_understanding_paper.pdf" target="_blank">Radford+ 2018（GPT）</a> ／ <a href="https://cdn.openai.com/better-language-models/language_models_are_unsupervised_multitask_learners.pdf" target="_blank">Radford+ 2019（GPT-2）</a></Refs>
 
 ---
 
@@ -102,6 +114,8 @@
 出典：Devlin et al., "BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding", NAACL 2019（arXiv 2018）／ 本書：3.3節
 </div>
 
+<Refs><a href="https://arxiv.org/abs/1810.04805" target="_blank">Devlin+ 2018（BERT）</a></Refs>
+
 ---
 
 # RoBERTa（2019）— BERT の学習方法を見直す
@@ -115,6 +129,8 @@
 <div class="text-xs opacity-60 mt-8">
 出典：Liu et al., "RoBERTa: A Robustly Optimized BERT Pretraining Approach", arXiv 2019 ／ 本書：3.3節
 </div>
+
+<Refs><a href="https://arxiv.org/abs/1907.11692" target="_blank">Liu+ 2019（RoBERTa）</a></Refs>
 
 ---
 
@@ -130,3 +146,5 @@
 <div class="text-xs opacity-60 mt-6">
 出典：Raffel et al., "Exploring the Limits of Transfer Learning with a Unified Text-to-Text Transformer", JMLR 2020（arXiv 2019）／ 本書：3.4節
 </div>
+
+<Refs><a href="https://arxiv.org/abs/1910.10683" target="_blank">Raffel+ 2019（T5）</a></Refs>

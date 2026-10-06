@@ -37,6 +37,8 @@ BERT-base の設計値（large は 1024）。各次元に決まった意味は�
 </div>
 </div>
 
+<Refs><a href="https://arxiv.org/abs/1810.04805" target="_blank">Devlin+ 2018（BERT）</a> ／ <a href="https://huggingface.co/tohoku-nlp/bert-base-japanese-v3" target="_blank">tohoku-nlp/bert-base-japanese-v3</a></Refs>
+
 ---
 
 # BERT はどう学習するか・手で確かめる
@@ -77,6 +79,9 @@ print("埋め込み表", tuple(W.shape))
 
 </div>
 </div>
+
+
+<Refs><a href="https://arxiv.org/abs/1810.04805" target="_blank">Devlin+ 2018（BERT）</a> ／ <a href="https://huggingface.co/tohoku-nlp/bert-base-japanese-v3" target="_blank">tohoku-nlp/bert-base-japanese-v3</a></Refs>
 
 <!--
 実行結果の例：
@@ -119,6 +124,9 @@ print("[CLS]:", tuple(out[0][0].shape))
 </div>
 </div>
 
+
+<Refs><a href="https://arxiv.org/abs/1810.04805" target="_blank">Devlin+ 2018（BERT）</a></Refs>
+
 <!--
 本の出力ではないので、実行結果の例：
 ['[CLS]', '今日', 'は', '良い', '天気', 'です', '[SEP]']
@@ -157,6 +165,9 @@ $$
 
 </div>
 </div>
+
+
+<Refs><a href="https://arxiv.org/abs/1706.03762" target="_blank">Vaswani+ 2017（Transformer）</a> ／ <a href="https://arxiv.org/abs/1810.04805" target="_blank">Devlin+ 2018（BERT）</a> ／ <a href="https://arxiv.org/abs/2104.08821" target="_blank">Gao+ 2021（SimCSE）</a></Refs>
 
 <!--
 q, k, v は各トークンのベクトルから線形変換で作るクエリ・キー・バリュー。α は [CLS] が各トークンをどれだけ参照するかの重み（合計1）。

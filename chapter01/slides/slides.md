@@ -41,6 +41,8 @@ fonts:
 
 <div class="text-sm opacity-70 mt-4">最後の「まとめ」は、この ①〜⑤ に1対1で答える形になっています</div>
 
+<Refs><a href="https://gihyo.jp/book/2023/978-4-297-13633-8" target="_blank">山田ほか『大規模言語モデル入門』技術評論社（2023）</a> ／ <a href="https://github.com/ghmagazine/llm-book" target="_blank">ghmagazine/llm-book</a></Refs>
+
 ---
 layout: section
 ---
@@ -126,6 +128,7 @@ print("torch", torch.__version__, "/ transformers", transformers.__version__)
 
 <div class="mt-4 opacity-80">今日は「使う側」、後の章で「作る側」を学ぶ</div>
 
+<Refs><a href="https://huggingface.co/docs/transformers/ja/index" target="_blank">Hugging Face transformers ドキュメント</a> ／ <a href="https://gihyo.jp/book/2023/978-4-297-13633-8" target="_blank">山田ほか『大規模言語モデル入門』技術評論社（2023）</a></Refs>
 
 ---
 src: ./sections/demo-models.md#2-7
@@ -168,11 +171,59 @@ print(text_classification_pipeline(negative_text)[0])
 </div>
 </div>
 
+
+<Refs><a href="https://huggingface.co/llm-book/bert-base-japanese-v3-marc_ja" target="_blank">llm-book/bert-base-japanese-v3-marc_ja</a> ／ <a href="https://arxiv.org/abs/2010.02573" target="_blank">Keung+ 2020（MARC）</a> ／ <a href="https://arxiv.org/abs/1810.04805" target="_blank">Devlin+ 2018（BERT）</a></Refs>
+
 <!--
 本の出力:
 {'label': 'positive', 'score': 0.9993619322776794}
 {'label': 'negative', 'score': 0.9636247754096985}
 score は予測確率。どちらも 96% 以上。
+-->
+
+---
+
+# Self-Attention：全トークンを見て混ぜる
+
+<div class="grid grid-cols-2 gap-5">
+<div>
+
+<img src="/figs/self-attention.svg" class="w-full" />
+
+<div class="text-xs leading-snug mt-1">
+
+- **後ろのトークンは前を見る？** BERT は前も後ろも **全部** 見る（穴埋めで学習するので両側を使える）。GPT は次の単語を当てるので、答えが見えないよう **後ろを隠す**（マスク）
+- これを 12 層くり返す。各層は 12 個の「ヘッド」が別々の見方で並行して混ぜる
+
+</div>
+</div>
+<div class="text-sm leading-snug">
+
+**① 全結合層で3種類のベクトルを作る**（重みは全トークン共通）<br>
+$\mathbf{q}_i = \mathbf{x}_i W_Q,\ \ \mathbf{k}_i = \mathbf{x}_i W_K,\ \ \mathbf{v}_i = \mathbf{x}_i W_V$<br>
+<span class="text-xs opacity-80">q＝何を探すか、k＝自分は何か（見出し）、v＝渡す中身</span>
+
+**② 係数：i が j をどれだけ見るか**（各行の合計は 1）<br>
+$\alpha_{ij} = \operatorname{softmax}_j\big(\mathbf{q}_i \cdot \mathbf{k}_j / \sqrt{d}\big)$
+
+**③ 出力：全トークンの v の重み付き和**<br>
+$\mathbf{h}_i = \sum_j \alpha_{ij}\, \mathbf{v}_j$
+
+<div class="text-xs mt-3 p-2 rounded bg-red-50">
+
+**なぜ `[CLS]` に全情報？** ③ より `[CLS]` の出力も全トークンの v を混ぜたもの。**何をどれだけ混ぜるか**（$W_Q, W_K, W_V$）は学習で決まり、分類の損失は `[CLS]` の出力から計算されるので、「分類に必要な情報が `[CLS]` に集まる」ように重みが調整される
+
+</div>
+
+</div>
+</div>
+
+
+<Refs><a href="https://arxiv.org/abs/1706.03762" target="_blank">Vaswani+ 2017（Transformer）</a> ／ <a href="https://arxiv.org/abs/1810.04805" target="_blank">Devlin+ 2018（BERT）</a> ／ <a href="https://cdn.openai.com/better-language-models/language_models_are_unsupervised_multitask_learners.pdf" target="_blank">Radford+ 2019（GPT-2）</a></Refs>
+
+<!--
+図の係数はイメージ（実際の値ではない）。d は q, k の次元（BERT-base では 768/12 = 64）。
+詳しくは2章（Transformer）。
 -->
 
 ---
@@ -213,6 +264,9 @@ for pair in [
 </div>
 </div>
 </div>
+
+
+<Refs><a href="https://huggingface.co/llm-book/bert-base-japanese-v3-jnli" target="_blank">llm-book/bert-base-japanese-v3-jnli</a> ／ <a href="https://aclanthology.org/2022.lrec-1.317/" target="_blank">Kurihara+ 2022（JGLUE）</a></Refs>
 
 <!--
 本の出力:
@@ -256,6 +310,9 @@ print(text_sim_pipeline(
 </div>
 </div>
 </div>
+
+
+<Refs><a href="https://huggingface.co/llm-book/bert-base-japanese-v3-jsts" target="_blank">llm-book/bert-base-japanese-v3-jsts</a> ／ <a href="https://aclanthology.org/2022.lrec-1.317/" target="_blank">Kurihara+ 2022（JGLUE）</a></Refs>
 
 <!--
 本の出力: 3.5703558921813965 / 0.04162175580859184
@@ -302,6 +359,9 @@ print(cosine_similarity(
 </div>
 </div>
 
+
+<Refs><a href="https://huggingface.co/llm-book/bert-base-japanese-v3-unsup-simcse-jawiki" target="_blank">llm-book/bert-base-japanese-v3-unsup-simcse-jawiki</a> ／ <a href="https://arxiv.org/abs/2104.08821" target="_blank">Gao+ 2021（SimCSE）</a></Refs>
+
 <!--
 本の出力: 0.8568589687347412 / 0.45887047052383423
 [0][0] は先頭トークン [CLS] のベクトル。
@@ -343,6 +403,9 @@ pprint(ner_pipeline(
 </div>
 </div>
 
+
+<Refs><a href="https://huggingface.co/llm-book/bert-base-japanese-v3-ner-wikipedia-dataset" target="_blank">llm-book/bert-base-japanese-v3-ner-wikipedia-dataset</a> ／ <a href="https://github.com/stockmarkteam/ner-wikipedia-dataset" target="_blank">stockmarkteam/ner-wikipedia-dataset</a></Refs>
+
 <!--
 本の出力: 人名「大谷 翔平」0.998、地名「岩手 県 水沢 市」0.999
 -->
@@ -381,6 +444,9 @@ print(text2text_pipeline(article)[0]["generated_text"])
 </div>
 </div>
 </div>
+
+
+<Refs><a href="https://huggingface.co/llm-book/t5-base-long-livedoor-news-corpus" target="_blank">llm-book/t5-base-long-livedoor-news-corpus</a> ／ <a href="https://huggingface.co/retrieva-jp/t5-base-long" target="_blank">retrieva-jp/t5-base-long</a> ／ <a href="https://www.rondhuit.com/download.html" target="_blank">livedoor ニュースコーパス</a> ／ <a href="https://arxiv.org/abs/1910.10683" target="_blank">Raffel+ 2019（T5）</a></Refs>
 
 <!--
 本の出力: 今夜はNHKスペシャル「世界を変えた男 スティーブ・ジョブズ」をチェック!
@@ -499,6 +565,9 @@ print(tokenizer.decode(outputs[0],
 </div>
 </div>
 
+
+<Refs><a href="https://huggingface.co/abeja/gpt2-large-japanese" target="_blank">abeja/gpt2-large-japanese</a> ／ <a href="https://cdn.openai.com/better-language-models/language_models_are_unsupervised_multitask_learners.pdf" target="_blank">Radford+ 2019（GPT-2）</a></Refs>
+
 <!--
 本の出力: 今日は天気が良いので外でお弁当を食べました。
 generate はデフォルトで greedy なので毎回同じ結果。do_sample=True にすると変わる。
@@ -537,6 +606,7 @@ layout: section
 - 同じ表記には同じベクトル → 「マウス」（入力機器／ネズミ）も1つのベクトル
 - **埋め込み**：タスクを解く際に有用な情報を表現したベクトル（本書で頻出）
 
+<Refs><a href="https://arxiv.org/abs/1301.3781" target="_blank">Mikolov+ 2013</a> ／ <a href="https://gihyo.jp/book/2023/978-4-297-13633-8" target="_blank">山田ほか『大規模言語モデル入門』技術評論社（2023）</a></Refs>
 
 ---
 src: ./sections/word2vec.md
@@ -566,6 +636,8 @@ $\mathbf{U}\mathbf{x}$ のような線形変換を行う層 ＝ **線形層**（
 
 </div>
 
+<Refs><a href="https://arxiv.org/abs/1301.3781" target="_blank">Mikolov+ 2013</a> ／ <a href="https://arxiv.org/abs/1310.4546" target="_blank">Mikolov+ 2013b</a></Refs>
+
 ---
 
 # 学習：損失関数と勾配降下法
@@ -587,8 +659,7 @@ $$
 - **確率的勾配降下法（SGD）**：ランダムに選んだ **ミニバッチ** で勾配を近似
 - **誤差逆伝播法**：前向き計算 → 連鎖律で損失を逆向きに伝えて勾配を計算
 
-
-
+<Refs><a href="https://gihyo.jp/book/2023/978-4-297-13633-8" target="_blank">山田ほか『大規模言語モデル入門』技術評論社（2023）</a></Refs>
 
 ---
 src: ./sections/backprop.md
@@ -683,6 +754,7 @@ layout: section
   - 初期の代表例：ELMo（2018, RNN ベース）
 - ほぼ同時期に **Transformer** が登場（2章で詳説）
 
+<Refs><a href="https://arxiv.org/abs/1802.05365" target="_blank">Peters+ 2018（ELMo）</a> ／ <a href="https://arxiv.org/abs/1810.04805" target="_blank">Devlin+ 2018（BERT）</a></Refs>
 
 ---
 
@@ -736,6 +808,8 @@ src: ./sections/model-map.md
 </div>
 </div>
 
+<Refs><a href="https://arxiv.org/abs/1810.04805" target="_blank">Devlin+ 2018（BERT）</a> ／ <a href="https://cdn.openai.com/research-covers/language-unsupervised/language_understanding_paper.pdf" target="_blank">Radford+ 2018（GPT）</a></Refs>
+
 ---
 
 # まとめ
@@ -744,7 +818,7 @@ src: ./sections/model-map.md
 
 | # | 目標 | 分かったこと |
 |---|---|---|
-| ① | pipeline | `pipeline(model=...)` は トークナイズ → モデル（BERT 本体＋タスク用ヘッド）→ softmax などの後処理 をまとめたもの。手で分解しても同じ値になる |
+| ① | pipeline | `pipeline(model=...)` は トークナイズ → モデル（BERT 本体＋タスク用ヘッド）→ softmax などの後処理 をまとめたもの。分類では自己注意で文全体の情報が集まった `[CLS]` の出力を分類層に通す |
 | ② | AutoTokenizer / AutoModel | テキストはトークン ID 列になってモデルに入る。生成は「次トークンの確率分布 → 1つ選んで追加」の繰り返し |
 | ③ | word2vec | 窓の中の周辺語と中央語の予測（CBOW：周辺→中央、skip-gram：中央→周辺）を解くうちに、$W_{\mathrm{in}}$ の各行が単語埋め込みになる。似た文脈の単語は似たベクトルになる（分布仮説） |
 | ④ | 学習の仕組み | 損失（負の対数尤度）の勾配を、連鎖律で出力側から入力側へ順に掛けて求め（誤差逆伝播）、$\theta \leftarrow \theta - \alpha \nabla_\theta \mathcal{L}$ で更新する |
@@ -753,3 +827,50 @@ src: ./sections/model-map.md
 </div>
 
 <div class="mt-6 opacity-70">次回：第2章 Transformer</div>
+
+---
+
+# 参考文献
+
+<div class="grid grid-cols-2 gap-6 text-xs leading-snug">
+<div>
+
+**書籍・記事**
+
+- 山田育矢 監修／鈴木正敏・山田康輔・李凌寒 著『大規模言語モデル入門』技術評論社（2023） https://gihyo.jp/book/2023/978-4-297-13633-8
+- 書籍のサンプルコード ghmagazine/llm-book https://github.com/ghmagazine/llm-book
+- @g-k「Word2Vecを理解する」Qiita（2020） https://qiita.com/g-k/items/69afa87c73654af49d36
+- Hugging Face transformers ドキュメント https://huggingface.co/docs/transformers/ja/index
+
+**モデル・データセット**
+
+- 本章のデモモデル（llm-book/…）https://huggingface.co/llm-book
+- tohoku-nlp/bert-base-japanese-v3 https://huggingface.co/tohoku-nlp/bert-base-japanese-v3
+- retrieva-jp/t5-base-long https://huggingface.co/retrieva-jp/t5-base-long
+- abeja/gpt2-large-japanese https://huggingface.co/abeja/gpt2-large-japanese
+- JGLUE（MARC-ja / JNLI / JSTS）https://github.com/yahoojapan/JGLUE
+- ner-wikipedia-dataset https://github.com/stockmarkteam/ner-wikipedia-dataset
+- livedoor ニュースコーパス https://www.rondhuit.com/download.html
+
+</div>
+<div>
+
+**論文**
+
+- Rumelhart+ (1986) Learning representations by back-propagating errors. https://www.nature.com/articles/323533a0
+- Mikolov+ (2013) Efficient Estimation of Word Representations in Vector Space. https://arxiv.org/abs/1301.3781
+- Mikolov+ (2013) Distributed Representations of Words and Phrases and their Compositionality. https://arxiv.org/abs/1310.4546
+- Vaswani+ (2017) Attention Is All You Need. https://arxiv.org/abs/1706.03762
+- Peters+ (2018) Deep contextualized word representations（ELMo）. https://arxiv.org/abs/1802.05365
+- Radford+ (2018) Improving Language Understanding by Generative Pre-Training（GPT）. https://cdn.openai.com/research-covers/language-unsupervised/language_understanding_paper.pdf
+- Radford+ (2019) Language Models are Unsupervised Multitask Learners（GPT-2）. https://cdn.openai.com/better-language-models/language_models_are_unsupervised_multitask_learners.pdf
+- Devlin+ (2019) BERT. https://arxiv.org/abs/1810.04805
+- Liu+ (2019) RoBERTa. https://arxiv.org/abs/1907.11692
+- Raffel+ (2020) T5. https://arxiv.org/abs/1910.10683
+- Keung+ (2020) The Multilingual Amazon Reviews Corpus. https://arxiv.org/abs/2010.02573
+- Gao+ (2021) SimCSE. https://arxiv.org/abs/2104.08821
+- Kurihara+ (2022) JGLUE. https://aclanthology.org/2022.lrec-1.317/
+
+</div>
+</div>
+

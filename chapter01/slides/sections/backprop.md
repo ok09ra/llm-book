@@ -38,6 +38,8 @@ $\theta^{(t)}$：$t$ 回目の更新後のパラメータ　$\alpha$：学習率
 - 勾配が大きい（急な坂）ほど大きく動き、谷底（勾配 0）に近づくと自然に歩幅が小さくなる
 - 学習率は **ハイパーパラメータ**：小さすぎると遅い、大きすぎると発散
 
+<Refs><a href="https://gihyo.jp/book/2023/978-4-297-13633-8" target="_blank">山田ほか『大規模言語モデル入門』技術評論社（2023）</a></Refs>
+
 ---
 
 # 確率的勾配降下法（SGD）・ミニバッチ・エポック
@@ -105,19 +107,19 @@ $$
 
 <img src="/figs/bp-chain.svg" class="mx-auto h-48" />
 
-<v-clicks>
 
 1. **前向き**：$x = 2 \to u = 3 \cdot 2 + 1 = 7 \to y = 7^2 = 49$（値を覚えておく）
 2. **局所微分**：$\frac{du}{dx} = 3$、$\frac{dy}{du} = 2u = 2 \times 7 = 14$（前向きで覚えた $u$ を使う）
 3. **逆向き**：$\frac{dy}{dx} = 14 \times 3 = 42$
 
-</v-clicks>
 
 <div class="text-sm opacity-70">
 
 確認：$y=(3x+1)^2$ を直接微分すると $2(3x+1)\cdot 3 = 6 \cdot 7 = 42$ ✓
 
 </div>
+
+<Refs><a href="https://www.nature.com/articles/323533a0" target="_blank">Rumelhart+ 1986（誤差逆伝播法）</a></Refs>
 
 ---
 
@@ -131,13 +133,11 @@ $x$ を $2 \to 2.01$ と **$\Delta x = 0.01$** だけ動かしてみる
 | $u = 3x+1$ | 7 | 7.03 | $\Delta u = 0.03$ | $\Delta u / \Delta x = 3$ |
 | $y = u^2$ | 49 | 49.4209 | $\Delta y \approx 0.42$ | $\Delta y / \Delta u \approx 14$ |
 
-<v-clicks>
 
 - $x$ の変化は $g$ で **3倍** になって $u$ に、さらに $f$ で **約14倍** になって $y$ に伝わる
 - だから全体の倍率は $3 \times 14 = 42$：$\ \Delta y \approx 42 \times \Delta x = 0.42$
 - **微分 ＝ 変化の倍率**。倍率は段ごとに **掛け算** で積み重なる
 
-</v-clicks>
 
 <!--
 Δy = 49.4209 − 49 = 0.4209。42 × 0.01 = 0.42 とほぼ一致（ずれ 0.0009 は Δx² の項）。
@@ -172,6 +172,9 @@ $$
 例：$z = wx + b$、$\mathcal{L} = (z - t)^2$（$w, b$：パラメータ、$x$：入力、$t$：正解、$p = wx$：中間変数）。**誤差逆伝播法** ＝ 出力側の $\frac{\partial \mathcal{L}}{\partial \mathcal{L}} = 1$ から始めて、各ノードで局所微分を掛けながら入力側へ戻る
 
 </div>
+
+
+<Refs><a href="https://www.nature.com/articles/323533a0" target="_blank">Rumelhart+ 1986（誤差逆伝播法）</a></Refs>
 
 <!--
 前向きで全ノードの値を保存 → 逆向きで1回なぞるだけで全パラメータの勾配がそろう。
@@ -212,7 +215,6 @@ $$
 
 $\hat{y}_j = \dfrac{\exp(s_j)}{Z}$、$Z = \sum_{k=1}^{V} \exp(s_k)$（式1.1）、$\mathcal{L} = -\sum_j y_j \log \hat{y}_j$（$\mathbf{y}$：正解 one-hot、$y_{w_t} = 1$）
 
-<v-click>
 
 **① log を展開**：$\log \hat{y}_j = s_j - \log Z$、かつ $\sum_j y_j = 1$ なので
 
@@ -220,9 +222,7 @@ $$
 \mathcal{L} = -\sum_j y_j (s_j - \log Z) = -s_{w_t} + \log Z
 $$
 
-</v-click>
 
-<v-click>
 
 **② $s_k$ で偏微分**：$\frac{\partial \log Z}{\partial s_k} = \frac{1}{Z} \cdot \exp(s_k) = \hat{y}_k$（ここも連鎖律：$\log$ の微分 × $Z$ の微分）
 
@@ -230,7 +230,6 @@ $$
 \frac{\partial \mathcal{L}}{\partial s_k} = -y_k + \hat{y}_k \quad\Rightarrow\quad \boldsymbol{\delta} = \frac{\partial \mathcal{L}}{\partial \mathbf{s}} = \hat{\mathbf{y}} - \mathbf{y}
 $$
 
-</v-click>
 
 <div class="text-sm opacity-70">
 
@@ -275,6 +274,9 @@ $\mathbf{s}$：スコア（1×V）、$\hat{\mathbf{y}}$：予測確率、$Z$：�
 
 </div>
 </div>
+
+
+<Refs><a href="https://www.nature.com/articles/323533a0" target="_blank">Rumelhart+ 1986（誤差逆伝播法）</a> ／ <a href="https://arxiv.org/abs/1301.3781" target="_blank">Mikolov+ 2013</a></Refs>
 
 <!--
 x_w が one-hot なので v_w = x_w W_in は「W_in の w 行を取り出す」だけ。だから勾配も W_in のその行にしか入らない（nn.Embedding が行の取り出しで実装されている理由）。

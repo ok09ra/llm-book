@@ -605,13 +605,13 @@ src: ./sections/backprop.md
 
 # 事前学習と転移学習
 
-<div class="grid grid-cols-2 gap-6 items-center">
-<div>
+<div class="grid grid-cols-5 gap-6 items-center">
+<div class="col-span-3">
 
-<img src="/figs/fig1-3-word2vec-task.svg" class="h-64" />
+<img src="/figs/fig1-3-word2vec-task.svg" class="mx-auto h-96" />
 
 </div>
-<div class="text-sm">
+<div class="text-sm col-span-2">
 
 - **事前学習**：解きたいタスクの前に別タスクで学習
 - **下流タスク**：実際に解きたいタスク
@@ -679,13 +679,13 @@ src: ./sections/model-map.md
 
 # 事前学習 ＋ ファインチューニング
 
-<div class="grid grid-cols-2 gap-6 items-center">
-<div>
+<div class="grid grid-cols-5 gap-6 items-center">
+<div class="col-span-3">
 
-<img src="/figs/fig1-4-transformer-finetune.svg" class="h-64" />
+<img src="/figs/fig1-4-transformer-finetune.svg" class="mx-auto h-96" />
 
 </div>
-<div class="text-sm">
+<div class="text-sm col-span-2">
 
 - **大規模言語モデル**／**事前学習済み言語モデル（PLM）**
   - 本書では BERT（約1億パラメータ）も含む

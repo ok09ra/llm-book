@@ -48,7 +48,7 @@ BERT-base の設計値（large は 1024）。各次元に決まった意味は�
 <div class="text-sm leading-snug">
 
 - 埋め込んだトークンは1本につなげない。**トークン数 × 768 の行列** のまま扱い、1行が1トークン
-- **① Self-Attention**：トークンの **間** で混ぜる。各行の新しいベクトル＝全トークンのベクトルの重み付き和（係数は内容から計算 → Self-Attention のページ）
+- **① Self-Attention**：トークンの **間** で混ぜる。各行の新しいベクトル＝全トークンのベクトルの重み付き和（係数は、各トークンから重み $W_Q, W_K$ で作ったベクトル q・k の内積を softmax して、内容に応じて決める）
 - **② Feed-Forward**：各トークンの **中** で変換。全トークンに同じ2層の全結合（768→3072→768）を別々にかける
 - **残差・LayerNorm**：入力をそのまま足し戻して元の情報を残し、値の大きさを整える
 - 12層くり返しても形は同じ。最後の行列の各行が「文脈を反映したトークンのベクトル」、先頭の行が `[CLS]`
@@ -56,51 +56,6 @@ BERT-base の設計値（large は 1024）。各次元に決まった意味は�
 </div>
 
 <Refs><a href="https://arxiv.org/abs/1706.03762" target="_blank">Vaswani+ 2017（Transformer）</a> ／ <a href="https://arxiv.org/abs/1810.04805" target="_blank">Devlin+ 2018（BERT）</a></Refs>
-
----
-
-# `[CLS]` とは：文全体を表す「先頭の席」
-
-<div class="grid grid-cols-5 gap-6">
-<div class="text-sm col-span-2">
-
-- **`[CLS]`**（classification）：トークナイザが入力の **先頭に自動で付ける特別なトークン**。単語としての意味は持たない
-- **`[SEP]`**（separator）：文の **区切り・終わり** に付く。2文入力なら `[CLS] 文A [SEP] 文B [SEP]`
-- BERT は **全トークン分のベクトル** を出力する（形は トークン数 × 768）
-- Transformer では各位置が **文中の全トークンを参照** して計算されるので、`[CLS]` の位置のベクトルにも文全体の情報が入る（理由は次のスライド）
-- そこで「文を1本のベクトルにしたい」とき（分類・NLI・STS・文埋め込み）は **`[CLS]` の位置の出力** を使う
-- 元の BERT では事前学習の NSP（2文が続きかの判定）を `[CLS]` で解き、ファインチューニングでも `[CLS]` から分類するよう学習する（3.3節）
-
-</div>
-<div class="col-span-3">
-
-```py {monaco-run} {autorun:false}
-name = "llm-book/bert-base-japanese-v3-marc_ja"
-tok = AutoTokenizer.from_pretrained(name)
-enc = tok("今日は良い天気です", return_tensors="pt")
-print(tok.convert_ids_to_tokens(enc["input_ids"][0]))
-print("ID:", enc["input_ids"][0].tolist())
-
-bert = AutoModel.from_pretrained(name)
-out = bert(**enc).last_hidden_state
-print("出力:", tuple(out.shape))  # (文, トークン, 次元)
-print("[CLS]:", tuple(out[0][0].shape))
-```
-
-</div>
-</div>
-
-
-<Refs><a href="https://arxiv.org/abs/1810.04805" target="_blank">Devlin+ 2018（BERT）</a></Refs>
-
-<!--
-本の出力ではないので、実行結果の例：
-['[CLS]', '今日', 'は', '良い', '天気', 'です', '[SEP]']
-ID: [2, 15028, 465, 14459, 18834, 13037, 3]
-出力: (1, 7, 768)
-[CLS]: (768,)
-NER（1.1.4）は [CLS] ではなく全トークンのベクトルをそれぞれ分類する。
--->
 
 ---
 

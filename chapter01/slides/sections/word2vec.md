@@ -10,7 +10,7 @@
 
 ---
 
-# 単語を one-hot ベクトルで表す
+# 埋め込み表現とは：one-hot から $W_{\text{in}}$ の行を取り出す
 
 <img src="/figs/w2v-onehot.svg" class="mx-auto h-40" />
 
